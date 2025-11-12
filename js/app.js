@@ -374,6 +374,126 @@ createApp({
                     submissionUrl: 'https://www.degruyter.com/journal/key/biolsci/html',
                     templateUrl: 'https://www.degruyter.com/journal/key/biolsci/html#instructions'
                 }
+            ],
+            // 价值评估相关数据
+            evaluationCriteria: [
+                {
+                    label: '病原体罕见或首次报道',
+                    description: '罕见病原/机会致病菌，首例/极少报道的病原与疾病部位组合，或首次通过 mNGS 确诊的病原',
+                    score: 5,
+                    checked: false
+                },
+                {
+                    label: '诊断具有挑战性',
+                    description: '常规检测（培养、PCR、免疫学）阴性或误诊，mNGS 在复杂、非典型病例中起关键诊断作用',
+                    score: 5,
+                    checked: false
+                },
+                {
+                    label: '感染部位特殊或危险',
+                    description: '中枢神经系统、眼部、肺部复杂感染，或其他无菌体液（血液、心包液、胸水、羊水等）',
+                    score: 4,
+                    checked: false
+                },
+                {
+                    label: '结果对治疗有直接影响',
+                    description: 'mNGS 检测结果引导了靶向抗感染治疗，病情随 mNGS 报告调整方案后改善',
+                    score: 5,
+                    checked: false
+                },
+                {
+                    label: '结合多组学或联合检测方法',
+                    description: 'mNGS 结合 PCR、病理学、培养、影像学，或与 host response、免疫学指标、耐药基因分析联合使用',
+                    score: 4,
+                    checked: false
+                },
+                {
+                    label: '首例或少数报道',
+                    description: '明确标注"first case"或"rare pathogen"，具有明确的文献价值',
+                    score: 6,
+                    checked: false
+                },
+                {
+                    label: '联合验证',
+                    description: 'mNGS + PCR 或培养确认，结果可靠',
+                    score: 3,
+                    checked: false
+                },
+                {
+                    label: '学术语言完整',
+                    description: '含诊断流程、时间线、结局、图像等完整信息',
+                    score: 4,
+                    checked: false
+                }
+            ],
+            publicationFeatures: [
+                {
+                    title: '病原体罕见或首次报道',
+                    examples: '罕见病原/机会致病菌（如 Balamuthia mandrillaris, Eikenella halliae）；首例/极少报道的病原与疾病部位组合；或首次通过 mNGS 确诊的病原。',
+                    reason: '具有"文献价值"和"诊断启示"。'
+                },
+                {
+                    title: '诊断具有挑战性',
+                    examples: '常规检测（培养、PCR、免疫学）阴性或误诊；mNGS 在复杂、非典型病例中起关键诊断作用；通常伴随"病程延迟诊断""传统检测无果""经 mNGS 确诊"。',
+                    reason: '展示 mNGS 的独特诊断贡献。'
+                },
+                {
+                    title: '感染部位特殊或危险',
+                    examples: '中枢神经系统（脑膜炎、脑脓肿、脑炎）；眼部感染（角膜炎、眼内炎）；肺部复杂感染（肺脓肿、弥漫性病灶）；其他无菌体液（血液、心包液、胸水、羊水等）。',
+                    reason: '体现 mNGS 在高危、无菌样本类型中的检测优势。'
+                },
+                {
+                    title: '结果对治疗有直接影响',
+                    examples: 'mNGS 检测结果引导了靶向抗感染治疗；病情随 mNGS 报告调整方案后改善；对比"治疗前后"疗效变化明确。',
+                    reason: 'mNGS 结果改变了临床决策。'
+                },
+                {
+                    title: '结合多组学或联合检测方法',
+                    examples: 'mNGS 结合 PCR、病理学、培养、影像学；或与 host response、免疫学指标、耐药基因分析联合使用。',
+                    reason: '反映 mNGS 的整合性价值。'
+                }
+            ],
+            evaluationDimensions: [
+                {
+                    dimension: '病原体罕见',
+                    description: '新或少见微生物',
+                    value: '⭐⭐⭐⭐'
+                },
+                {
+                    dimension: '检测方法创新',
+                    description: '首次用 mNGS 发现/确诊',
+                    value: '⭐⭐⭐⭐'
+                },
+                {
+                    dimension: '临床误诊反转',
+                    description: '传统检测阴性，mNGS 确诊',
+                    value: '⭐⭐⭐⭐'
+                },
+                {
+                    dimension: '感染部位特殊',
+                    description: 'CNS、眼部、心内膜、产科',
+                    value: '⭐⭐⭐'
+                },
+                {
+                    dimension: '治疗转折点',
+                    description: 'mNGS 结果指导用药',
+                    value: '⭐⭐⭐⭐'
+                },
+                {
+                    dimension: '首例/少数报道',
+                    description: '"first case" "rare pathogen" 明确',
+                    value: '⭐⭐⭐⭐⭐'
+                },
+                {
+                    dimension: '联合验证',
+                    description: 'mNGS + PCR 或培养确认',
+                    value: '⭐⭐⭐'
+                },
+                {
+                    dimension: '学术语言完整',
+                    description: '含诊断流程、时间线、结局、图像',
+                    value: '⭐⭐⭐⭐'
+                }
             ]
         };
     },
@@ -402,6 +522,29 @@ createApp({
             }
             
             return filtered;
+        },
+        totalScore() {
+            return this.evaluationCriteria
+                .filter(c => c.checked)
+                .reduce((sum, c) => sum + c.score, 0);
+        },
+        maxScore() {
+            return this.evaluationCriteria.reduce((sum, c) => sum + c.score, 0);
+        },
+        scorePercentage() {
+            return this.maxScore > 0 ? Math.round((this.totalScore / this.maxScore) * 100) : 0;
+        },
+        scoreRecommendation() {
+            const percentage = this.scorePercentage;
+            if (percentage >= 80) {
+                return '✅ 发表价值很高！建议积极准备投稿，优先考虑高质量期刊。';
+            } else if (percentage >= 60) {
+                return '✅ 发表价值较高。建议完善病例报告，可以尝试投稿。';
+            } else if (percentage >= 40) {
+                return '⚠️ 发表价值中等。建议补充更多有价值的信息，或考虑投稿到要求较低的期刊。';
+            } else {
+                return '❌ 发表价值较低。建议重新评估病例的独特性和价值，或考虑作为内部学习材料。';
+            }
         }
     },
     mounted() {
@@ -413,6 +556,10 @@ createApp({
             // 自动保存到本地存储
             const data = {
                 careSections: this.careSections,
+                evaluationCriteria: this.evaluationCriteria.map(c => ({
+                    label: c.label,
+                    checked: c.checked
+                })),
                 lastSaved: new Date().toISOString()
             };
             localStorage.setItem('casewriter_data', JSON.stringify(data));
@@ -434,6 +581,14 @@ createApp({
                             }
                         });
                     }
+                    // 恢复评估结果
+                    if (data.evaluationCriteria) {
+                        data.evaluationCriteria.forEach((savedCriterion, index) => {
+                            if (this.evaluationCriteria[index] && savedCriterion.label === this.evaluationCriteria[index].label) {
+                                this.evaluationCriteria[index].checked = savedCriterion.checked || false;
+                            }
+                        });
+                    }
                 } catch (e) {
                     console.error('加载数据失败:', e);
                 }
@@ -451,10 +606,16 @@ createApp({
                                 this.careSections[index].content = savedSection.content || '';
                             }
                         });
-                        alert('数据已从本地存储加载！');
-                    } else {
-                        alert('未找到保存的数据。');
                     }
+                    // 恢复评估结果
+                    if (data.evaluationCriteria) {
+                        data.evaluationCriteria.forEach((savedCriterion, index) => {
+                            if (this.evaluationCriteria[index] && savedCriterion.label === this.evaluationCriteria[index].label) {
+                                this.evaluationCriteria[index].checked = savedCriterion.checked || false;
+                            }
+                        });
+                    }
+                    alert('数据已从本地存储加载！');
                 } catch (e) {
                     console.error('加载数据失败:', e);
                     alert('加载数据失败，请检查数据格式。');
@@ -556,6 +717,10 @@ createApp({
         },
         openJournal(url) {
             window.open(url, '_blank');
+        },
+        calculateScore() {
+            // 得分计算由计算属性自动完成，这里可以添加其他逻辑
+            this.autoSave();
         }
     }
 }).mount('#app');
