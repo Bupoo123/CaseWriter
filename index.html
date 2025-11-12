@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CaseWriter - 病例报告撰写助手</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/file-saver@2.0.5/dist/FileSaver.min.js"></script>
+</head>
+<body>
+    <div id="app">
+        <!-- 顶部导航栏 -->
+        <header class="header">
+            <div class="container">
+                <h1 class="logo">CaseWriter</h1>
+                <nav class="nav">
+                    <button @click="currentView = 'writing'" :class="{ active: currentView === 'writing' }">撰写流程</button>
+                    <button @click="currentView = 'guide'" :class="{ active: currentView === 'guide' }">写作指导</button>
+                    <button @click="currentView = 'journals'" :class="{ active: currentView === 'journals' }">期刊选择</button>
+                </nav>
+            </div>
+        </header>
+
+        <!-- 主内容区 -->
+        <main class="main">
+            <div class="container">
+                <!-- 撰写流程视图 -->
+                <div v-if="currentView === 'writing'" class="writing-view">
+                    <div class="sidebar">
+                        <h2>CARE 2013 撰写流程</h2>
+                        <ul class="section-nav">
+                            <li v-for="(section, index) in careSections" :key="index"
+                                @click="activeSection = index"
+                                :class="{ active: activeSection === index }">
+                                {{ section.title }}
+                            </li>
+                        </ul>
+                        <div class="sidebar-actions">
+                            <button @click="saveToLocal" class="btn btn-primary">保存到本地</button>
+                            <button @click="exportToWord" class="btn btn-success">导出 Word</button>
+                            <button @click="exportToMarkdown" class="btn btn-success">导出 Markdown</button>
+                            <button @click="loadFromLocal" class="btn btn-secondary">从本地加载</button>
+                        </div>
+                    </div>
+                    <div class="content-area">
+                        <div v-if="activeSection !== null" class="section-editor">
+                            <h2>{{ careSections[activeSection].title }}</h2>
+                            <p class="section-description">{{ careSections[activeSection].description }}</p>
+                            <div class="editor-wrapper">
+                                <textarea 
+                                    v-model="careSections[activeSection].content"
+                                    class="editor"
+                                    :placeholder="careSections[activeSection].placeholder"
+                                    @input="autoSave"
+                                ></textarea>
+                            </div>
+                            <div class="writing-tips" v-if="careSections[activeSection].tips">
+                                <h3>写作提示</h3>
+                                <ul>
+                                    <li v-for="(tip, tipIndex) in careSections[activeSection].tips" :key="tipIndex">{{ tip }}</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div v-else class="welcome-screen">
+                            <h2>欢迎使用 CaseWriter</h2>
+                            <p>请从左侧选择要撰写的章节开始</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 写作指导视图 -->
+                <div v-if="currentView === 'guide'" class="guide-view">
+                    <h2>写作指导与知识库</h2>
+                    <div class="guide-content">
+                        <div class="guide-section" v-for="(guide, index) in writingGuides" :key="index">
+                            <h3>{{ guide.title }}</h3>
+                            <div class="guide-body">
+                                <div v-if="guide.type === 'tips'">
+                                    <ul>
+                                        <li v-for="(tip, tipIndex) in guide.content" :key="tipIndex">{{ tip }}</li>
+                                    </ul>
+                                </div>
+                                <div v-else-if="guide.type === 'example'">
+                                    <pre><code>{{ guide.content }}</code></pre>
+                                </div>
+                                <div v-else>
+                                    <p v-for="(para, paraIndex) in guide.content" :key="paraIndex">{{ para }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 期刊选择视图 -->
+                <div v-if="currentView === 'journals'" class="journals-view">
+                    <h2>期刊选择与模板下载</h2>
+                    <div class="filter-bar">
+                        <input type="text" v-model="journalFilter" placeholder="搜索期刊..." class="filter-input">
+                        <select v-model="journalTopicFilter" class="filter-select">
+                            <option value="">所有主题</option>
+                            <option v-for="topic in journalTopics" :key="topic" :value="topic">{{ topic }}</option>
+                        </select>
+                        <select v-model="journalOAFilter" class="filter-select">
+                            <option value="">所有类型</option>
+                            <option value="是">开放获取</option>
+                            <option value="否">非开放获取</option>
+                        </select>
+                    </div>
+                    <div class="journals-table">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>主题方向</th>
+                                    <th>出版社</th>
+                                    <th>是否OA</th>
+                                    <th>APC</th>
+                                    <th>投稿网址</th>
+                                    <th>模板链接</th>
+                                    <th>操作</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="(journal, index) in filteredJournals" :key="index">
+                                    <td>{{ journal.topic }}</td>
+                                    <td>{{ journal.publisher }}</td>
+                                    <td>{{ journal.oa }}</td>
+                                    <td>{{ journal.apc }}</td>
+                                    <td><a :href="journal.submissionUrl" target="_blank">投稿链接</a></td>
+                                    <td><a :href="journal.templateUrl" target="_blank">模板链接</a></td>
+                                    <td>
+                                        <button @click="openJournal(journal.submissionUrl)" class="btn btn-sm">投稿</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- 底部信息 -->
+        <footer class="footer">
+            <div class="container">
+                <p>CaseWriter V1.2 - 基于 CARE 2013 标准的病例报告撰写助手</p>
+            </div>
+        </footer>
+    </div>
+
+    <script src="js/app.js"></script>
+</body>
+</html>
+
