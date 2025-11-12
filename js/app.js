@@ -17,7 +17,13 @@ createApp({
                     tips: [
                         '标题应简洁，通常不超过15个词',
                         '避免使用缩写词（除非是广泛认知的）',
-                        '可以包含病例类型（如：罕见、复杂、新发等）'
+                        '可以包含病例类型（如：罕见、复杂、新发等）',
+                        '标题结构模式：[病例类型 / 病原名 / 部位] + 动词短语（diagnosed / identified / assisted by） + mNGS',
+                        '常见句型示例：',
+                        '  • "A case of X diagnosed by mNGS" - 例如：A case of Fitz-Hugh–Curtis syndrome diagnosed by mNGS',
+                        '  • "mNGS assists the diagnosis of X infection" - 例如：mNGS assists diagnosis of central nervous system infection',
+                        '  • "Metagenomic next-generation sequencing identifies Y" - 例如：mNGS identifies rare bacterial infection',
+                        '高频关键词：case report, metagenomic next-generation sequencing, diagnosed by, identified using, infection, encephalitis, meningitis, empyema, rare pathogen'
                     ]
                 },
                 {
@@ -376,56 +382,6 @@ createApp({
                 }
             ],
             // 价值评估相关数据
-            evaluationCriteria: [
-                {
-                    label: '病原体罕见或首次报道',
-                    description: '罕见病原/机会致病菌，首例/极少报道的病原与疾病部位组合，或首次通过 mNGS 确诊的病原',
-                    score: 5,
-                    checked: false
-                },
-                {
-                    label: '诊断具有挑战性',
-                    description: '常规检测（培养、PCR、免疫学）阴性或误诊，mNGS 在复杂、非典型病例中起关键诊断作用',
-                    score: 5,
-                    checked: false
-                },
-                {
-                    label: '感染部位特殊或危险',
-                    description: '中枢神经系统、眼部、肺部复杂感染，或其他无菌体液（血液、心包液、胸水、羊水等）',
-                    score: 4,
-                    checked: false
-                },
-                {
-                    label: '结果对治疗有直接影响',
-                    description: 'mNGS 检测结果引导了靶向抗感染治疗，病情随 mNGS 报告调整方案后改善',
-                    score: 5,
-                    checked: false
-                },
-                {
-                    label: '结合多组学或联合检测方法',
-                    description: 'mNGS 结合 PCR、病理学、培养、影像学，或与 host response、免疫学指标、耐药基因分析联合使用',
-                    score: 4,
-                    checked: false
-                },
-                {
-                    label: '首例或少数报道',
-                    description: '明确标注"first case"或"rare pathogen"，具有明确的文献价值',
-                    score: 6,
-                    checked: false
-                },
-                {
-                    label: '联合验证',
-                    description: 'mNGS + PCR 或培养确认，结果可靠',
-                    score: 3,
-                    checked: false
-                },
-                {
-                    label: '学术语言完整',
-                    description: '含诊断流程、时间线、结局、图像等完整信息',
-                    score: 4,
-                    checked: false
-                }
-            ],
             publicationFeatures: [
                 {
                     title: '病原体罕见或首次报道',
@@ -522,29 +478,6 @@ createApp({
             }
             
             return filtered;
-        },
-        totalScore() {
-            return this.evaluationCriteria
-                .filter(c => c.checked)
-                .reduce((sum, c) => sum + c.score, 0);
-        },
-        maxScore() {
-            return this.evaluationCriteria.reduce((sum, c) => sum + c.score, 0);
-        },
-        scorePercentage() {
-            return this.maxScore > 0 ? Math.round((this.totalScore / this.maxScore) * 100) : 0;
-        },
-        scoreRecommendation() {
-            const percentage = this.scorePercentage;
-            if (percentage >= 80) {
-                return '✅ 发表价值很高！建议积极准备投稿，优先考虑高质量期刊。';
-            } else if (percentage >= 60) {
-                return '✅ 发表价值较高。建议完善病例报告，可以尝试投稿。';
-            } else if (percentage >= 40) {
-                return '⚠️ 发表价值中等。建议补充更多有价值的信息，或考虑投稿到要求较低的期刊。';
-            } else {
-                return '❌ 发表价值较低。建议重新评估病例的独特性和价值，或考虑作为内部学习材料。';
-            }
         }
     },
     mounted() {
@@ -556,10 +489,6 @@ createApp({
             // 自动保存到本地存储
             const data = {
                 careSections: this.careSections,
-                evaluationCriteria: this.evaluationCriteria.map(c => ({
-                    label: c.label,
-                    checked: c.checked
-                })),
                 lastSaved: new Date().toISOString()
             };
             localStorage.setItem('casewriter_data', JSON.stringify(data));
@@ -581,14 +510,6 @@ createApp({
                             }
                         });
                     }
-                    // 恢复评估结果
-                    if (data.evaluationCriteria) {
-                        data.evaluationCriteria.forEach((savedCriterion, index) => {
-                            if (this.evaluationCriteria[index] && savedCriterion.label === this.evaluationCriteria[index].label) {
-                                this.evaluationCriteria[index].checked = savedCriterion.checked || false;
-                            }
-                        });
-                    }
                 } catch (e) {
                     console.error('加载数据失败:', e);
                 }
@@ -604,14 +525,6 @@ createApp({
                         data.careSections.forEach((savedSection, index) => {
                             if (this.careSections[index]) {
                                 this.careSections[index].content = savedSection.content || '';
-                            }
-                        });
-                    }
-                    // 恢复评估结果
-                    if (data.evaluationCriteria) {
-                        data.evaluationCriteria.forEach((savedCriterion, index) => {
-                            if (this.evaluationCriteria[index] && savedCriterion.label === this.evaluationCriteria[index].label) {
-                                this.evaluationCriteria[index].checked = savedCriterion.checked || false;
                             }
                         });
                     }
@@ -717,10 +630,6 @@ createApp({
         },
         openJournal(url) {
             window.open(url, '_blank');
-        },
-        calculateScore() {
-            // 得分计算由计算属性自动完成，这里可以添加其他逻辑
-            this.autoSave();
         }
     }
 }).mount('#app');

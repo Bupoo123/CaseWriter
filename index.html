@@ -15,9 +15,9 @@
             <div class="container">
                 <h1 class="logo">CaseWriter</h1>
                 <nav class="nav">
+                    <button @click="currentView = 'evaluation'" :class="{ active: currentView === 'evaluation' }">价值评估</button>
                     <button @click="currentView = 'writing'" :class="{ active: currentView === 'writing' }">撰写流程</button>
                     <button @click="currentView = 'guide'" :class="{ active: currentView === 'guide' }">写作指导</button>
-                    <button @click="currentView = 'evaluation'" :class="{ active: currentView === 'evaluation' }">价值评估</button>
                     <button @click="currentView = 'journals'" :class="{ active: currentView === 'journals' }">期刊选择</button>
                 </nav>
             </div>
@@ -97,91 +97,10 @@
                 <div v-if="currentView === 'evaluation'" class="evaluation-view">
                     <h2>Case Report 发表价值评估</h2>
                     <p class="intro-text">本模块帮助您评估病例报告的发表价值，判断该案例是否值得发表。</p>
-                    
-                    <!-- 评估工具 -->
-                    <div class="evaluation-tool">
-                        <h3>快速评估工具</h3>
-                        <div class="evaluation-form">
-                            <div class="eval-item" v-for="(criterion, index) in evaluationCriteria" :key="index">
-                                <label>
-                                    <input type="checkbox" v-model="criterion.checked" @change="calculateScore">
-                                    <span class="criterion-label">{{ criterion.label }}</span>
-                                    <span class="criterion-score">({{ criterion.score }}分)</span>
-                                </label>
-                                <p class="criterion-desc">{{ criterion.description }}</p>
-                            </div>
-                            <div class="score-result">
-                                <div class="score-display">
-                                    <h4>评估得分：<span class="score-value">{{ totalScore }}</span> / {{ maxScore }} 分</h4>
-                                    <div class="score-bar">
-                                        <div class="score-fill" :style="{ width: scorePercentage + '%' }"></div>
-                                    </div>
-                                    <p class="score-recommendation">{{ scoreRecommendation }}</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- 标题特征分析 -->
-                    <div class="evaluation-section">
-                        <h3>一、标题总体特征</h3>
-                        <p>经过抽样分析，标题大多符合以下结构：</p>
-                        <div class="title-pattern">
-                            <strong>[病例类型 / 病原名 / 部位] + 动词短语（diagnosed / identified / assisted by） + mNGS</strong>
-                        </div>
-                        <div class="title-examples">
-                            <h4>示例：</h4>
-                            <ul>
-                                <li>A case report of Balamuthia mandrillaris encephalitis diagnosed by metagenomic next-generation sequencing</li>
-                                <li>Empyema caused by Eikenella halliae diagnosed by mNGS</li>
-                                <li>Metagenomic next-generation sequencing assists diagnosis of central nervous system infection</li>
-                            </ul>
-                        </div>
-                        <div class="keywords-section">
-                            <h4>关键词高频出现：</h4>
-                            <div class="keyword-tags">
-                                <span class="keyword-tag">"case report"</span>
-                                <span class="keyword-tag">"metagenomic next-generation sequencing"</span>
-                                <span class="keyword-tag">"diagnosed by"</span>
-                                <span class="keyword-tag">"identified using"</span>
-                                <span class="keyword-tag">"infection"</span>
-                                <span class="keyword-tag">"encephalitis"</span>
-                                <span class="keyword-tag">"meningitis"</span>
-                                <span class="keyword-tag">"empyema"</span>
-                                <span class="keyword-tag">"Balamuthia"</span>
-                                <span class="keyword-tag">"rare pathogen"</span>
-                            </div>
-                        </div>
-                        <div class="title-patterns-table">
-                            <h4>常见句型模式：</h4>
-                            <table>
-                                <thead>
-                                    <tr>
-                                        <th>模式</th>
-                                        <th>示例</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>"A case of X diagnosed by mNGS"</td>
-                                        <td>A case of Fitz-Hugh–Curtis syndrome diagnosed by mNGS</td>
-                                    </tr>
-                                    <tr>
-                                        <td>"mNGS assists the diagnosis of X infection"</td>
-                                        <td>mNGS assists diagnosis of central nervous system infection</td>
-                                    </tr>
-                                    <tr>
-                                        <td>"Metagenomic next-generation sequencing identifies Y"</td>
-                                        <td>mNGS identifies rare bacterial infection</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
 
                     <!-- 发表的典型特征 -->
                     <div class="evaluation-section">
-                        <h3>二、发表的典型特征（哪些值得发表）</h3>
+                        <h3>一、发表的典型特征（哪些值得发表）</h3>
                         <div class="feature-list">
                             <div class="feature-item" v-for="(feature, index) in publicationFeatures" :key="index">
                                 <div class="feature-number">{{ index + 1 }}️⃣</div>
@@ -196,7 +115,7 @@
 
                     <!-- 评估维度表格 -->
                     <div class="evaluation-section">
-                        <h3>三、评估维度与发表价值</h3>
+                        <h3>二、评估维度与发表价值</h3>
                         <div class="evaluation-table-wrapper">
                             <table class="evaluation-table">
                                 <thead>
@@ -221,7 +140,7 @@
 
                     <!-- 投稿期刊分布 -->
                     <div class="evaluation-section">
-                        <h3>四、投稿期刊分布特点</h3>
+                        <h3>三、投稿期刊分布特点</h3>
                         <ul class="journal-distribution">
                             <li><strong>Frontiers 系列</strong>（Public Health, Cell Infect Microbiol, Medicine）占比高</li>
                             <li><strong>BMC 系列</strong>、Heliyon、Infect Drug Resist 为主流开放获取渠道</li>
