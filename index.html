@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CaseWriter - 病例报告撰写助手</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/file-saver@2.0.5/dist/FileSaver.min.js"></script>
@@ -12,8 +15,11 @@
     <div id="app">
         <!-- 顶部导航栏 -->
         <header class="header">
-            <div class="container">
-                <h1 class="logo">CaseWriter</h1>
+            <div class="container header-top">
+                <div class="branding">
+                    <h1 class="logo">CaseWriter</h1>
+                    <p class="tagline">智能病例报告撰写与管理工作台</p>
+                </div>
                 <nav class="nav">
                     <button @click="currentView = 'evaluation'" :class="{ active: currentView === 'evaluation' }">价值评估</button>
                     <button @click="currentView = 'writing'" :class="{ active: currentView === 'writing' }">撰写流程</button>
@@ -22,13 +28,45 @@
                     <button @click="currentView = 'journals'" :class="{ active: currentView === 'journals' }">期刊选择</button>
                 </nav>
             </div>
+            <div class="container header-hero">
+                <div class="hero-text">
+                    <h2>从灵感到发表，一站式完成病例报告</h2>
+                    <p>整合 CARE 2013 标准、写作指引与期刊资源，打造高效、优雅的病例报告创作体验。</p>
+                    <div class="hero-actions">
+                        <button class="btn btn-glow" @click="currentView = 'writing'">立即撰写</button>
+                        <button class="btn btn-ghost" @click="currentView = 'evaluation'">评估发表价值</button>
+                    </div>
+                    <div class="hero-badges">
+                        <span class="badge">CARE 2013 标准</span>
+                        <span class="badge">模板一键下载</span>
+                        <span class="badge">时间线智能整理</span>
+                    </div>
+                </div>
+                <div class="hero-stats">
+                    <div class="stat-card">
+                        <div class="stat-title">撰写模块</div>
+                        <div class="stat-value">15+</div>
+                        <div class="stat-desc">覆盖病例报告全流程</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-title">精选模板</div>
+                        <div class="stat-value">40+</div>
+                        <div class="stat-desc">高质量期刊案例参考</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-title">期刊数据</div>
+                        <div class="stat-value">120+</div>
+                        <div class="stat-desc">支持多维度筛选决策</div>
+                    </div>
+                </div>
+            </div>
         </header>
 
         <!-- 主内容区 -->
         <main class="main">
             <div class="container">
                 <!-- 撰写流程视图 -->
-                <div v-if="currentView === 'writing'" class="writing-view">
+                <div v-if="currentView === 'writing'" class="writing-view panel">
                     <div class="sidebar">
                         <h2>CARE 2013 撰写流程</h2>
                         <ul class="section-nav">
@@ -104,7 +142,7 @@
                 </div>
 
                 <!-- 写作指导视图 -->
-                <div v-if="currentView === 'guide'" class="guide-view">
+                <div v-if="currentView === 'guide'" class="guide-view panel">
                     <h2>写作指导与知识库</h2>
                     <div class="guide-content">
                         <div class="guide-section" v-for="(guide, index) in writingGuides" :key="index">
@@ -127,7 +165,7 @@
                 </div>
 
                 <!-- 价值评估视图 -->
-                <div v-if="currentView === 'evaluation'" class="evaluation-view">
+                <div v-if="currentView === 'evaluation'" class="evaluation-view panel">
                     <h2>Case Report 发表价值评估</h2>
                     <p class="intro-text">本模块帮助您评估病例报告的发表价值，判断该案例是否值得发表。</p>
                     <div class="title-pattern">
@@ -188,7 +226,7 @@
                 </div>
 
                 <!-- 模板库视图 -->
-                <div v-if="currentView === 'templates'" class="templates-view">
+                <div v-if="currentView === 'templates'" class="templates-view panel">
                     <h2>模板与案例库</h2>
                     <p class="intro-text">下载CARE清单、指南文件、已发表案例和经典高分案例</p>
                     
@@ -245,7 +283,7 @@
                 </div>
 
                 <!-- 期刊选择视图 -->
-                <div v-if="currentView === 'journals'" class="journals-view">
+                <div v-if="currentView === 'journals'" class="journals-view panel">
                     <h2>期刊选择与模板下载</h2>
                     <div class="filter-bar">
                         <input type="text" v-model="journalFilter" placeholder="搜索期刊..." class="filter-input">
