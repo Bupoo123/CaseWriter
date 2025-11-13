@@ -334,6 +334,7 @@ createApp({
         return {
             currentView: 'writing',
             activeSection: 0,
+            showVersionInfo: false,
             journalFilter: '',
             journalTopicFilter: '',
             journalOAFilter: '',

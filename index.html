@@ -17,7 +17,7 @@
         <header class="header">
             <div class="container header-top">
                 <div class="branding">
-                    <div class="logo-container">
+                    <div class="logo-container" @click="showVersionInfo = true" style="cursor: pointer;">
                         <img src="assets/images/logo.png" alt="CaseWriter Logo" class="logo-img">
                         <div class="logo-text">
                             <h1 class="logo">CaseWriter</h1>
@@ -786,6 +786,41 @@
                 </p>
             </div>
         </footer>
+
+        <!-- 版本信息模态框 -->
+        <div v-if="showVersionInfo" class="modal-overlay" @click="showVersionInfo = false">
+            <div class="modal-content version-modal" @click.stop>
+                <div class="version-header">
+                    <img src="assets/images/logo.png" alt="CaseWriter Logo" class="version-logo">
+                    <h2>CaseWriter</h2>
+                </div>
+                <div class="version-body">
+                    <div class="version-item">
+                        <span class="version-label">版本号：</span>
+                        <span class="version-value">V1.2</span>
+                    </div>
+                    <div class="version-item">
+                        <span class="version-label">开发团队：</span>
+                        <span class="version-value">杰毅生物研发中心</span>
+                    </div>
+                    <div class="version-item">
+                        <span class="version-label">联系邮箱：</span>
+                        <a href="mailto:hanxu@matridx.com" class="version-value version-link">hanxu@matridx.com</a>
+                    </div>
+                    <div class="version-item">
+                        <span class="version-label">基于标准：</span>
+                        <span class="version-value">CARE 2013 Guidelines</span>
+                    </div>
+                    <div class="version-item">
+                        <span class="version-label">更新日期：</span>
+                        <span class="version-value">2025-01-13</span>
+                    </div>
+                </div>
+                <div class="version-footer">
+                    <button class="btn btn-primary" @click="showVersionInfo = false">关闭</button>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script src="js/app.js"></script>
