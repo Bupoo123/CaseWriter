@@ -1094,6 +1094,88 @@ body::after {
     color: var(--muted);
     font-size: 1.05rem;
 }
+.template-groups {
+    display: flex;
+    flex-direction: column;
+    gap: 1.6rem;
+    margin-top: 1.6rem;
+}
+.template-category-group {
+    background: rgba(255, 255, 255, 0.78);
+    border: 1px solid rgba(96,105,255,0.16);
+    border-radius: 24px;
+    padding: 1.2rem 1.4rem 1.4rem;
+    box-shadow: 0 24px 40px rgba(15, 23, 42, 0.08);
+    backdrop-filter: blur(8px);
+    display: flex;
+    flex-direction: column;
+    gap: 1.4rem;
+}
+.template-group-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 1rem 1.25rem;
+    border: none;
+    border-radius: 16px;
+    background: rgba(96,105,255,0.12);
+    color: var(--text);
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.25s ease, box-shadow 0.25s ease, transform 0.2s ease;
+}
+.template-group-header:hover {
+    background: rgba(96,105,255,0.18);
+    box-shadow: 0 16px 32px rgba(96,105,255,0.18);
+    transform: translateY(-1px);
+}
+.template-group-header:focus-visible {
+    outline: 3px solid rgba(96,105,255,0.35);
+    outline-offset: 3px;
+}
+.template-group-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    align-items: flex-start;
+}
+.template-group-title {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--text);
+}
+.template-group-count {
+    font-size: 0.9rem;
+    color: var(--muted);
+}
+.template-group-toggle {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: rgba(96,105,255,0.2);
+    color: var(--primary);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.95rem;
+    transition: transform 0.2s ease, background 0.2s ease;
+}
+.template-group-toggle::before {
+    content: "\25BC";
+}
+.template-group-toggle.expanded {
+    transform: rotate(180deg);
+}
+.collapse-enter-active,
+.collapse-leave-active {
+    transition: opacity 0.25s ease, transform 0.25s ease;
+}
+.collapse-enter-from,
+.collapse-leave-to {
+    opacity: 0;
+    transform: translateY(-10px);
+}
 
 .templates-grid {
     display: grid;
@@ -1297,6 +1379,16 @@ body::after {
     .filter-input,
     .filter-select {
         width: 100%;
+    }
+
+    .template-category-group {
+        padding: 1rem 1.1rem 1.2rem;
+    }
+
+    .template-group-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.8rem;
     }
 
     .hero-actions {

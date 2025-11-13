@@ -15,6 +15,7 @@ createApp({
             templateFilter: '',
             templateCategoryFilter: '',
             templatesData: null,
+            templateCategoryStates: {},
             loadingTemplates: false,
             selectedMultiFileItem: null,
             releaseInfo: {
@@ -557,33 +558,62 @@ createApp({
             
             return filtered;
         },
-        filteredTemplates() {
+        filteredTemplateGroups() {
             if (!this.templatesData) return [];
-            
-            let allItems = [
-                ...(this.templatesData.checklists || []),
-                ...(this.templatesData.guidelines || []),
-                ...(this.templatesData.publishedCases || []),
-                ...(this.templatesData.classicCases || [])
-            ];
-            
-            // 分类筛选
+
+            let filteredItems = this.getAllTemplateItems();
+
             if (this.templateCategoryFilter) {
-                allItems = allItems.filter(item => item.category === this.templateCategoryFilter);
+                filteredItems = filteredItems.filter(item => item.category === this.templateCategoryFilter);
             }
-            
-            // 关键词搜索
+
             if (this.templateFilter) {
                 const filter = this.templateFilter.toLowerCase();
-                allItems = allItems.filter(item => 
+                filteredItems = filteredItems.filter(item =>
                     item.name.toLowerCase().includes(filter) ||
                     (item.description && item.description.toLowerCase().includes(filter)) ||
                     (item.journal && item.journal.toLowerCase().includes(filter)) ||
                     (item.tags && item.tags.some(tag => tag.toLowerCase().includes(filter)))
                 );
             }
-            
-            return allItems;
+
+            const categoryOrder = ['清单', '指南', '已发表案例', '经典高分案例'];
+            const groupedMap = new Map();
+
+            filteredItems.forEach(item => {
+                const category = item.category || '其他资源';
+                if (!groupedMap.has(category)) {
+                    groupedMap.set(category, []);
+                }
+                groupedMap.get(category).push(item);
+            });
+
+            const groups = [];
+
+            categoryOrder.forEach(category => {
+                if (groupedMap.has(category)) {
+                    groups.push({ category, items: groupedMap.get(category) });
+                    groupedMap.delete(category);
+                }
+            });
+
+            Array.from(groupedMap.keys()).sort().forEach(category => {
+                groups.push({ category, items: groupedMap.get(category) });
+            });
+
+            return groups;
+        }
+    },
+    watch: {
+        templateCategoryFilter(newValue) {
+            if (newValue) {
+                this.templateCategoryStates[newValue] = true;
+            }
+        },
+        templateFilter(newValue) {
+            if (newValue) {
+                this.expandAllTemplateCategories();
+            }
         }
     },
     mounted() {
@@ -593,6 +623,39 @@ createApp({
         this.loadTemplates();
     },
     methods: {
+        getAllTemplateItems() {
+            if (!this.templatesData) return [];
+            return [
+                ...(this.templatesData.checklists || []),
+                ...(this.templatesData.guidelines || []),
+                ...(this.templatesData.publishedCases || []),
+                ...(this.templatesData.classicCases || [])
+            ];
+        },
+        initializeTemplateCategoryStates() {
+            const categories = new Set();
+            this.getAllTemplateItems().forEach(item => {
+                categories.add(item.category || '其他资源');
+            });
+            categories.forEach(category => {
+                if (!(category in this.templateCategoryStates)) {
+                    this.templateCategoryStates[category] = true;
+                }
+            });
+        },
+        expandAllTemplateCategories() {
+            Object.keys(this.templateCategoryStates).forEach(category => {
+                this.templateCategoryStates[category] = true;
+            });
+        },
+        isTemplateCategoryExpanded(category) {
+            const state = this.templateCategoryStates[category];
+            return state === undefined ? true : state;
+        },
+        toggleTemplateCategory(category) {
+            const current = this.isTemplateCategoryExpanded(category);
+            this.templateCategoryStates[category] = !current;
+        },
         autoSave() {
             // 自动保存到本地存储
             const data = {
@@ -748,6 +811,7 @@ createApp({
                 const response = await fetch('data/templates.json');
                 if (response.ok) {
                     this.templatesData = await response.json();
+                    this.initializeTemplateCategoryStates();
                     // 更新releaseInfo
                     if (this.templatesData.releaseInfo) {
                         this.releaseInfo = this.templatesData.releaseInfo;

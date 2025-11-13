@@ -242,28 +242,46 @@
                     </div>
 
                     <div v-if="loadingTemplates" class="loading">加载中...</div>
-                    <div v-else-if="filteredTemplates.length === 0" class="no-results">未找到匹配的模板或案例</div>
-                    <div v-else class="templates-grid">
-                        <div v-for="item in filteredTemplates" :key="item.id" class="template-card">
-                            <div class="template-header">
-                                <h3>{{ item.name }}</h3>
-                                <span class="template-category">{{ item.category }}</span>
-                            </div>
-                            <p class="template-description">{{ item.description }}</p>
-                            <div class="template-meta">
-                                <span v-if="item.journal" class="meta-item">期刊: {{ item.journal }}</span>
-                                <span v-if="item.year" class="meta-item">年份: {{ item.year }}</span>
-                                <span class="meta-item">格式: {{ item.format }}</span>
-                                <span class="meta-item">大小: {{ item.size }}</span>
-                            </div>
-                            <div v-if="item.tags && item.tags.length" class="template-tags">
-                                <span v-for="tag in item.tags" :key="tag" class="tag">{{ tag }}</span>
-                            </div>
-                            <div class="template-actions">
-                                <button v-if="item.files && item.files.length > 1" @click="showMultiFileDialog(item)" class="btn btn-primary">下载 ({{ item.files.length }}个文件)</button>
-                                <a v-else :href="getDownloadUrl(item)" target="_blank" class="btn btn-primary">下载</a>
-                                <a v-if="item.format === 'pdf'" :href="getDownloadUrl(item)" target="_blank" class="btn btn-secondary">在线查看</a>
-                            </div>
+                    <div v-else-if="filteredTemplateGroups.length === 0" class="no-results">未找到匹配的模板或案例</div>
+                    <div v-else class="template-groups">
+                        <div v-for="group in filteredTemplateGroups" :key="group.category" class="template-category-group">
+                            <button
+                                type="button"
+                                class="template-group-header"
+                                @click="toggleTemplateCategory(group.category)"
+                                :aria-expanded="isTemplateCategoryExpanded(group.category)"
+                            >
+                                <div class="template-group-info">
+                                    <span class="template-group-title">{{ group.category }}</span>
+                                    <span class="template-group-count">共 {{ group.items.length }} 个资源</span>
+                                </div>
+                                <span class="template-group-toggle" :class="{ expanded: isTemplateCategoryExpanded(group.category) }" aria-hidden="true"></span>
+                            </button>
+                            <transition name="collapse">
+                                <div v-if="isTemplateCategoryExpanded(group.category)" class="templates-grid">
+                                    <div v-for="item in group.items" :key="item.id" class="template-card">
+                                        <div class="template-header">
+                                            <h3>{{ item.name }}</h3>
+                                            <span class="template-category">{{ group.category }}</span>
+                                        </div>
+                                        <p class="template-description">{{ item.description }}</p>
+                                        <div class="template-meta">
+                                            <span v-if="item.journal" class="meta-item">期刊: {{ item.journal }}</span>
+                                            <span v-if="item.year" class="meta-item">年份: {{ item.year }}</span>
+                                            <span class="meta-item">格式: {{ item.format }}</span>
+                                            <span class="meta-item">大小: {{ item.size }}</span>
+                                        </div>
+                                        <div v-if="item.tags && item.tags.length" class="template-tags">
+                                            <span v-for="tag in item.tags" :key="tag" class="tag">{{ tag }}</span>
+                                        </div>
+                                        <div class="template-actions">
+                                            <button v-if="item.files && item.files.length > 1" @click="showMultiFileDialog(item)" class="btn btn-primary">下载 ({{ item.files.length }}个文件)</button>
+                                            <a v-else :href="getDownloadUrl(item)" target="_blank" class="btn btn-primary">下载</a>
+                                            <a v-if="item.format === 'pdf'" :href="getDownloadUrl(item)" target="_blank" class="btn btn-secondary">在线查看</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </transition>
                         </div>
                     </div>
 
