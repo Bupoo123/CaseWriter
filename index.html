@@ -17,8 +17,13 @@
         <header class="header">
             <div class="container header-top">
                 <div class="branding">
-                    <h1 class="logo">CaseWriter</h1>
-                    <p class="tagline">智能病例报告撰写与管理工作台</p>
+                    <div class="logo-container">
+                        <img src="assets/images/logo.png" alt="CaseWriter Logo" class="logo-img">
+                        <div class="logo-text">
+                            <h1 class="logo">CaseWriter</h1>
+                            <p class="tagline">智能病例报告撰写与管理工作台</p>
+                        </div>
+                    </div>
                 </div>
                 <nav class="nav">
                     <button @click="currentView = 'evaluation'" :class="{ active: currentView === 'evaluation' }">价值评估</button>
