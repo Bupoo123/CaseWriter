@@ -11,6 +11,16 @@ createApp({
             journalAcceptsFilter: '',
             journalVerifiedOnly: false,
             showAdvancedJournalFields: false,
+            // 模板库相关
+            templateFilter: '',
+            templateCategoryFilter: '',
+            templatesData: null,
+            loadingTemplates: false,
+            selectedMultiFileItem: null,
+            releaseInfo: {
+                version: '1.0',
+                downloadBaseUrl: 'https://github.com/Bupoo123/CaseWriter/releases/download/v1.0'
+            },
             careSections: [
                 {
                     title: '1. 标题', enTitle: 'Title',
@@ -546,11 +556,41 @@ createApp({
             }
             
             return filtered;
+        },
+        filteredTemplates() {
+            if (!this.templatesData) return [];
+            
+            let allItems = [
+                ...(this.templatesData.checklists || []),
+                ...(this.templatesData.guidelines || []),
+                ...(this.templatesData.publishedCases || []),
+                ...(this.templatesData.classicCases || [])
+            ];
+            
+            // 分类筛选
+            if (this.templateCategoryFilter) {
+                allItems = allItems.filter(item => item.category === this.templateCategoryFilter);
+            }
+            
+            // 关键词搜索
+            if (this.templateFilter) {
+                const filter = this.templateFilter.toLowerCase();
+                allItems = allItems.filter(item => 
+                    item.name.toLowerCase().includes(filter) ||
+                    (item.description && item.description.toLowerCase().includes(filter)) ||
+                    (item.journal && item.journal.toLowerCase().includes(filter)) ||
+                    (item.tags && item.tags.some(tag => tag.toLowerCase().includes(filter)))
+                );
+            }
+            
+            return allItems;
         }
     },
     mounted() {
         // 默认新建空病例（不自动加载旧数据）
         this.newCase();
+        // 加载模板库数据
+        this.loadTemplates();
     },
     methods: {
         autoSave() {
@@ -700,6 +740,49 @@ createApp({
         },
         openJournal(url) {
             window.open(url, '_blank');
+        },
+        // 模板库相关方法
+        async loadTemplates() {
+            this.loadingTemplates = true;
+            try {
+                const response = await fetch('data/templates.json');
+                if (response.ok) {
+                    this.templatesData = await response.json();
+                    // 更新releaseInfo
+                    if (this.templatesData.releaseInfo) {
+                        this.releaseInfo = this.templatesData.releaseInfo;
+                    }
+                } else {
+                    console.error('加载模板数据失败:', response.status);
+                    alert('加载模板库失败，请检查网络连接或联系管理员。');
+                }
+            } catch (error) {
+                console.error('加载模板数据错误:', error);
+                alert('加载模板库失败，请检查网络连接或联系管理员。');
+            } finally {
+                this.loadingTemplates = false;
+            }
+        },
+        getDownloadUrl(item) {
+            // 单文件下载
+            const filePath = item.file || (item.files && item.files[0]);
+            if (!filePath) return '#';
+            
+            // 从文件路径提取文件名
+            const fileName = filePath.split('/').pop();
+            // 构建GitHub Releases下载URL
+            return `${this.releaseInfo.downloadBaseUrl}/${encodeURIComponent(fileName)}`;
+        },
+        getFileDownloadUrl(filePath) {
+            // 多文件下载
+            const fileName = filePath.split('/').pop();
+            return `${this.releaseInfo.downloadBaseUrl}/${encodeURIComponent(fileName)}`;
+        },
+        getFileName(filePath) {
+            return filePath.split('/').pop();
+        },
+        showMultiFileDialog(item) {
+            this.selectedMultiFileItem = item;
         },
         // 新建病例：清空所有章节内容与时间线
         newCase() {

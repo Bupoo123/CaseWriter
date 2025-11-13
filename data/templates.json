@@ -1,0 +1,359 @@
+{
+  "checklists": [
+    {
+      "id": "checklist-1",
+      "name": "2013 CARE Checklist (英文)",
+      "category": "清单",
+      "description": "CARE 2013 核对清单英文版",
+      "file": "Checklist/2013 CARE Checklist-英文.docx",
+      "size": "~50KB",
+      "format": "docx"
+    },
+    {
+      "id": "checklist-2",
+      "name": "2013 CARE核对清单 (中文)",
+      "category": "清单",
+      "description": "CARE 2013 核对清单中文版",
+      "file": "Checklist/2013 CARE核对清单-中文.docx",
+      "size": "~50KB",
+      "format": "docx"
+    },
+    {
+      "id": "checklist-3",
+      "name": "CARE Checklist 2016 示例",
+      "category": "清单",
+      "description": "CARE 2016 核对清单示例（PDF）",
+      "file": "Checklist/CARE Checklist-2016 示例.pdf",
+      "size": "~200KB",
+      "format": "pdf"
+    },
+    {
+      "id": "checklist-4",
+      "name": "CARE Checklist 2013 (英文PDF)",
+      "category": "清单",
+      "description": "CARE 2013 核对清单英文PDF版",
+      "file": "Checklist/CARE-checklist-English-2013.pdf",
+      "size": "~150KB",
+      "format": "pdf"
+    },
+    {
+      "id": "checklist-5",
+      "name": "CARE Checklist 2013 (中文示例)",
+      "category": "清单",
+      "description": "CARE 2013 核对清单中文示例PDF",
+      "file": "Checklist/CAREchecklist-Chinese-2013-中文示例.pdf",
+      "size": "~200KB",
+      "format": "pdf"
+    },
+    {
+      "id": "checklist-6",
+      "name": "病例报告核对清单 (中文)",
+      "category": "清单",
+      "description": "病例报告核对清单中文版",
+      "file": "Checklist/case_report_check_list-中文.pdf",
+      "size": "~150KB",
+      "format": "pdf"
+    }
+  ],
+  "guidelines": [
+    {
+      "id": "guide-1",
+      "name": "2013 CARE Guidelines (BMJ)",
+      "category": "指南",
+      "description": "CARE 2013 指南 - BMJ 版本",
+      "file": "指南文件/2013-CARE-Guidelines-BMJ-CR.pdf",
+      "size": "~500KB",
+      "format": "pdf"
+    },
+    {
+      "id": "guide-2",
+      "name": "CARE Guidelines 详细说明文档",
+      "category": "指南",
+      "description": "CARE 指南详细说明和阐述文档",
+      "file": "指南文件/CARE guidelines for case reports_ explanation and elaboration document.pdf",
+      "size": "~1MB",
+      "format": "pdf"
+    },
+    {
+      "id": "guide-3",
+      "name": "CARE Guidelines 标准版",
+      "category": "指南",
+      "description": "CARE 指南标准版本",
+      "file": "指南文件/CARE guidelines.pdf",
+      "size": "~300KB",
+      "format": "pdf"
+    },
+    {
+      "id": "guide-4",
+      "name": "病例报告撰写规范：CARE指南-2024",
+      "category": "指南",
+      "description": "2024年更新的CARE指南中文版",
+      "file": "指南文件/病例报告撰写规范：CARE指南-2024.pdf",
+      "size": "~800KB",
+      "format": "pdf"
+    }
+  ],
+  "publishedCases": [
+    {
+      "id": "case-1",
+      "name": "Hu 等 - 2024 - Severe Fever with Thrombocy",
+      "category": "已发表案例",
+      "description": "首例诊断的严重发热伴血小板减少综合征",
+      "journal": "待补充",
+      "year": 2024,
+      "file": "杰毅 case/Hu 等 - 2024 - The first diagnosis of Severe Fever with Thrombocy.pdf",
+      "size": "~2MB",
+      "format": "pdf",
+      "tags": ["mNGS", "罕见病原体"]
+    },
+    {
+      "id": "case-2",
+      "name": "Liu 等 - 2021 - Diffuse Large B-Cell Lymphoma",
+      "category": "已发表案例",
+      "description": "下颌骨弥漫性大B细胞淋巴瘤诊断",
+      "journal": "待补充",
+      "year": 2021,
+      "file": "杰毅 case/Liu 等 - 2021 - Diffuse Large B-Cell Lymphoma of the Mandible Diag.pdf",
+      "size": "~1.5MB",
+      "format": "pdf",
+      "tags": ["mNGS", "淋巴瘤"]
+    },
+    {
+      "id": "case-3",
+      "name": "Mo 等 - 2023 - T‑lymphoblastic lymphoma",
+      "category": "已发表案例",
+      "description": "儿童T淋巴母细胞淋巴瘤mNGS诊断",
+      "journal": "待补充",
+      "year": 2023,
+      "file": "杰毅 case/Mo 等 - 2023 - T‑lymphoblastic lymphoma in a child diagnosed by m.pdf",
+      "size": "~2MB",
+      "format": "pdf",
+      "tags": ["mNGS", "儿童", "淋巴瘤"]
+    },
+    {
+      "id": "case-4",
+      "name": "Qin 等 - 2024 - Utility of mNGS",
+      "category": "已发表案例",
+      "description": "mNGS在临床诊断中的应用价值",
+      "journal": "待补充",
+      "year": 2024,
+      "file": "杰毅 case/Qin 等 - 2024 - Utility of metagenomic Next-Generation Sequencing .pdf",
+      "size": "~1.8MB",
+      "format": "pdf",
+      "tags": ["mNGS", "临床应用"]
+    },
+    {
+      "id": "case-5",
+      "name": "Shi 等 - 2022 - Bartonella vinsonii",
+      "category": "已发表案例",
+      "description": "Bartonella vinsonii亚种检测",
+      "journal": "待补充",
+      "year": 2022,
+      "file": "杰毅 case/Shi 等 - 2022 - Detection of Bartonella vinsonii subsp. berkhoffii.pdf",
+      "size": "~1.5MB",
+      "format": "pdf",
+      "tags": ["mNGS", "Bartonella"]
+    },
+    {
+      "id": "case-6",
+      "name": "Shi 等 - 2022 - Leptospirosis",
+      "category": "已发表案例",
+      "description": "钩端螺旋体病合并肺部感染诊断",
+      "journal": "待补充",
+      "year": 2022,
+      "file": "杰毅 case/Shi 等 - 2022 - The diagnosis of leptospirosis complicated by pulm.pdf",
+      "size": "~1.8MB",
+      "format": "pdf",
+      "tags": ["mNGS", "钩端螺旋体"]
+    },
+    {
+      "id": "case-7",
+      "name": "Wei 等 - 2022 - Lung squamous cell carcinoma",
+      "category": "已发表案例",
+      "description": "基于mNGS诊断的肺鳞状细胞癌",
+      "journal": "待补充",
+      "year": 2022,
+      "file": "杰毅 case/Wei 等 - 2022 - Diagnosis of lung squamous cell carcinoma based on.pdf",
+      "size": "~2MB",
+      "format": "pdf",
+      "tags": ["mNGS", "肿瘤"]
+    },
+    {
+      "id": "case-8",
+      "name": "Zhang 等 - 2022 - Severe skin pythiosis",
+      "category": "已发表案例",
+      "description": "中国首例严重皮肤和皮下组织腐霉病",
+      "journal": "待补充",
+      "year": 2022,
+      "file": "杰毅 case/Zhang 等 - 2022 - Severe skin and subcutaneous pythiosis in China M.pdf",
+      "size": "~2.2MB",
+      "format": "pdf",
+      "tags": ["mNGS", "罕见病原体", "首例"]
+    },
+    {
+      "id": "case-9",
+      "name": "Zhu 等 - 2021 - Pulmonary coinfection",
+      "category": "已发表案例",
+      "description": "肺结核合并其他病原体共感染",
+      "journal": "待补充",
+      "year": 2021,
+      "file": "杰毅 case/Zhu 等 - 2021 - Pulmonary coinfection of Mycobacterium tuberculosi.pdf",
+      "size": "~1.8MB",
+      "format": "pdf",
+      "tags": ["mNGS", "结核", "共感染"]
+    }
+  ],
+  "classicCases": [
+    {
+      "id": "classic-1",
+      "name": "2014 NEJM - 钩端螺旋体",
+      "category": "经典高分案例",
+      "description": "New England Journal of Medicine 2014年发表的钩端螺旋体病例",
+      "journal": "NEJM",
+      "year": 2014,
+      "files": [
+        "经典高分 case/2014NEJM_钩端螺旋体/nejmoa1401268.pdf",
+        "经典高分 case/2014NEJM_钩端螺旋体/nejmoa1401268_appendix.pdf"
+      ],
+      "size": "~3MB",
+      "format": "pdf",
+      "tags": ["NEJM", "高分", "钩端螺旋体"]
+    },
+    {
+      "id": "classic-2",
+      "name": "2015 NEJM - 杂色松鼠博尔纳病毒",
+      "category": "经典高分案例",
+      "description": "New England Journal of Medicine 2015年发表的博尔纳病毒病例",
+      "journal": "NEJM",
+      "year": 2015,
+      "files": [
+        "经典高分 case/2015 NEJM_杂色松鼠博尔纳病毒/nejmoa1415627.pdf",
+        "经典高分 case/2015 NEJM_杂色松鼠博尔纳病毒/nejmoa1415627_appendix.pdf"
+      ],
+      "size": "~3MB",
+      "format": "pdf",
+      "tags": ["NEJM", "高分", "博尔纳病毒"]
+    },
+    {
+      "id": "classic-3",
+      "name": "2016 NEJM - 寨卡病毒",
+      "category": "经典高分案例",
+      "description": "New England Journal of Medicine 2016年发表的寨卡病毒病例",
+      "journal": "NEJM",
+      "year": 2016,
+      "files": [
+        "经典高分 case/2016 NEJM 寨卡病毒/nejmoa1601824.pdf",
+        "经典高分 case/2016 NEJM 寨卡病毒/nejmoa1601824_appendix.pdf"
+      ],
+      "size": "~3MB",
+      "format": "pdf",
+      "tags": ["NEJM", "高分", "寨卡病毒"]
+    },
+    {
+      "id": "classic-4",
+      "name": "2020 NEJM - 美国首例新冠",
+      "category": "经典高分案例",
+      "description": "New England Journal of Medicine 2020年发表的美国首例COVID-19病例",
+      "journal": "NEJM",
+      "year": 2020,
+      "files": [
+        "经典高分 case/2020 NEJM 美国首例新冠/nejmoa2001191.pdf"
+      ],
+      "size": "~2MB",
+      "format": "pdf",
+      "tags": ["NEJM", "高分", "COVID-19", "首例"]
+    },
+    {
+      "id": "classic-5",
+      "name": "2020 NEJM - 超级人传人的病毒",
+      "category": "经典高分案例",
+      "description": "New England Journal of Medicine 2020年发表的病毒传播研究",
+      "journal": "NEJM",
+      "year": 2020,
+      "files": [
+        "经典高分 case/2020 NEJM 超级人传人的病毒/nejmoa2009040.pdf",
+        "经典高分 case/2020 NEJM 超级人传人的病毒/nejmoa2009040_appendix_1.pdf"
+      ],
+      "size": "~5MB",
+      "format": "pdf",
+      "tags": ["NEJM", "高分", "病毒传播"]
+    },
+    {
+      "id": "classic-6",
+      "name": "2021 Lancet子刊 - 利什曼原虫",
+      "category": "经典高分案例",
+      "description": "Lancet 子刊 2021年发表的利什曼原虫病例",
+      "journal": "Lancet",
+      "year": 2021,
+      "files": [
+        "经典高分 case/2021 Lancet子刊 利什曼原虫/1-s2.0-S0140673621003524-main.pdf"
+      ],
+      "size": "~2MB",
+      "format": "pdf",
+      "tags": ["Lancet", "高分", "利什曼原虫"]
+    },
+    {
+      "id": "classic-7",
+      "name": "2022 EMI - 新型耐药社区获得性诺卡氏菌",
+      "category": "经典高分案例",
+      "description": "Emerging Microbes & Infections 2022年发表的诺卡氏菌病例",
+      "journal": "EMI",
+      "year": 2022,
+      "files": [
+        "经典高分 case/2022 EMI 新型耐药社区获得性诺卡氏菌/22221751.2022.pdf"
+      ],
+      "size": "~2MB",
+      "format": "pdf",
+      "tags": ["EMI", "耐药", "诺卡氏菌"]
+    },
+    {
+      "id": "classic-8",
+      "name": "2022 Lancet子刊 - 鹦鹉热人际传播",
+      "category": "经典高分案例",
+      "description": "Lancet 子刊 2022年发表的鹦鹉热人际传播病例",
+      "journal": "Lancet",
+      "year": 2022,
+      "files": [
+        "经典高分 case/2022 Lancet子刊 鹦鹉热人际传播/PIIS2666524722000647.pdf"
+      ],
+      "size": "~2MB",
+      "format": "pdf",
+      "tags": ["Lancet", "鹦鹉热", "人际传播"]
+    },
+    {
+      "id": "classic-9",
+      "name": "2022 NEJM - 出血热",
+      "category": "经典高分案例",
+      "description": "New England Journal of Medicine 2022年发表的出血热病例",
+      "journal": "NEJM",
+      "year": 2022,
+      "files": [
+        "经典高分 case/2022 NEJM 出血热/Chapare Hemorrhagic Fever and Virus Detection in Rodents in Bolivia in 2019.pdf"
+      ],
+      "size": "~2MB",
+      "format": "pdf",
+      "tags": ["NEJM", "出血热"]
+    },
+    {
+      "id": "classic-10",
+      "name": "2022 NEJM - 发热和咳嗽的女孩",
+      "category": "经典高分案例",
+      "description": "New England Journal of Medicine 2022年发表的病例报告",
+      "journal": "NEJM",
+      "year": 2022,
+      "files": [
+        "经典高分 case/2022 NEJM 发热和咳嗽的女孩/Case 21-2022- A 17-Year-Old Girl with Fever and Cough.pdf"
+      ],
+      "size": "~2MB",
+      "format": "pdf",
+      "tags": ["NEJM", "病例报告"]
+    }
+  ],
+  "releaseInfo": {
+    "version": "1.0",
+    "releaseUrl": "https://github.com/Bupoo123/CaseWriter/releases",
+    "downloadBaseUrl": "https://github.com/Bupoo123/CaseWriter/releases/download/v1.0",
+    "lastUpdated": "2025-11-13"
+  }
+}
+

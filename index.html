@@ -18,6 +18,7 @@
                     <button @click="currentView = 'evaluation'" :class="{ active: currentView === 'evaluation' }">价值评估</button>
                     <button @click="currentView = 'writing'" :class="{ active: currentView === 'writing' }">撰写流程</button>
                     <button @click="currentView = 'guide'" :class="{ active: currentView === 'guide' }">写作指导</button>
+                    <button @click="currentView = 'templates'" :class="{ active: currentView === 'templates' }">模板库</button>
                     <button @click="currentView = 'journals'" :class="{ active: currentView === 'journals' }">期刊选择</button>
                 </nav>
             </div>
@@ -183,6 +184,63 @@
                             <li>大多属 <strong>OA 期刊</strong>，APC 1000–3000 美元范围</li>
                             <li>说明此类 mNGS 病例目前投稿难度适中，重在病例质量与新颖性</li>
                         </ul>
+                    </div>
+                </div>
+
+                <!-- 模板库视图 -->
+                <div v-if="currentView === 'templates'" class="templates-view">
+                    <h2>模板与案例库</h2>
+                    <p class="intro-text">下载CARE清单、指南文件、已发表案例和经典高分案例</p>
+                    
+                    <div class="filter-bar">
+                        <input type="text" v-model="templateFilter" placeholder="搜索模板或案例..." class="filter-input">
+                        <select v-model="templateCategoryFilter" class="filter-select">
+                            <option value="">所有分类</option>
+                            <option value="清单">清单</option>
+                            <option value="指南">指南</option>
+                            <option value="已发表案例">已发表案例</option>
+                            <option value="经典高分案例">经典高分案例</option>
+                        </select>
+                    </div>
+
+                    <div v-if="loadingTemplates" class="loading">加载中...</div>
+                    <div v-else-if="filteredTemplates.length === 0" class="no-results">未找到匹配的模板或案例</div>
+                    <div v-else class="templates-grid">
+                        <div v-for="item in filteredTemplates" :key="item.id" class="template-card">
+                            <div class="template-header">
+                                <h3>{{ item.name }}</h3>
+                                <span class="template-category">{{ item.category }}</span>
+                            </div>
+                            <p class="template-description">{{ item.description }}</p>
+                            <div class="template-meta">
+                                <span v-if="item.journal" class="meta-item">期刊: {{ item.journal }}</span>
+                                <span v-if="item.year" class="meta-item">年份: {{ item.year }}</span>
+                                <span class="meta-item">格式: {{ item.format }}</span>
+                                <span class="meta-item">大小: {{ item.size }}</span>
+                            </div>
+                            <div v-if="item.tags && item.tags.length" class="template-tags">
+                                <span v-for="tag in item.tags" :key="tag" class="tag">{{ tag }}</span>
+                            </div>
+                            <div class="template-actions">
+                                <button v-if="item.files && item.files.length > 1" @click="showMultiFileDialog(item)" class="btn btn-primary">下载 ({{ item.files.length }}个文件)</button>
+                                <a v-else :href="getDownloadUrl(item)" target="_blank" class="btn btn-primary">下载</a>
+                                <a v-if="item.format === 'pdf'" :href="getDownloadUrl(item)" target="_blank" class="btn btn-secondary">在线查看</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 多文件下载对话框 -->
+                    <div v-if="selectedMultiFileItem" class="modal-overlay" @click="selectedMultiFileItem = null">
+                        <div class="modal-content" @click.stop>
+                            <h3>{{ selectedMultiFileItem.name }}</h3>
+                            <p>该案例包含多个文件，请选择要下载的文件：</p>
+                            <ul class="file-list">
+                                <li v-for="(file, index) in selectedMultiFileItem.files" :key="index">
+                                    <a :href="getFileDownloadUrl(file)" target="_blank" class="file-link">{{ getFileName(file) }}</a>
+                                </li>
+                            </ul>
+                            <button @click="selectedMultiFileItem = null" class="btn btn-secondary">关闭</button>
+                        </div>
                     </div>
                 </div>
 
