@@ -8,12 +8,9 @@ createApp({
             journalFilter: '',
             journalTopicFilter: '',
             journalOAFilter: '',
-            journalAcceptsFilter: '',
-            journalVerifiedOnly: false,
-            showAdvancedJournalFields: false,
             careSections: [
                 {
-                    title: '1. 标题', enTitle: 'Title',
+                    title: '1. 标题',
                     description: '标题应简洁明了，能准确反映病例的核心内容，通常包含病例类型和主要发现。',
                     content: '',
                     placeholder: '例如：一例罕见病原体感染的病例报告',
@@ -30,7 +27,7 @@ createApp({
                     ]
                 },
                 {
-                    title: '2. 关键词', enTitle: 'Keywords',
+                    title: '2. 关键词',
                     description: '提供3-10个关键词，便于检索和索引。',
                     content: '',
                     placeholder: '例如：病例报告、罕见感染、mNGS、病原检测',
@@ -41,7 +38,7 @@ createApp({
                     ]
                 },
                 {
-                    title: '3. 摘要', enTitle: 'Abstract',
+                    title: '3. 摘要',
                     description: '提供结构式摘要，包括背景、病例介绍、结论和教学要点。',
                     content: '',
                     placeholder: '背景：\n病例介绍：\n结论：\n教学要点：',
@@ -52,7 +49,7 @@ createApp({
                     ]
                 },
                 {
-                    title: '4. 引言', enTitle: 'Introduction',
+                    title: '4. 引言',
                     description: '介绍背景信息，说明为什么这个病例值得报告。',
                     content: '',
                     placeholder: '介绍相关疾病的背景、流行病学、诊断挑战等...',
@@ -64,7 +61,7 @@ createApp({
                     ]
                 },
                 {
-                    title: '5. 患者信息', enTitle: 'Patient information',
+                    title: '5. 患者信息',
                     description: '描述患者的基本信息、主诉、现病史、既往史等。',
                     content: '',
                     placeholder: '患者基本信息：\n主诉：\n现病史：\n既往史：\n家族史：\n社会史：',
@@ -76,7 +73,7 @@ createApp({
                     ]
                 },
                 {
-                    title: '6. 临床发现', enTitle: 'Clinical findings',
+                    title: '6. 临床发现',
                     description: '详细描述体格检查、生命体征、临床表现等。',
                     content: '',
                     placeholder: '体格检查：\n生命体征：\n临床表现：\n病程进展：',
@@ -88,7 +85,7 @@ createApp({
                     ]
                 },
                 {
-                    title: '7. 时间线', enTitle: 'Timeline',
+                    title: '7. 时间线',
                     description: '按时间顺序列出重要事件、检查、诊断和治疗。',
                     content: '',
                     placeholder: '时间线：\n- 日期1：事件描述\n- 日期2：事件描述\n...',
@@ -99,7 +96,7 @@ createApp({
                     ]
                 },
                 {
-                    title: '8. 诊断评估', enTitle: 'Diagnostic assessment',
+                    title: '8. 诊断评估',
                     description: '描述诊断过程、实验室检查、影像学检查、病理检查等。',
                     content: '',
                     placeholder: '实验室检查：\n影像学检查：\n病理检查：\n其他检查：\n诊断依据：',
@@ -111,7 +108,7 @@ createApp({
                     ]
                 },
                 {
-                    title: '9. 治疗干预', enTitle: 'Therapeutic interventions',
+                    title: '9. 治疗干预',
                     description: '描述治疗方案、药物剂量、治疗过程、不良反应等。',
                     content: '',
                     placeholder: '治疗方案：\n药物剂量：\n治疗过程：\n不良反应：\n治疗调整：',
@@ -123,7 +120,7 @@ createApp({
                     ]
                 },
                 {
-                    title: '10. 随访和结果', enTitle: 'Follow-up and outcomes',
+                    title: '10. 随访和结果',
                     description: '描述患者随访情况、治疗效果、预后等。',
                     content: '',
                     placeholder: '随访时间：\n随访结果：\n治疗效果：\n预后评估：',
@@ -135,7 +132,7 @@ createApp({
                     ]
                 },
                 {
-                    title: '11. 讨论', enTitle: 'Discussion',
+                    title: '11. 讨论',
                     description: '分析病例特点、诊断难点、治疗经验、文献对比等。',
                     content: '',
                     placeholder: '病例特点分析：\n诊断难点：\n治疗经验：\n文献对比：\n临床意义：',
@@ -148,7 +145,7 @@ createApp({
                     ]
                 },
                 {
-                    title: '12. 患者观点', enTitle: 'Patient perspective',
+                    title: '12. 患者观点',
                     description: '（可选）从患者角度描述疾病经历、感受等。',
                     content: '',
                     placeholder: '患者对疾病的感受：\n治疗过程中的体验：\n对医疗团队的反馈：',
@@ -159,7 +156,7 @@ createApp({
                     ]
                 },
                 {
-                    title: '13. 知情同意', enTitle: 'Informed consent',
+                    title: '13. 知情同意',
                     description: '说明已获得患者知情同意，符合伦理要求。',
                     content: '',
                     placeholder: '已获得患者/家属的书面知情同意。本研究符合伦理要求。',
@@ -168,22 +165,8 @@ createApp({
                         '说明伦理审查情况（如适用）',
                         '保护患者隐私'
                     ]
-                },
-                {
-                    title: '14. 参考文献（可选）', enTitle: 'References (optional)',
-                    description: '列出文中引用的参考文献，建议不少于15条，遵循拟投稿期刊格式要求。',
-                    content: '',
-                    placeholder: '示例：\n[1] Author A, Author B. Title. Journal. Year;Volume(Issue):Pages. DOI',
-                    tips: [
-                        '建议使用参考文献管理工具（Zotero/EndNote/Mendeley等）',
-                        '按期刊要求统一格式（Vancouver/AMA/APA等）',
-                        '文内引用与参考文献列表保持一致'
-                    ]
                 }
             ],
-            // 时间线编辑器数据
-            timelineEvents: [],
-            timelineForm: { date: '', event: '', note: '' },
             writingGuides: [
                 {
                     title: 'CARE 指南核心原则',
@@ -192,26 +175,6 @@ createApp({
                         'CARE（Case Report）指南是国际公认的病例报告撰写标准，旨在提高病例报告的质量和一致性。',
                         '遵循CARE指南可以确保病例报告包含所有必要信息，便于读者理解和学习。',
                         '每个部分都有其特定的目的和要求，应认真填写，避免遗漏重要信息。'
-                    ]
-                },
-                {
-                    title: '图表绘制指导（Figures & Tables）',
-                    type: 'tips',
-                    content: [
-                        '可考虑插图类型：影像学（X-ray/CT/MRI）、mNGS结果（reads/覆盖度/物种图）、细胞学图、病理学切片、培养/药敏结果截图',
-                        '病程时间线：展示关键时间点（起病、入院、检验、mNGS出报告、治疗调整、随访）',
-                        '三线表：多患者临床信息表/文献汇总表（表头、表体、表底三条线，统一字体与对齐）',
-                        '注意事项：去标识化保护隐私；图片分辨率≥300 dpi；统一配色与字体；遵循期刊图片尺寸与格式（常见：TIFF/JPEG/PDF）',
-                        '模板与示例：后续将提供空白时间线模板与经典病例病程图示例'
-                    ]
-                },
-                {
-                    title: '参考文献与引用管理',
-                    type: 'tips',
-                    content: [
-                        '引言与讨论部分通常建议≥15条参考文献，确保时效性与相关性',
-                        '遵循拟投稿期刊格式（Vancouver/AMA/APA等），统一标点与缩写',
-                        '推荐工具：Zotero、EndNote、Mendeley、BibTeX；建议配合Word/LaTeX插件实现快速插引'
                     ]
                 },
                 {
@@ -258,7 +221,6 @@ createApp({
             ],
             journals: [
                 {
-                    name: 'Heliyon', abbr: 'Heliyon', issn: '2405-8440', eissn: '2405-8440', if2025: '', if5year: '', jifQuartile: '', casDivision: '', selfCiteRate: '', yearlyPubs: '', cnShare: '', acceptsCaseReport: true, warningStatus: '', verified: false,
                     topic: '综合/多学科',
                     publisher: 'Elsevier',
                     oa: '是',
@@ -267,7 +229,6 @@ createApp({
                     templateUrl: 'https://www.cell.com/heliyon/guide-for-authors'
                 },
                 {
-                    name: 'Diagnostic Microbiology and Infectious Disease', abbr: 'Diagn Microbiol Infect Dis', issn: '0732-8893', eissn: '1879-0070', if2025: '', if5year: '', jifQuartile: '', casDivision: '', selfCiteRate: '', yearlyPubs: '', cnShare: '', acceptsCaseReport: false, warningStatus: '', verified: false,
                     topic: '临床微生物/感染病',
                     publisher: 'Elsevier',
                     oa: '否（混合）',
@@ -276,7 +237,6 @@ createApp({
                     templateUrl: 'https://www.elsevier.com/journals/diagnostic-microbiology-and-infectious-disease'
                 },
                 {
-                    name: 'Infection and Drug Resistance', abbr: 'Infect Drug Resist', issn: '1178-6973', eissn: '1178-6973', acceptsCaseReport: true, verified: false,
                     topic: '耐药/感染病',
                     publisher: 'Dove Press',
                     oa: '是',
@@ -285,7 +245,6 @@ createApp({
                     templateUrl: 'https://www.dovepress.com/author_guidelines.php?journal_id=56'
                 },
                 {
-                    name: 'BMC Infectious Diseases', abbr: 'BMC Infect Dis', issn: '1471-2334', eissn: '1471-2334', acceptsCaseReport: true, verified: false,
                     topic: '感染病',
                     publisher: 'BMC/Springer Nature',
                     oa: '是',
@@ -294,7 +253,6 @@ createApp({
                     templateUrl: 'https://bmcinfectdis.biomedcentral.com/submission-guidelines'
                 },
                 {
-                    name: 'International Journal of Infectious Diseases', abbr: 'Int J Infect Dis', issn: '1201-9712', eissn: '1878-3511', acceptsCaseReport: true, verified: false,
                     topic: '感染病',
                     publisher: 'Elsevier/ISID',
                     oa: '是',
@@ -303,7 +261,6 @@ createApp({
                     templateUrl: 'https://www.elsevier.com/journals/international-journal-of-infectious-diseases'
                 },
                 {
-                    name: 'Journal of Infection in Developing Countries', abbr: 'JIDC', issn: '2036-6590', eissn: '1972-2680', acceptsCaseReport: true, verified: false,
                     topic: '发展中国家感染病',
                     publisher: 'JIDC Foundation',
                     oa: '是',
@@ -312,7 +269,6 @@ createApp({
                     templateUrl: 'https://jidc.org/index.php/journal/about/submissions'
                 },
                 {
-                    name: 'Emerging Infectious Diseases', abbr: 'Emerg Infect Dis', issn: '1080-6040', eissn: '1080-6059', acceptsCaseReport: true, verified: false,
                     topic: '新发传染病',
                     publisher: 'CDC (USA)',
                     oa: '否',
@@ -321,7 +277,6 @@ createApp({
                     templateUrl: 'https://wwwnc.cdc.gov/eid/page/author-guidelines'
                 },
                 {
-                    name: 'IDCases', abbr: 'IDCases', issn: '2214-2509', eissn: '2214-2509', acceptsCaseReport: true, verified: false,
                     topic: '感染病病例报告',
                     publisher: 'Elsevier',
                     oa: '是',
@@ -330,7 +285,6 @@ createApp({
                     templateUrl: 'https://www.elsevier.com/journals/idcases'
                 },
                 {
-                    name: 'Frontiers in Public Health', abbr: 'Front Public Health', acceptsCaseReport: true, verified: false,
                     topic: '公共卫生',
                     publisher: 'Frontiers',
                     oa: '是',
@@ -339,7 +293,6 @@ createApp({
                     templateUrl: 'https://www.frontiersin.org/journals/public-health#author-guidelines'
                 },
                 {
-                    name: 'Frontiers in Cellular and Infection Microbiology', abbr: 'Front Cell Infect Microbiol', acceptsCaseReport: true, verified: false,
                     topic: '细胞与感染微生物学',
                     publisher: 'Frontiers',
                     oa: '是',
@@ -348,7 +301,6 @@ createApp({
                     templateUrl: 'https://www.frontiersin.org/journals/cellular-and-infection-microbiology#author-guidelines'
                 },
                 {
-                    name: 'Frontiers in Immunology', abbr: 'Front Immunol', acceptsCaseReport: false, verified: false,
                     topic: '免疫学',
                     publisher: 'Frontiers',
                     oa: '是',
@@ -357,7 +309,6 @@ createApp({
                     templateUrl: 'https://www.frontiersin.org/journals/immunology#author-guidelines'
                 },
                 {
-                    name: 'Frontiers in Pediatrics', abbr: 'Front Pediatr', acceptsCaseReport: true, verified: false,
                     topic: '儿科学',
                     publisher: 'Frontiers',
                     oa: '是',
@@ -366,7 +317,6 @@ createApp({
                     templateUrl: 'https://www.frontiersin.org/journals/pediatrics#author-guidelines'
                 },
                 {
-                    name: 'Frontiers in Neurology', abbr: 'Front Neurol', acceptsCaseReport: true, verified: false,
                     topic: '神经学',
                     publisher: 'Frontiers',
                     oa: '是',
@@ -375,7 +325,6 @@ createApp({
                     templateUrl: 'https://www.frontiersin.org/journals/neurology#author-guidelines'
                 },
                 {
-                    name: 'BMC Neurology', abbr: 'BMC Neurol', acceptsCaseReport: true, verified: false,
                     topic: '神经病学',
                     publisher: 'BMC/Springer Nature',
                     oa: '是',
@@ -384,7 +333,6 @@ createApp({
                     templateUrl: 'https://bmcneurol.biomedcentral.com/submission-guidelines'
                 },
                 {
-                    name: 'BMC Pulmonary Medicine', abbr: 'BMC Pulm Med', acceptsCaseReport: true, verified: false,
                     topic: '呼吸系统疾病',
                     publisher: 'BMC/Springer Nature',
                     oa: '是',
@@ -393,7 +341,6 @@ createApp({
                     templateUrl: 'https://bmcpulmmed.biomedcentral.com/submission-guidelines'
                 },
                 {
-                    name: 'Journal of Medical Case Reports', abbr: 'J Med Case Rep', acceptsCaseReport: true, verified: false,
                     topic: '病例报告',
                     publisher: 'BMC/Springer Nature',
                     oa: '是',
@@ -402,7 +349,6 @@ createApp({
                     templateUrl: 'https://jmedicalcasereports.biomedcentral.com/submission-guidelines'
                 },
                 {
-                    name: 'Respiratory Medicine Case Reports', abbr: 'Respir Med Case Rep', acceptsCaseReport: true, verified: false,
                     topic: '呼吸病病例报告',
                     publisher: 'Elsevier',
                     oa: '是',
@@ -411,7 +357,6 @@ createApp({
                     templateUrl: 'https://www.elsevier.com/journals/respiratory-medicine-case-reports'
                 },
                 {
-                    name: 'American Journal of Ophthalmology Case Reports', abbr: 'Am J Ophthalmol Case Rep', acceptsCaseReport: true, verified: false,
                     topic: '眼科学病例报告',
                     publisher: 'Elsevier',
                     oa: '是',
@@ -420,7 +365,6 @@ createApp({
                     templateUrl: 'https://www.elsevier.com/journals/american-journal-of-ophthalmology-case-reports'
                 },
                 {
-                    name: 'Clinical Laboratory', abbr: 'Clin Lab', acceptsCaseReport: true, verified: false,
                     topic: '实验室医学',
                     publisher: 'Clin Lab GmbH (Germany)',
                     oa: '否',
@@ -429,7 +373,6 @@ createApp({
                     templateUrl: 'https://www.clin-lab-publications.com/instructions.html'
                 },
                 {
-                    name: 'Biological Sciences (De Gruyter)', abbr: 'Biol Sci', acceptsCaseReport: true, verified: false,
                     topic: '综合/生命科学',
                     publisher: 'De Gruyter',
                     oa: '是',
@@ -520,7 +463,6 @@ createApp({
             if (this.journalFilter) {
                 const filter = this.journalFilter.toLowerCase();
                 filtered = filtered.filter(j => 
-                    (j.name && j.name.toLowerCase().includes(filter)) ||
                     j.topic.toLowerCase().includes(filter) ||
                     j.publisher.toLowerCase().includes(filter) ||
                     j.apc.toLowerCase().includes(filter)
@@ -534,23 +476,13 @@ createApp({
             if (this.journalOAFilter) {
                 filtered = filtered.filter(j => j.oa.includes(this.journalOAFilter));
             }
-
-            if (this.journalAcceptsFilter === '接收') {
-                filtered = filtered.filter(j => j.acceptsCaseReport === true);
-            } else if (this.journalAcceptsFilter === '不接收') {
-                filtered = filtered.filter(j => j.acceptsCaseReport === false);
-            }
-
-            if (this.journalVerifiedOnly) {
-                filtered = filtered.filter(j => j.verified === true);
-            }
             
             return filtered;
         }
     },
     mounted() {
-        // 默认新建空病例（不自动加载旧数据）
-        this.newCase();
+        // 从本地存储静默加载数据（不显示提示）
+        this.loadFromLocalSilent();
     },
     methods: {
         autoSave() {
@@ -630,8 +562,7 @@ createApp({
                 
                 this.careSections.forEach(section => {
                     if (section.content.trim()) {
-                        const head = section.enTitle ? `${section.title} (${section.enTitle})` : section.title;
-                        html += `    <h1>${head}</h1>\n`;
+                        html += `    <h1>${section.title}</h1>\n`;
                         
                         if (section.description) {
                             html += `    <p class="description">${section.description}</p>\n`;
@@ -677,8 +608,7 @@ createApp({
                 
                 this.careSections.forEach(section => {
                     if (section.content.trim()) {
-                        const head = section.enTitle ? `${section.title} (${section.enTitle})` : section.title;
-                        markdown += `## ${head}\n\n`;
+                        markdown += `## ${section.title}\n\n`;
                         
                         if (section.description) {
                             markdown += `*${section.description}*\n\n`;
@@ -700,41 +630,6 @@ createApp({
         },
         openJournal(url) {
             window.open(url, '_blank');
-        },
-        // 新建病例：清空所有章节内容与时间线
-        newCase() {
-            this.careSections = this.careSections.map(sec => ({ ...sec, content: '' }));
-            this.timelineEvents = [];
-            this.timelineForm = { date: '', event: '', note: '' };
-            this.activeSection = 0;
-        },
-        addTimelineEvent() {
-            if (!this.timelineForm.date || !this.timelineForm.event) return;
-            this.timelineEvents.push({ ...this.timelineForm });
-            this.timelineForm = { date: '', event: '', note: '' };
-            this.autoSave();
-        },
-        removeTimelineEvent(index) {
-            this.timelineEvents.splice(index, 1);
-            this.autoSave();
-        },
-        generateTimelineMarkdown() {
-            if (!this.timelineEvents.length) return '';
-            let md = '| 日期 | 事件 | 备注 |\n|---|---|---|\n';
-            this.timelineEvents.forEach(ev => {
-                md += `| ${ev.date} | ${ev.event} | ${ev.note || ''} |\n`;
-            });
-            return md;
-        },
-        syncTimelineToContent() {
-            const md = this.generateTimelineMarkdown();
-            if (!md) return;
-            const idx = this.careSections.findIndex(s => s.title.startsWith('7.'));
-            if (idx !== -1) {
-                this.careSections[idx].content = md;
-            }
-            this.autoSave();
-            alert('已同步时间线表格到编辑器');
         }
     }
 }).mount('#app');

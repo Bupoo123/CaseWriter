@@ -34,11 +34,10 @@
                             <li v-for="(section, index) in careSections" :key="index"
                                 @click="activeSection = index"
                                 :class="{ active: activeSection === index }">
-                                {{ section.title }} <span v-if="section.enTitle">({{ section.enTitle }})</span>
+                                {{ section.title }}
                             </li>
                         </ul>
                         <div class="sidebar-actions">
-                            <button @click="newCase" class="btn btn-secondary">新建病例</button>
                             <button @click="saveToLocal" class="btn btn-primary">保存到本地</button>
                             <button @click="exportToWord" class="btn btn-success">导出 Word</button>
                             <button @click="exportToMarkdown" class="btn btn-success">导出 Markdown</button>
@@ -47,7 +46,7 @@
                     </div>
                     <div class="content-area">
                         <div v-if="activeSection !== null" class="section-editor">
-                            <h2>{{ careSections[activeSection].title }} <span v-if="careSections[activeSection].enTitle">({{ careSections[activeSection].enTitle }})</span></h2>
+                            <h2>{{ careSections[activeSection].title }}</h2>
                             <p class="section-description">{{ careSections[activeSection].description }}</p>
                             <div class="editor-wrapper">
                                 <textarea 
@@ -56,37 +55,6 @@
                                     :placeholder="careSections[activeSection].placeholder"
                                     @input="autoSave"
                                 ></textarea>
-                            </div>
-                            <!-- 时间线事件编辑器（仅在第7章显示） -->
-                            <div v-if="careSections[activeSection].title.startsWith('7.')" class="timeline-tool">
-                                <h3>时间线事件编辑器</h3>
-                                <div class="timeline-form">
-                                    <input type="date" v-model="timelineForm.date" class="filter-input" />
-                                    <input type="text" v-model="timelineForm.event" placeholder="事件/检查/治疗" class="filter-input" />
-                                    <input type="text" v-model="timelineForm.note" placeholder="备注（可选）" class="filter-input" />
-                                    <button class="btn btn-primary" @click="addTimelineEvent">添加</button>
-                                </div>
-                                <div class="journals-table" v-if="timelineEvents.length">
-                                    <table>
-                                        <thead>
-                                            <tr>
-                                                <th>日期</th>
-                                                <th>事件</th>
-                                                <th>备注</th>
-                                                <th>操作</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr v-for="(ev, i) in timelineEvents" :key="i">
-                                                <td>{{ ev.date }}</td>
-                                                <td>{{ ev.event }}</td>
-                                                <td>{{ ev.note }}</td>
-                                                <td><button class="btn btn-sm" @click="removeTimelineEvent(i)">删除</button></td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <button v-if="timelineEvents.length" class="btn btn-success" @click="syncTimelineToContent">同步为表格到编辑器</button>
                             </div>
                             <div class="writing-tips" v-if="careSections[activeSection].tips">
                                 <h3>写作提示</h3>
@@ -129,10 +97,6 @@
                 <div v-if="currentView === 'evaluation'" class="evaluation-view">
                     <h2>Case Report 发表价值评估</h2>
                     <p class="intro-text">本模块帮助您评估病例报告的发表价值，判断该案例是否值得发表。</p>
-                    <div class="title-pattern">
-                        <strong>什么样的案例可以投 Case？</strong><br>
-                        病例具有“独特性”：与既往病例或常规诊疗不同，如新的解决方案、新的病原体、新的合并症等。
-                    </div>
 
                     <!-- 发表的典型特征 -->
                     <div class="evaluation-section">
@@ -200,35 +164,15 @@
                             <option value="是">开放获取</option>
                             <option value="否">非开放获取</option>
                         </select>
-                        <select v-model="journalAcceptsFilter" class="filter-select">
-                            <option value="">接收病例报告（全部）</option>
-                            <option value="接收">仅接收</option>
-                            <option value="不接收">不接收</option>
-                        </select>
-                        <label style="display:flex;align-items:center;gap:0.3rem;">
-                            <input type="checkbox" v-model="journalVerifiedOnly"> 仅显示已验证链接
-                        </label>
-                        <label style="display:flex;align-items:center;gap:0.3rem;">
-                            <input type="checkbox" v-model="showAdvancedJournalFields"> 显示高级字段
-                        </label>
                     </div>
                     <div class="journals-table">
                         <table>
                             <thead>
                                 <tr>
-                                    <th>期刊名称</th>
                                     <th>主题方向</th>
                                     <th>出版社</th>
                                     <th>是否OA</th>
                                     <th>APC</th>
-                                    <th v-if="showAdvancedJournalFields">2025 IF</th>
-                                    <th v-if="showAdvancedJournalFields">5-Year IF</th>
-                                    <th v-if="showAdvancedJournalFields">JCR分区</th>
-                                    <th v-if="showAdvancedJournalFields">中科院分区</th>
-                                    <th v-if="showAdvancedJournalFields">ISSN/eISSN</th>
-                                    <th v-if="showAdvancedJournalFields">接受Case</th>
-                                    <th v-if="showAdvancedJournalFields">预警状态</th>
-                                    <th v-if="showAdvancedJournalFields">验证</th>
                                     <th>投稿网址</th>
                                     <th>模板链接</th>
                                     <th>操作</th>
@@ -236,19 +180,10 @@
                             </thead>
                             <tbody>
                                 <tr v-for="(journal, index) in filteredJournals" :key="index">
-                                    <td>{{ journal.name || '-' }}</td>
                                     <td>{{ journal.topic }}</td>
                                     <td>{{ journal.publisher }}</td>
                                     <td>{{ journal.oa }}</td>
                                     <td>{{ journal.apc }}</td>
-                                    <td v-if="showAdvancedJournalFields">{{ journal.if2025 || '-' }}</td>
-                                    <td v-if="showAdvancedJournalFields">{{ journal.if5year || '-' }}</td>
-                                    <td v-if="showAdvancedJournalFields">{{ journal.jifQuartile || '-' }}</td>
-                                    <td v-if="showAdvancedJournalFields">{{ journal.casDivision || '-' }}</td>
-                                    <td v-if="showAdvancedJournalFields">{{ (journal.issn || '-') + (journal.eissn ? (' / ' + journal.eissn) : '') }}</td>
-                                    <td v-if="showAdvancedJournalFields">{{ journal.acceptsCaseReport ? '是' : '否' }}</td>
-                                    <td v-if="showAdvancedJournalFields">{{ journal.warningStatus || '正常' }}</td>
-                                    <td v-if="showAdvancedJournalFields">{{ journal.verified ? '已验证' : '未验证' }}</td>
                                     <td><a :href="journal.submissionUrl" target="_blank">投稿链接</a></td>
                                     <td><a :href="journal.templateUrl" target="_blank">模板链接</a></td>
                                     <td>
