@@ -26,6 +26,7 @@
                     <button @click="currentView = 'guide'" :class="{ active: currentView === 'guide' }">写作指导</button>
                     <button @click="currentView = 'templates'" :class="{ active: currentView === 'templates' }">模板库</button>
                     <button @click="currentView = 'journals'" :class="{ active: currentView === 'journals' }">期刊选择</button>
+                    <button @click="currentView = 'manual'" :class="{ active: currentView === 'manual' }">使用手册</button>
                 </nav>
             </div>
             <div class="container header-hero">
@@ -515,6 +516,259 @@
                         </table>
                     </div>
                 </div>
+
+                <!-- 使用手册视图 -->
+                <div v-if="currentView === 'manual'" class="manual-view panel">
+                    <h2>CaseWriter 用户使用手册</h2>
+                    <p class="intro-text">欢迎使用 CaseWriter！本手册将帮助您快速了解软件的各项功能和使用方法。</p>
+
+                    <div class="manual-content">
+                        <!-- 一、软件介绍 -->
+                        <section class="manual-section">
+                            <h3>一、软件介绍</h3>
+                            <div class="manual-body">
+                                <p><strong>CaseWriter</strong> 是一款基于 CARE 2013 标准的病例报告撰写助手，旨在帮助临床医生和研究人员高效、规范地完成病例报告的撰写工作。</p>
+                                <div class="feature-list">
+                                    <div class="feature-item">
+                                        <strong>核心特性：</strong>
+                                        <ul>
+                                            <li>✅ 遵循 CARE 2013 国际标准，确保报告规范性</li>
+                                            <li>✅ 实时合规进度追踪，随时掌握撰写状态</li>
+                                            <li>✅ 结构化摘要助手，自动生成标准格式</li>
+                                            <li>✅ 关键词质量监控，提升检索效率</li>
+                                            <li>✅ 章节核对清单，确保内容完整性</li>
+                                            <li>✅ 实时诊断反馈，及时发现并修正问题</li>
+                                            <li>✅ 时间线智能整理，自动生成表格</li>
+                                            <li>✅ 本地数据存储，保护隐私安全</li>
+                                            <li>✅ 一键导出 Word/Markdown，方便后续编辑</li>
+                                            <li>✅ 丰富的模板库和期刊资源</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+
+                        <!-- 二、快速开始 -->
+                        <section class="manual-section">
+                            <h3>二、快速开始</h3>
+                            <div class="manual-body">
+                                <div class="step-item">
+                                    <h4>步骤 1：新建病例</h4>
+                                    <p>点击左侧边栏的 <strong>"新建病例"</strong> 按钮，清空所有内容，开始撰写新的病例报告。</p>
+                                </div>
+                                <div class="step-item">
+                                    <h4>步骤 2：选择章节</h4>
+                                    <p>在左侧导航栏中选择要撰写的章节（如"1. 标题"、"2. 关键词"等），系统会显示该章节的详细说明和写作提示。</p>
+                                </div>
+                                <div class="step-item">
+                                    <h4>步骤 3：填写内容</h4>
+                                    <p>在编辑器中填写章节内容，系统会实时保存到本地存储，无需担心数据丢失。</p>
+                                </div>
+                                <div class="step-item">
+                                    <h4>步骤 4：查看进度</h4>
+                                    <p>在撰写流程页面顶部查看 <strong>CARE 合规进度</strong>，了解哪些章节已完成，哪些需要补充。</p>
+                                </div>
+                                <div class="step-item">
+                                    <h4>步骤 5：导出文档</h4>
+                                    <p>完成撰写后，点击 <strong>"导出 Word"</strong> 或 <strong>"导出 Markdown"</strong> 按钮，生成最终文档。</p>
+                                </div>
+                            </div>
+                        </section>
+
+                        <!-- 三、功能模块详解 -->
+                        <section class="manual-section">
+                            <h3>三、功能模块详解</h3>
+                            <div class="manual-body">
+                                <div class="module-item">
+                                    <h4>3.1 撰写流程</h4>
+                                    <p>这是软件的核心模块，包含 14 个章节，完全遵循 CARE 2013 标准：</p>
+                                    <ul>
+                                        <li><strong>合规进度卡片：</strong>显示所有章节的完成状态，点击章节卡片可快速跳转</li>
+                                        <li><strong>章节元数据：</strong>显示当前章节的字数、核对进度和合规状态</li>
+                                        <li><strong>结构化摘要助手：</strong>在"3. 摘要"章节，可将摘要拆分为 5 个模块分别填写</li>
+                                        <li><strong>关键词质量监控：</strong>在"2. 关键词"章节，自动检测关键词数量和格式</li>
+                                        <li><strong>时间线编辑器：</strong>在"7. 时间线"章节，可添加事件并自动生成表格</li>
+                                        <li><strong>指南要点：</strong>每个章节都显示 CARE 指南的核心要求</li>
+                                        <li><strong>核对清单：</strong>可勾选完成的关键核对点</li>
+                                        <li><strong>实时诊断：</strong>自动检测内容问题并给出改进建议</li>
+                                    </ul>
+                                </div>
+
+                                <div class="module-item">
+                                    <h4>3.2 价值评估</h4>
+                                    <p>帮助您判断病例报告的发表价值：</p>
+                                    <ul>
+                                        <li><strong>发表的典型特征：</strong>了解哪些类型的病例值得发表</li>
+                                        <li><strong>评估维度表格：</strong>从多个维度评估病例价值</li>
+                                        <li><strong>投稿期刊分布：</strong>了解常见投稿期刊特点</li>
+                                        <li><strong>CARE 合规自检工具：</strong>提交前的最终检查清单</li>
+                                    </ul>
+                                </div>
+
+                                <div class="module-item">
+                                    <h4>3.3 写作指导</h4>
+                                    <p>提供详细的写作知识和技巧：</p>
+                                    <ul>
+                                        <li>CARE 指南核心原则</li>
+                                        <li>标题与关键词快速校验</li>
+                                        <li>结构式摘要模板</li>
+                                        <li>患者信息采集要点</li>
+                                        <li>诊疗与随访记录技巧</li>
+                                        <li>讨论写作骨架</li>
+                                        <li>伦理与隐私提醒</li>
+                                        <li>常见写作错误</li>
+                                    </ul>
+                                </div>
+
+                                <div class="module-item">
+                                    <h4>3.4 模板库</h4>
+                                    <p>提供丰富的模板和案例资源：</p>
+                                    <ul>
+                                        <li><strong>指南和清单：</strong>CARE 核对清单、指南文件</li>
+                                        <li><strong>杰毅生物合作发表案例：</strong>团队已发表的病例报告</li>
+                                        <li><strong>经典高分案例：</strong>高质量期刊的经典案例</li>
+                                        <li>支持按分类筛选和关键词搜索</li>
+                                        <li>一键下载，方便参考学习</li>
+                                    </ul>
+                                </div>
+
+                                <div class="module-item">
+                                    <h4>3.5 期刊选择</h4>
+                                    <p>帮助您选择合适的投稿期刊：</p>
+                                    <ul>
+                                        <li>包含 120+ 期刊的详细信息</li>
+                                        <li>支持按主题、OA 类型、是否接收病例报告等条件筛选</li>
+                                        <li>显示影响因子、JCR 分区、中科院分区等关键指标</li>
+                                        <li>提供投稿链接和模板下载链接</li>
+                                        <li>可显示高级字段（IF、ISSN、验证状态等）</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </section>
+
+                        <!-- 四、使用技巧 -->
+                        <section class="manual-section">
+                            <h3>四、使用技巧</h3>
+                            <div class="manual-body">
+                                <div class="tip-item">
+                                    <h4>💡 技巧 1：充分利用合规进度</h4>
+                                    <p>在撰写流程页面顶部的进度卡片中，可以快速查看所有章节的状态。绿色表示已达标，黄色表示需优化，红色表示不符合要求。点击章节卡片可快速跳转到对应章节。</p>
+                                </div>
+                                <div class="tip-item">
+                                    <h4>💡 技巧 2：使用结构化摘要助手</h4>
+                                    <p>在"3. 摘要"章节，使用结构化摘要助手可以更清晰地组织摘要内容。系统会自动将 5 个模块的内容组合成完整的摘要文本。</p>
+                                </div>
+                                <div class="tip-item">
+                                    <h4>💡 技巧 3：关注实时诊断</h4>
+                                    <p>每个章节下方都会显示实时诊断信息，包括错误（⛔）和警告（⚠️）。及时处理这些问题可以提升报告质量。</p>
+                                </div>
+                                <div class="tip-item">
+                                    <h4>💡 技巧 4：使用核对清单</h4>
+                                    <p>每个章节都提供了 CARE 核对清单，勾选完成的项目可以帮助您确保内容完整性。</p>
+                                </div>
+                                <div class="tip-item">
+                                    <h4>💡 技巧 5：时间线自动生成</h4>
+                                    <p>在"7. 时间线"章节，使用时间线编辑器添加事件后，点击"同步为表格到编辑器"按钮，可以自动生成格式化的 Markdown 表格。</p>
+                                </div>
+                                <div class="tip-item">
+                                    <h4>💡 技巧 6：定期保存</h4>
+                                    <p>虽然系统会自动保存，但建议在重要节点点击"保存到本地"按钮，确保数据安全。数据保存在浏览器本地存储中，不会上传到服务器。</p>
+                                </div>
+                                <div class="tip-item">
+                                    <h4>💡 技巧 7：参考模板库</h4>
+                                    <p>在撰写过程中，可以随时查看模板库中的案例，学习优秀的写作方法和格式。</p>
+                                </div>
+                            </div>
+                        </section>
+
+                        <!-- 五、常见问题 -->
+                        <section class="manual-section">
+                            <h3>五、常见问题</h3>
+                            <div class="manual-body">
+                                <div class="faq-item">
+                                    <h4>Q1：数据会丢失吗？</h4>
+                                    <p><strong>A：</strong>不会。系统会自动保存到浏览器本地存储（LocalStorage），即使关闭浏览器，数据也会保留。但请注意，清除浏览器缓存会删除本地存储的数据，建议定期使用"保存到本地"功能。</p>
+                                </div>
+                                <div class="faq-item">
+                                    <h4>Q2：可以同时编辑多个病例吗？</h4>
+                                    <p><strong>A：</strong>当前版本每次只能编辑一个病例。如果需要开始新病例，请点击"新建病例"按钮，系统会清空当前内容。建议在新建前先导出当前病例。</p>
+                                </div>
+                                <div class="faq-item">
+                                    <h4>Q3：导出的 Word 文档格式不对怎么办？</h4>
+                                    <p><strong>A：</strong>导出的 Word 文档是 HTML 格式，可以在 Word 中打开后进一步调整格式。也可以导出 Markdown 格式，使用 Markdown 编辑器打开。</p>
+                                </div>
+                                <div class="faq-item">
+                                    <h4>Q4：如何判断章节是否达标？</h4>
+                                    <p><strong>A：</strong>查看章节元数据中的状态标识：✅ 已达标、⚠️ 需优化、❗️ 不符合、◇ 可选。也可以查看实时诊断信息，了解具体需要改进的地方。</p>
+                                </div>
+                                <div class="faq-item">
+                                    <h4>Q5：关键词数量有要求吗？</h4>
+                                    <p><strong>A：</strong>建议 3-6 个关键词，且必须包含 "case report" 或 "病例报告"。系统会在关键词章节显示质量监控信息。</p>
+                                </div>
+                                <div class="faq-item">
+                                    <h4>Q6：摘要的字数要求是什么？</h4>
+                                    <p><strong>A：</strong>建议 100-250 词。系统会实时显示当前字数，并在超出范围时给出提示。</p>
+                                </div>
+                                <div class="faq-item">
+                                    <h4>Q7：模板库的文件无法下载？</h4>
+                                    <p><strong>A：</strong>模板库的文件存储在 GitHub Releases 上，需要网络连接。如果无法下载，请检查网络连接或稍后重试。</p>
+                                </div>
+                                <div class="faq-item">
+                                    <h4>Q8：如何恢复之前保存的数据？</h4>
+                                    <p><strong>A：</strong>点击"从本地加载"按钮即可恢复之前保存的数据。系统在页面加载时会自动尝试恢复上次的数据。</p>
+                                </div>
+                            </div>
+                        </section>
+
+                        <!-- 六、注意事项 -->
+                        <section class="manual-section">
+                            <h3>六、注意事项</h3>
+                            <div class="manual-body">
+                                <div class="notice-item">
+                                    <h4>⚠️ 数据安全</h4>
+                                    <ul>
+                                        <li>所有数据仅保存在浏览器本地，不会上传到服务器</li>
+                                        <li>清除浏览器缓存会删除本地存储的数据</li>
+                                        <li>建议定期导出文档作为备份</li>
+                                        <li>不要在公共电脑上保存敏感信息</li>
+                                    </ul>
+                                </div>
+                                <div class="notice-item">
+                                    <h4>⚠️ 隐私保护</h4>
+                                    <ul>
+                                        <li>填写患者信息时务必进行去标识化处理</li>
+                                        <li>不要在内容中包含患者姓名、身份证号等可识别信息</li>
+                                        <li>导出文档前请再次检查隐私信息</li>
+                                    </ul>
+                                </div>
+                                <div class="notice-item">
+                                    <h4>⚠️ 格式要求</h4>
+                                    <ul>
+                                        <li>导出的 Word 文档可能需要进一步调整格式</li>
+                                        <li>建议根据目标期刊要求调整文档格式</li>
+                                        <li>参考文献格式需符合目标期刊要求</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </section>
+
+                        <!-- 七、技术支持 -->
+                        <section class="manual-section">
+                            <h3>七、技术支持</h3>
+                            <div class="manual-body">
+                                <p>如果您在使用过程中遇到问题，可以：</p>
+                                <ul>
+                                    <li>查看本使用手册的相关章节</li>
+                                    <li>参考"写作指导"模块中的详细说明</li>
+                                    <li>查看模板库中的案例示例</li>
+                                    <li>联系技术支持团队</li>
+                                </ul>
+                                <p class="version-info">当前版本：CaseWriter V1.2</p>
+                                <p class="version-info">更新日期：2025-01-13</p>
+                            </div>
+                        </section>
+                    </div>
+                </div>
             </div>
         </main>
 
@@ -522,6 +776,9 @@
         <footer class="footer">
             <div class="container">
                 <p>CaseWriter V1.2 - 基于 CARE 2013 标准的病例报告撰写助手</p>
+                <p style="margin-top: 0.5rem; font-size: 0.9rem;">
+                    <a href="#" @click.prevent="currentView = 'manual'" style="color: rgba(255,255,255,0.8); text-decoration: none;">使用手册</a>
+                </p>
             </div>
         </footer>
     </div>
