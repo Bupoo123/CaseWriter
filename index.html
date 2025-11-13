@@ -85,19 +85,105 @@
                         </div>
                     </div>
                     <div class="content-area">
-                        <div v-if="activeSection !== null" class="section-editor">
-                            <h2>{{ careSections[activeSection].title }} <span v-if="careSections[activeSection].enTitle">({{ careSections[activeSection].enTitle }})</span></h2>
-                            <p class="section-description">{{ careSections[activeSection].description }}</p>
+                        <div class="care-progress-card" v-if="complianceOverview.length">
+                            <div class="progress-header">
+                                <div class="progress-info">
+                                    <h3>CARE 合规进度</h3>
+                                    <p v-if="careProgress.total">必填章节 {{ careProgress.completed }} / {{ careProgress.total }} 已达标</p>
+                                    <p v-else>请开始填写章节以生成合规进度</p>
+                                </div>
+                                <div class="progress-meter" v-if="careProgress.total">
+                                    <div class="meter-bar">
+                                        <span :style="{ width: careProgress.percent + '%' }"></span>
+                                    </div>
+                                    <span class="meter-value">{{ careProgress.percent }}%</span>
+                                </div>
+                            </div>
+                            <div class="progress-chips">
+                                <button
+                                    v-for="item in complianceOverview"
+                                    :key="item.index"
+                                    type="button"
+                                    class="progress-chip"
+                                    :class="['status-' + item.status, { optional: item.optional, active: activeSection === item.index }]"
+                                    @click="activeSection = item.index"
+                                >
+                                    <span class="chip-icon">{{ getStatusIcon(item.status, item.optional) }}</span>
+                                    <span class="chip-title">{{ item.title }}</span>
+                                    <span class="chip-progress" v-if="item.checklistProgress.total">{{ item.checklistProgress.completed }}/{{ item.checklistProgress.total }}</span>
+                                </button>
+                            </div>
+                        </div>
+                        <div v-if="currentSection" class="section-editor">
+                            <h2>{{ currentSection.title }} <span v-if="currentSection.enTitle">({{ currentSection.enTitle }})</span></h2>
+                            <p class="section-description">{{ currentSection.description }}</p>
+                            <div class="section-meta">
+                                <div class="meta-item">
+                                    <span class="meta-label">估算字数</span>
+                                    <span class="meta-value">{{ currentSectionWordCount }}</span>
+                                    <span class="meta-hint" v-if="currentSectionWordLimitLabel">{{ currentSectionWordLimitLabel }}</span>
+                                </div>
+                                <div class="meta-item" v-if="currentChecklistProgress && currentChecklistProgress.total">
+                                    <span class="meta-label">核对进度</span>
+                                    <span class="meta-value">{{ currentChecklistProgress.completed }}/{{ currentChecklistProgress.total }}</span>
+                                    <span class="meta-hint">{{ currentChecklistProgress.percent }}%</span>
+                                </div>
+                                <div
+                                    class="meta-status"
+                                    :class="'status-' + ((currentSectionEvaluation && currentSectionEvaluation.status) || 'pending')"
+                                >
+                                    <span class="status-icon">{{ getStatusIcon(currentSectionEvaluation ? currentSectionEvaluation.status : 'pending', currentSection ? currentSection.optional : false) }}</span>
+                                    <span class="status-text">{{ getStatusLabel(currentSectionEvaluation ? currentSectionEvaluation.status : 'pending', currentSection ? currentSection.optional : false) }}</span>
+                                </div>
+                            </div>
                             <div class="editor-wrapper">
-                                <textarea 
+                                <textarea
                                     v-model="careSections[activeSection].content"
                                     class="editor"
-                                    :placeholder="careSections[activeSection].placeholder"
-                                    @input="autoSave"
+                                    :placeholder="currentSection.placeholder"
+                                    @input="handleSectionInput(activeSection)"
                                 ></textarea>
                             </div>
+                            <div v-if="currentSection.checkKey === 'abstract'" class="abstract-helper">
+                                <h3>结构化摘要助手</h3>
+                                <p class="helper-description">将摘要拆分为 CARE 建议的 5 个模块，系统会自动生成组合文本并同步至编辑器。</p>
+                                <div class="abstract-grid">
+                                    <div class="abstract-field">
+                                        <label>Introduction（背景）<span class="word-hint">{{ getWordCount(abstractForm.introduction) }} 词</span></label>
+                                        <textarea v-model="abstractForm.introduction" placeholder="聚焦诊断挑战、罕见性与 CARE 声明"></textarea>
+                                    </div>
+                                    <div class="abstract-field">
+                                        <label>Case Presentation（病例介绍）<span class="word-hint">{{ getWordCount(abstractForm.casePresentation) }} 词</span></label>
+                                        <textarea v-model="abstractForm.casePresentation" placeholder="概述人口学信息、关键检查与时间顺序"></textarea>
+                                    </div>
+                                    <div class="abstract-field">
+                                        <label>Management and Outcomes（诊疗与结局）<span class="word-hint">{{ getWordCount(abstractForm.management) }} 词</span></label>
+                                        <textarea v-model="abstractForm.management" placeholder="说明干预策略、调整、不良事件与结局"></textarea>
+                                    </div>
+                                    <div class="abstract-field">
+                                        <label>Conclusion（结论）<span class="word-hint">{{ getWordCount(abstractForm.conclusion) }} 词</span></label>
+                                        <textarea v-model="abstractForm.conclusion" placeholder="用 1-2 句话总结核心收获"></textarea>
+                                    </div>
+                                    <div class="abstract-field full-width">
+                                        <label>Learning Points（教学要点）<span class="word-hint">{{ getWordCount(abstractForm.learningPoints) }} 词</span></label>
+                                        <textarea v-model="abstractForm.learningPoints" placeholder="每行填写 1 条要点，系统自动生成条目列表"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div v-if="currentSection.checkKey === 'keywords'" class="keyword-helper">
+                                <h3>关键词质量监控</h3>
+                                <div class="keyword-status">
+                                    <span>当前共 {{ currentSectionKeywords.length }} 个关键词</span>
+                                    <span v-if="!currentKeywordIncludesCaseReport" class="status-alert">需包含 "case report/病例报告"</span>
+                                    <span v-else class="status-ok">已包含病例报告关键词</span>
+                                </div>
+                                <div class="keyword-chips" v-if="currentSectionKeywords.length">
+                                    <span v-for="(keyword, kIndex) in currentSectionKeywords" :key="kIndex" class="keyword-chip">{{ keyword }}</span>
+                                </div>
+                                <p class="helper-description">建议保留 3-6 个标准化术语（优选 MeSH），覆盖疾病、病原、诊断技术与人群特征。</p>
+                            </div>
                             <!-- 时间线事件编辑器（仅在第7章显示） -->
-                            <div v-if="careSections[activeSection].title.startsWith('7.')" class="timeline-tool">
+                            <div v-if="currentSection.title.startsWith('7.')" class="timeline-tool">
                                 <h3>时间线事件编辑器</h3>
                                 <div class="timeline-form">
                                     <input type="date" v-model="timelineForm.date" class="filter-input" />
@@ -126,6 +212,43 @@
                                     </table>
                                 </div>
                                 <button v-if="timelineEvents.length" class="btn btn-success" @click="syncTimelineToContent">同步为表格到编辑器</button>
+                            </div>
+                            <div class="guideline-focus" v-if="currentSection.guidelineFocus && currentSection.guidelineFocus.length">
+                                <h3>指南要点</h3>
+                                <ul>
+                                    <li v-for="(focus, focusIndex) in currentSection.guidelineFocus" :key="focusIndex">{{ focus }}</li>
+                                </ul>
+                            </div>
+                            <div class="section-checklist" v-if="currentSection.checklist && currentSection.checklist.length">
+                                <div class="checklist-header">
+                                    <h3>CARE 核对点</h3>
+                                    <span>{{ currentChecklistProgress.completed }}/{{ currentChecklistProgress.total }}</span>
+                                </div>
+                                <ul>
+                                    <li v-for="(item, itemIndex) in currentSection.checklist" :key="itemIndex">
+                                        <label class="checklist-item">
+                                            <input type="checkbox" :checked="isChecklistItemChecked(activeSection, itemIndex)" @change="toggleChecklistItem(activeSection, itemIndex)" />
+                                            <span>{{ item }}</span>
+                                        </label>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="section-diagnostics" v-if="currentSectionEvaluation && currentSectionEvaluation.issues && currentSectionEvaluation.issues.length">
+                                <h3>实时诊断</h3>
+                                <ul>
+                                    <li v-for="(issue, issueIndex) in currentSectionEvaluation.issues" :key="issueIndex" :class="['diagnostic-item', 'level-' + issue.level]">
+                                        <span class="issue-icon">{{ issue.level === 'error' ? '⛔' : '⚠️' }}</span>
+                                        <span>{{ issue.text }}</span>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="section-diagnostics success" v-else-if="currentSectionEvaluation && currentSectionEvaluation.status === 'pass'">
+                                <span class="issue-icon">✅</span>
+                                <span>章节内容已覆盖 CARE 关键要求。</span>
+                            </div>
+                            <div class="section-diagnostics neutral" v-else-if="currentSectionEvaluation && currentSectionEvaluation.status === 'optional'">
+                                <span class="issue-icon">◇</span>
+                                <span>该章节为 CARE 可选项，可视需要补充患者声音。</span>
                             </div>
                             <div class="writing-tips" v-if="careSections[activeSection].tips">
                                 <h3>写作提示</h3>
@@ -222,6 +345,26 @@
                             <li>大多属 <strong>OA 期刊</strong>，APC 1000–3000 美元范围</li>
                             <li>说明此类 mNGS 病例目前投稿难度适中，重在病例质量与新颖性</li>
                         </ul>
+                    </div>
+                    <div class="evaluation-section self-check-section">
+                        <h3>四、CARE 合规自检工具</h3>
+                        <div class="self-check-header">
+                            <div
+                                class="self-check-progress"
+                                :style="{ '--percent': selfCheckProgress.percent || 0 }"
+                                :data-label="selfCheckProgress.percent + '%'"
+                            ></div>
+                            <p>勾选下列关键事项，确保提交前满足 CARE 指南对透明度、伦理与信息完整性的要求。</p>
+                        </div>
+                        <div class="self-checklist">
+                            <label v-for="item in careSelfCheckItems" :key="item.id" class="self-check-item">
+                                <input type="checkbox" :checked="item.checked" @change="toggleSelfCheck(item.id)" />
+                                <div class="self-check-text">
+                                    <span class="self-check-title">{{ item.text }}</span>
+                                    <span class="self-check-hint">{{ item.hint }}</span>
+                                </div>
+                            </label>
+                        </div>
                     </div>
                 </div>
 

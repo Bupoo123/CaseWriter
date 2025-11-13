@@ -1,10 +1,339 @@
 const { createApp } = Vue;
 
+const createCareSections = () => [
+    {
+        title: '1. 标题', enTitle: 'Title',
+        description: '标题应明确病例类型并突出核心现象，便于索引与检索。',
+        content: '',
+        placeholder: '示例：Case report: Metagenomic sequencing identifies ...',
+        tips: [
+            '使用主动、具体的措辞，例如 "Case report: ... identified by metagenomic sequencing"。',
+            '避免含糊缩写或空泛形容词，突出病种、病原或关键干预。',
+            '如患者属于特殊人群（儿童、孕妇、免疫抑制者），可在标题中适度点出。'
+        ],
+        guidelineFocus: [
+            '标题必须包含 "case report" 或 "病例报告" 字样，方便数据库检索。',
+            '突出病例最具教学价值的现象（症状、诊断方式、干预或结果）。',
+            '控制在 15 词左右，减少不必要的修饰与罕见缩写。'
+        ],
+        checklist: [
+            '明确病例类型或主要现象（罕见/复杂/新发等）。',
+            '包含目标疾病、病原或关键干预信息。',
+            '写明 "case report/病例报告" 并保持精炼。'
+        ],
+        checkKey: 'title',
+        wordLimit: { max: 16, type: 'words' }
+    },
+    {
+        title: '2. 关键词', enTitle: 'Keywords',
+        description: '选择 3-6 个关键词（含 "case report"）支持索引与检索。',
+        content: '',
+        placeholder: '例如：case report; metagenomic sequencing; rare infection; pediatrics',
+        tips: [
+            '使用标准化 MeSH 术语提升可检索性。',
+            '关键词之间使用分号、逗号或换行分隔。',
+            '关键词数量建议 3-6 个，覆盖疾病、病原、技术、人群等要素。'
+        ],
+        guidelineFocus: [
+            '至少包含 3 个关键词，并包含 "case report/病例报告"。',
+            '优先选用权威词表（如 MeSH）的术语。',
+            '突出疾病、病原、关键技术或患者人群等检索点。'
+        ],
+        checklist: [
+            '包含 "case report/病例报告" 作为关键词之一。',
+            '选择 3-6 个核心关键词并合理分隔。',
+            '覆盖疾病、病原、干预或人群等关键维度。'
+        ],
+        checkKey: 'keywords'
+    },
+    {
+        title: '3. 摘要', enTitle: 'Abstract',
+        description: '编写 100-250 词的结构式摘要，突出主要收获。',
+        content: '',
+        placeholder: 'Introduction（背景）：\nCase Presentation（病例介绍）：\nManagement and Outcomes（诊疗与结局）：\nConclusion（结论）：\nLearning Points（教学要点）：',
+        tips: [
+            '突出病例的罕见性、诊断思路与主要干预。',
+            '用简洁句子呈现诊断过程、治疗策略与结局。',
+            '以 1 条核心 take-away 信息收束摘要。'
+        ],
+        guidelineFocus: [
+            '摘要保持 100-250 词，适当采用结构式小节。',
+            '强调单一核心讯息与教学价值。',
+            '无需引用文献，避免冗长背景。'
+        ],
+        checklist: [
+            '说明诊断挑战或知识空白的背景。',
+            '概述患者信息、关键检查、诊疗过程与结局。',
+            '写出 1-3 条教学要点或主要收获。'
+        ],
+        checkKey: 'abstract',
+        wordLimit: { min: 100, max: 250, type: 'words' }
+    },
+    {
+        title: '4. 引言', enTitle: 'Introduction',
+        description: '提供病例背景、重要文献并声明遵循 CARE 指南。',
+        content: '',
+        placeholder: '背景：\n- 疾病/病原的现状与挑战\n- 关键文献与知识缺口\n- 本报告的价值与 CARE 指南声明\n',
+        tips: [
+            '引用关键文献定位病例的罕见性或临床难点。',
+            '用 1-3 句话说明报告遵循 CARE 指南及其目的。',
+            '在段末点出核心教学讯息。'
+        ],
+        guidelineFocus: [
+            '聚焦与病例直接相关的临床背景，不写全面综述。',
+            '明确声明报告遵循 CARE Guidelines。',
+            '阐明病例的重要性、知识缺口与核心信息。'
+        ],
+        checklist: [
+            '介绍疾病/病原的诊疗现状与挑战。',
+            '引用 2-3 篇关键文献支撑背景。',
+            '声明 "本病例报告遵循 CARE 指南"。'
+        ],
+        checkKey: 'introduction',
+        wordLimit: { min: 120, type: 'words' }
+    },
+    {
+        title: '5. 患者信息', enTitle: 'Patient information',
+        description: '描述患者人口学特征、主诉、病史与相关背景信息。',
+        content: '',
+        placeholder: '人口学信息（年龄/性别/种族等）：\n主诉（患者原话）：\n现病史与症状时间线：\n既往史/共病/过敏史：\n家族史与社会史：\n心理及生活方式因素：',
+        tips: [
+            '用匿名化表达患者身份，遵循 HIPAA 去标识化要求。',
+            '按时间顺序呈现症状演变与既往干预。',
+            '必要时记录患者的心理社会因素与健康行为。'
+        ],
+        guidelineFocus: [
+            '提供年龄、性别/性别认同、族群等人口学信息。',
+            '主诉可引用患者原话并呈现症状时间线。',
+            '记录既往病史、合并症、家族史及社会心理因素。'
+        ],
+        checklist: [
+            '人口学信息齐全且已去标识化。',
+            '详细记录主诉与现病史的时间顺序。',
+            '交代既往史、共病、过敏、生活方式或心理因素。'
+        ],
+        checkKey: 'patient-info'
+    },
+    {
+        title: '6. 临床发现', enTitle: 'Clinical findings',
+        description: '按系统总结体格检查、生命体征与关键临床发现。',
+        content: '',
+        placeholder: '首诊体格检查：\n生命体征：\n重要阳性/阴性发现：\n影像或其他临床观察：',
+        tips: [
+            '按系统（神经、呼吸、心血管等）或时间呈现。',
+            '说明评估方法，如量表、影像或床旁检查。',
+            '必要时以表格归纳大量体征数据。'
+        ],
+        guidelineFocus: [
+            '报告初诊和随访中的关键体征与临床观察。',
+            '同时记录重要的阴性发现以展示诊断思路。',
+            '适当引用影像、照片或量表（去标识化）。'
+        ],
+        checklist: [
+            '记录首诊生命体征与异常体征。',
+            '说明评估方法或量表来源。',
+            '列出重要阴性发现或排除结果。'
+        ],
+        checkKey: 'clinical-findings'
+    },
+    {
+        title: '7. 时间线', enTitle: 'Timeline',
+        description: '以表格或图示形式呈现诊疗关键事件的时间顺序。',
+        content: '',
+        placeholder: '| 日期 | 事件 | 备注 |\n|---|---|---|\n| 2024-01-01 | 急诊就诊，出现高热 | -- |\n| 2024-01-03 | mNGS 送检，48 小时出报告 | -- |\n| 2024-01-05 | 启动靶向抗感染治疗 | 记录剂量 |\n',
+        tips: [
+            '时间线应覆盖病史、检查、诊断、治疗与随访。',
+            '使用表格或图示帮助读者快速浏览关键节点。',
+            '保持单位一致（日期/周/月），必要时注明时长。'
+        ],
+        guidelineFocus: [
+            '呈现病例从首诊到随访的完整轨迹。',
+            '包含诊断检查、干预措施与结局节点。',
+            '注明重要决策点与信息来源。'
+        ],
+        checklist: [
+            '列出病程关键时间节点与事件。',
+            '记录检查、诊断、治疗和随访的顺序。',
+            '确保时间线与正文描述保持一致。'
+        ],
+        checkKey: 'timeline'
+    },
+    {
+        title: '8. 诊断评估', enTitle: 'Diagnostic assessment',
+        description: '描述诊断策略、关键检查、鉴别诊断与证据。',
+        content: '',
+        placeholder: '关键检查与结果（含日期与参考范围）：\n鉴别诊断列表及排除依据：\n诊断挑战或延误因素：\n诊断结论与证据来源：',
+        tips: [
+            '明确列出实验室、影像、病理、分子检测等核心结果。',
+            '说明诊断难点、误导因素及解决方式。',
+            '引用相关指南或文献支撑诊断选择。'
+        ],
+        guidelineFocus: [
+            '呈现诊断方法、结果数值及参考范围。',
+            '解释鉴别诊断过程与最终结论的证据。',
+            '描述诊断中的限制、挑战或不确定性。'
+        ],
+        checklist: [
+            '列出关键检查及其参考值与日期。',
+            '说明鉴别诊断与排除理由。',
+            '讨论诊断挑战、局限及文献支持。'
+        ],
+        checkKey: 'diagnostic'
+    },
+    {
+        title: '9. 治疗干预', enTitle: 'Therapeutic interventions',
+        description: '按时间说明干预措施、剂量、执行过程及调整。',
+        content: '',
+        placeholder: '主要治疗（药物/手术/支持治疗）：\n剂量、频次、给药途径、执行者：\n遵循的指南或决策理由：\n治疗调整、不良事件与管理：',
+        tips: [
+            '采用 TIDieR 框架描述干预（What, Who, How, Where, When, How much）。',
+            '记录治疗过程中任何调整及其原因。',
+            '注明药物生产商或器械型号（如与结果相关）。'
+        ],
+        guidelineFocus: [
+            '详细记录干预方案、剂量、频次与持续时间。',
+            '说明干预的依据、执行者与场景。',
+            '报告治疗依从性、不良事件及处理方式。'
+        ],
+        checklist: [
+            '描述干预的全部组成要素与实施细节。',
+            '交代治疗依据及调整原因。',
+            '记录依从性、不良反应及应对措施。'
+        ],
+        checkKey: 'therapeutic'
+    },
+    {
+        title: '10. 随访和结果', enTitle: 'Follow-up and outcomes',
+        description: '记录随访时间点、临床与患者感知的结局及不良事件。',
+        content: '',
+        placeholder: '随访时间点：\n临床结局（指标/影像/实验室）：\n患者报告的结局或生活质量变化：\n依从性与其他干预：\n不良事件（若无亦需说明）：',
+        tips: [
+            '区分临床医生评估与患者自我感受。',
+            '记录每个随访节点的客观指标与症状变化。',
+            '说明未发生不良事件或依从性情况。'
+        ],
+        guidelineFocus: [
+            '追踪治疗期间及之后的纵向结果。',
+            '报告患者依从性、额外护理与不良事件。',
+            '如无不良事件或复发，应明确写明。'
+        ],
+        checklist: [
+            '列出每个随访时间点与评估结果。',
+            '描述临床与患者报告结局及生活质量。',
+            '记录不良事件、依从性或额外干预。'
+        ],
+        checkKey: 'follow-up'
+    },
+    {
+        title: '11. 讨论', enTitle: 'Discussion',
+        description: '分析病例启示、文献比较、机制推测与局限性。',
+        content: '',
+        placeholder: '核心发现与意义：\n与既往文献的异同：\n可能机制或解释：\n局限性（单病例、偏倚、资料缺口）：\n临床实践或研究建议：',
+        tips: [
+            '将病例发现置于文献背景中比较分析。',
+            '讨论潜在机制、经验与局限性。',
+            '聚焦 1-2 条关键教学信息，避免夸大推广。'
+        ],
+        guidelineFocus: [
+            '强调病例的独特贡献与关键教训。',
+            '与最新文献进行对比并引用来源。',
+            '坦诚说明局限性和不可推广性。'
+        ],
+        checklist: [
+            '总结病例带来的主要临床经验。',
+            '引用并比较相关文献或病例系列。',
+            '陈述局限性与未来研究或实践建议。'
+        ],
+        checkKey: 'discussion',
+        wordLimit: { min: 200, type: 'words' }
+    },
+    {
+        title: '12. 患者观点', enTitle: 'Patient perspective',
+        description: '（可选）记录患者或家属对诊疗经历的真实感受。',
+        content: '',
+        placeholder: '患者/家属对疾病的看法：\n治疗过程中的体验与情绪：\n对医疗团队的反馈与建议：',
+        tips: [
+            '确保患者或代理人同意分享内容。',
+            '突出对新技术或干预的真实反馈。',
+            '可引用第一人称叙述增强感染力。'
+        ],
+        guidelineFocus: [
+            '让患者声音补充临床视角，尤其在新疗法中。',
+            '说明关键影响（生活质量、心理变化等）。',
+            '如无法获取，应记录尝试情况。'
+        ],
+        checklist: [
+            '确认已获得患者授权引用其观点。',
+            '记录对诊疗过程或结果的主观感受。',
+            '适度反映对未来护理的期待或建议。'
+        ],
+        checkKey: 'patient-perspective',
+        optional: true
+    },
+    {
+        title: '13. 知情同意', enTitle: 'Informed consent',
+        description: '说明知情同意与伦理审批情况，确保合规。',
+        content: '',
+        placeholder: '已获得患者/监护人的书面知情同意。涉及影像或可识别信息的部分均获额外授权。如患者无决策能力，记录代理同意及沟通过程。',
+        tips: [
+            '说明知情同意形式（书面/口头）及日期。',
+            '涉及照片或罕见疾病时，说明额外授权。',
+            '若无法获取同意，应说明尝试过程和伦理意见。'
+        ],
+        guidelineFocus: [
+            '明确写出已获得签署的知情同意。',
+            '说明伦理审批或机构批准情况（如适用）。',
+            '提及保护隐私与去标识化措施。'
+        ],
+        checklist: [
+            '写明已取得患者或监护人书面知情同意。',
+            '说明伦理委员会审批或豁免情况（若适用）。',
+            '强调隐私保护与去标识化处理。'
+        ],
+        checkKey: 'consent'
+    },
+    {
+        title: '14. 参考文献（可选）', enTitle: 'References (optional)',
+        description: '列出引用文献，遵循目标期刊格式并保持对应关系。',
+        content: '',
+        placeholder: '[1] 作者. 标题. 期刊. 年份;卷(期):页码. DOI\n[2] ...',
+        tips: [
+            '使用参考文献管理工具保持格式一致。',
+            '确保文内引号与参考列表一一对应。',
+            '优先引用最新、最相关的研究或指南。'
+        ],
+        guidelineFocus: [
+            '参考文献数量通常 ≥15 条，并与正文引用匹配。',
+            '格式需符合目标期刊要求（Vancouver/AMA/APA 等）。',
+            '可在提交前使用文献管理工具核对。'
+        ],
+        checklist: [
+            '确保文内引用与参考列表完全对应。',
+            '统一参考文献格式与标点。',
+            '优先引用近五年的高质量文献。'
+        ],
+        checkKey: 'references',
+        optional: true
+    }
+];
+
+const DEFAULT_SELF_CHECK_ITEMS = [
+    { id: 'scope', text: '病例符合 CARE 指南建议报告的情境（罕见、诊疗反转或具有教学价值）。', hint: '确认病例具有独特性或填补知识空白。' },
+    { id: 'data', text: '关键诊疗节点（标题至随访）均已完成内容填写并配有时间线。', hint: '核对 13 个条目是否均有草稿。' },
+    { id: 'ethics', text: '已获得患者/代理人书面知情同意，并明确记录伦理审批情况。', hint: '尤其注意影像、罕见疾病或敏感信息。' },
+    { id: 'privacy', text: '文稿、图表和补充材料均完成去标识化处理。', hint: '检查姓名、住址、影像 DICOM 标签等信息。' },
+    { id: 'literature', text: '引言与讨论引用了最新且相关的文献并保持格式一致。', hint: '至少回顾近 5 年的主要研究或指南。' },
+    { id: 'takeaway', text: '总结出清晰的教学要点和对临床实践的启示。', hint: '将 1-3 条经验放入摘要或讨论结尾。' }
+];
+
+const createSelfCheckItems = () =>
+    DEFAULT_SELF_CHECK_ITEMS.map(item => ({ ...item, checked: false }));
+
 createApp({
     data() {
         return {
             currentView: 'writing',
-            activeSection: null,
+            activeSection: 0,
             journalFilter: '',
             journalTopicFilter: '',
             journalOAFilter: '',
@@ -22,249 +351,88 @@ createApp({
                 version: '1.0',
                 downloadBaseUrl: 'https://github.com/Bupoo123/CaseWriter/releases/download/v1.0'
             },
-            careSections: [
-                {
-                    title: '1. 标题', enTitle: 'Title',
-                    description: '标题应简洁明了，能准确反映病例的核心内容，通常包含病例类型和主要发现。',
-                    content: '',
-                    placeholder: '例如：一例罕见病原体感染的病例报告',
-                    tips: [
-                        '标题应简洁，通常不超过15个词',
-                        '避免使用缩写词（除非是广泛认知的）',
-                        '可以包含病例类型（如：罕见、复杂、新发等）',
-                        '标题结构模式：[病例类型 / 病原名 / 部位] + 动词短语（diagnosed / identified / assisted by） + mNGS',
-                        '常见句型示例：',
-                        '  • "A case of X diagnosed by mNGS" - 例如：A case of Fitz-Hugh–Curtis syndrome diagnosed by mNGS',
-                        '  • "mNGS assists the diagnosis of X infection" - 例如：mNGS assists diagnosis of central nervous system infection',
-                        '  • "Metagenomic next-generation sequencing identifies Y" - 例如：mNGS identifies rare bacterial infection',
-                        '高频关键词：case report, metagenomic next-generation sequencing, diagnosed by, identified using, infection, encephalitis, meningitis, empyema, rare pathogen'
-                    ]
-                },
-                {
-                    title: '2. 关键词', enTitle: 'Keywords',
-                    description: '提供3-10个关键词，便于检索和索引。',
-                    content: '',
-                    placeholder: '例如：病例报告、罕见感染、mNGS、病原检测',
-                    tips: [
-                        '使用MeSH术语（如果可能）',
-                        '关键词应涵盖病例的主要方面',
-                        '避免过于宽泛的术语'
-                    ]
-                },
-                {
-                    title: '3. 摘要', enTitle: 'Abstract',
-                    description: '提供结构式摘要，包括背景、病例介绍、结论和教学要点。',
-                    content: '',
-                    placeholder: '背景：\n病例介绍：\n结论：\n教学要点：',
-                    tips: [
-                        '摘要应独立成文，无需阅读全文即可理解',
-                        '通常150-250词',
-                        '突出病例的独特性和教学价值'
-                    ]
-                },
-                {
-                    title: '4. 引言', enTitle: 'Introduction',
-                    description: '介绍背景信息，说明为什么这个病例值得报告。',
-                    content: '',
-                    placeholder: '介绍相关疾病的背景、流行病学、诊断挑战等...',
-                    tips: [
-                        '简要介绍相关疾病的背景知识',
-                        '说明病例的独特性和报告价值',
-                        '引用相关文献支持',
-                        '通常1-2段即可'
-                    ]
-                },
-                {
-                    title: '5. 患者信息', enTitle: 'Patient information',
-                    description: '描述患者的基本信息、主诉、现病史、既往史等。',
-                    content: '',
-                    placeholder: '患者基本信息：\n主诉：\n现病史：\n既往史：\n家族史：\n社会史：',
-                    tips: [
-                        '保护患者隐私，避免可识别信息',
-                        '按时间顺序描述病史',
-                        '包括相关的生活方式、职业、旅行史等',
-                        '使用匿名化处理（如：患者，男性，45岁）'
-                    ]
-                },
-                {
-                    title: '6. 临床发现', enTitle: 'Clinical findings',
-                    description: '详细描述体格检查、生命体征、临床表现等。',
-                    content: '',
-                    placeholder: '体格检查：\n生命体征：\n临床表现：\n病程进展：',
-                    tips: [
-                        '系统性地描述临床发现',
-                        '使用客观、准确的医学术语',
-                        '记录时间节点和变化',
-                        '包括阳性发现和重要的阴性发现'
-                    ]
-                },
-                {
-                    title: '7. 时间线', enTitle: 'Timeline',
-                    description: '按时间顺序列出重要事件、检查、诊断和治疗。',
-                    content: '',
-                    placeholder: '时间线：\n- 日期1：事件描述\n- 日期2：事件描述\n...',
-                    tips: [
-                        '使用表格或列表形式',
-                        '清晰标注日期和时间',
-                        '包括所有关键事件'
-                    ]
-                },
-                {
-                    title: '8. 诊断评估', enTitle: 'Diagnostic assessment',
-                    description: '描述诊断过程、实验室检查、影像学检查、病理检查等。',
-                    content: '',
-                    placeholder: '实验室检查：\n影像学检查：\n病理检查：\n其他检查：\n诊断依据：',
-                    tips: [
-                        '详细描述所有相关检查',
-                        '包括检查方法、结果和参考值',
-                        '说明检查的临床意义',
-                        '可以附上关键检查结果'
-                    ]
-                },
-                {
-                    title: '9. 治疗干预', enTitle: 'Therapeutic interventions',
-                    description: '描述治疗方案、药物剂量、治疗过程、不良反应等。',
-                    content: '',
-                    placeholder: '治疗方案：\n药物剂量：\n治疗过程：\n不良反应：\n治疗调整：',
-                    tips: [
-                        '详细描述治疗方案',
-                        '包括药物名称、剂量、给药途径、频率',
-                        '记录治疗反应和调整',
-                        '说明治疗依据'
-                    ]
-                },
-                {
-                    title: '10. 随访和结果', enTitle: 'Follow-up and outcomes',
-                    description: '描述患者随访情况、治疗效果、预后等。',
-                    content: '',
-                    placeholder: '随访时间：\n随访结果：\n治疗效果：\n预后评估：',
-                    tips: [
-                        '明确随访时间点',
-                        '描述患者的恢复情况',
-                        '评估治疗效果',
-                        '说明长期预后'
-                    ]
-                },
-                {
-                    title: '11. 讨论', enTitle: 'Discussion',
-                    description: '分析病例特点、诊断难点、治疗经验、文献对比等。',
-                    content: '',
-                    placeholder: '病例特点分析：\n诊断难点：\n治疗经验：\n文献对比：\n临床意义：',
-                    tips: [
-                        '深入分析病例的独特之处',
-                        '讨论诊断和治疗的挑战',
-                        '与相关文献进行对比',
-                        '总结临床经验和教训',
-                        '通常是最重要的部分'
-                    ]
-                },
-                {
-                    title: '12. 患者观点', enTitle: 'Patient perspective',
-                    description: '（可选）从患者角度描述疾病经历、感受等。',
-                    content: '',
-                    placeholder: '患者对疾病的感受：\n治疗过程中的体验：\n对医疗团队的反馈：',
-                    tips: [
-                        '这部分是可选的',
-                        '如果包含，应真实反映患者观点',
-                        '可以增强病例报告的人文关怀'
-                    ]
-                },
-                {
-                    title: '13. 知情同意', enTitle: 'Informed consent',
-                    description: '说明已获得患者知情同意，符合伦理要求。',
-                    content: '',
-                    placeholder: '已获得患者/家属的书面知情同意。本研究符合伦理要求。',
-                    tips: [
-                        '必须获得患者知情同意',
-                        '说明伦理审查情况（如适用）',
-                        '保护患者隐私'
-                    ]
-                },
-                {
-                    title: '14. 参考文献（可选）', enTitle: 'References (optional)',
-                    description: '列出文中引用的参考文献，建议不少于15条，遵循拟投稿期刊格式要求。',
-                    content: '',
-                    placeholder: '示例：\n[1] Author A, Author B. Title. Journal. Year;Volume(Issue):Pages. DOI',
-                    tips: [
-                        '建议使用参考文献管理工具（Zotero/EndNote/Mendeley等）',
-                        '按期刊要求统一格式（Vancouver/AMA/APA等）',
-                        '文内引用与参考文献列表保持一致'
-                    ]
-                }
-            ],
+            careSections: createCareSections(),
+            checklistState: {},
+            careSelfCheckItems: createSelfCheckItems(),
             // 时间线编辑器数据
             timelineEvents: [],
             timelineForm: { date: '', event: '', note: '' },
+            abstractForm: {
+                introduction: '',
+                casePresentation: '',
+                management: '',
+                conclusion: '',
+                learningPoints: ''
+            },
+            suspendAbstractWatcher: false,
             writingGuides: [
                 {
                     title: 'CARE 指南核心原则',
                     type: 'text',
                     content: [
-                        'CARE（Case Report）指南是国际公认的病例报告撰写标准，旨在提高病例报告的质量和一致性。',
-                        '遵循CARE指南可以确保病例报告包含所有必要信息，便于读者理解和学习。',
-                        '每个部分都有其特定的目的和要求，应认真填写，避免遗漏重要信息。'
+                        'CARE（CAse REport）指南强调透明度、完整性与患者参与，确保病例信息可重复和可验证。',
+                        '报告需覆盖标题至知情同意的 13 个条目，并建议在引言中声明遵循 CARE。',
+                        '保持时间顺序、去标识化和充分的临床背景是提升病例质量的关键。'
                     ]
                 },
                 {
-                    title: '图表绘制指导（Figures & Tables）',
+                    title: '标题与关键词快速校验',
                     type: 'tips',
                     content: [
-                        '可考虑插图类型：影像学（X-ray/CT/MRI）、mNGS结果（reads/覆盖度/物种图）、细胞学图、病理学切片、培养/药敏结果截图',
-                        '病程时间线：展示关键时间点（起病、入院、检验、mNGS出报告、治疗调整、随访）',
-                        '三线表：多患者临床信息表/文献汇总表（表头、表体、表底三条线，统一字体与对齐）',
-                        '注意事项：去标识化保护隐私；图片分辨率≥300 dpi；统一配色与字体；遵循期刊图片尺寸与格式（常见：TIFF/JPEG/PDF）',
-                        '模板与示例：后续将提供空白时间线模板与经典病例病程图示例'
+                        '标题写明病例类型（case report）并突出最关键的症状、诊断或干预。',
+                        '关键词选择 3-6 个标准术语（优选 MeSH），并包含 "case report/病例报告"。',
+                        '覆盖疾病、病原、诊断技术、人群特征等检索点，方便数据库索引。'
                     ]
                 },
                 {
-                    title: '参考文献与引用管理',
+                    title: '结构式摘要模板',
+                    type: 'example',
+                    content: `Introduction（背景）：简述疾病背景、诊断挑战并指出本稿遵循 CARE 指南。\n\nCase Presentation（病例介绍）：说明患者人口学信息、主诉、关键检查与诊疗经过。\n\nManagement and Outcomes（诊疗与结局）：突出决策过程、干预细节、随访及不良事件。\n\nConclusion（结论）：用 1-2 句话强调核心教学要点和实践启示。\n\nLearning Points（教学要点）：列出 2-3 条最重要的临床经验。`
+                },
+                {
+                    title: '患者信息采集要点',
                     type: 'tips',
                     content: [
-                        '引言与讨论部分通常建议≥15条参考文献，确保时效性与相关性',
-                        '遵循拟投稿期刊格式（Vancouver/AMA/APA等），统一标点与缩写',
-                        '推荐工具：Zotero、EndNote、Mendeley、BibTeX；建议配合Word/LaTeX插件实现快速插引'
+                        '记录年龄、性别/性别认同、族群等人口学信息并进行去标识化处理。',
+                        '逐条写清主诉、现病史、既往史、合并症、家族史与社会心理因素。',
+                        '适度引用患者原话表现主诉或就诊动机，体现 CARE 强调的患者声音。'
+                    ]
+                },
+                {
+                    title: '诊疗与随访记录技巧',
+                    type: 'tips',
+                    content: [
+                        '时间线同步正文，覆盖就诊、检查、诊断、治疗、随访与结局。',
+                        '诊断部分列出关键检查的时间、结果、参考范围与鉴别诊断思路。',
+                        '治疗干预参照 TIDieR 框架说明剂量、频次、执行者、不良事件和依从性。'
+                    ]
+                },
+                {
+                    title: '讨论写作骨架',
+                    type: 'tips',
+                    content: [
+                        '第一段回顾病例亮点与核心教学信息。',
+                        '中段与文献对照，阐释可能机制、诊疗策略与创新点。',
+                        '结尾强调局限性（单例、资料缺口等）与对临床实践/研究的启示。'
+                    ]
+                },
+                {
+                    title: '伦理与隐私提醒',
+                    type: 'tips',
+                    content: [
+                        '任何可识别信息（姓名、住址、影像标签）均需去标识化或取得额外授权。',
+                        '在文稿中明确知情同意、伦理审批或豁免情况以及存档方式。',
+                        '敏感影像需单独说明授权来源，必要时使用遮挡或模糊处理。'
                     ]
                 },
                 {
                     title: '常见写作错误',
                     type: 'tips',
                     content: [
-                        '标题过于宽泛或不够具体',
-                        '摘要缺少关键信息或结构不清晰',
-                        '患者信息不够详细或包含可识别信息',
-                        '临床发现描述不系统、不客观',
-                        '时间线不清晰或遗漏关键事件',
-                        '诊断评估缺少必要的检查结果',
-                        '治疗干预描述不够详细',
-                        '随访信息不完整',
-                        '讨论部分过于简单，缺少深度分析',
-                        '缺少知情同意说明'
+                        '标题未写明 case report 或缺少核心现象。',
+                        '摘要未体现结构化要素或未突出 take-away lesson。',
+                        '正文缺少患者人口学信息、时间线、诊疗细节或知情同意描述。'
                     ]
-                },
-                {
-                    title: '写作技巧',
-                    type: 'tips',
-                    content: [
-                        '使用清晰、简洁的学术语言',
-                        '避免使用缩写词（除非首次出现时已定义）',
-                        '使用客观描述，避免主观判断',
-                        '按时间顺序组织内容',
-                        '引用相关文献支持观点',
-                        '突出病例的独特性和教学价值',
-                        '保持各部分之间的逻辑连贯性',
-                        '仔细校对，确保无语法和拼写错误'
-                    ]
-                },
-                {
-                    title: '摘要写作示例',
-                    type: 'example',
-                    content: `背景：罕见病原体感染在临床诊断中具有挑战性，特别是当常规检测方法无法识别时。
-
-病例介绍：本文报告一例45岁男性患者，因发热、咳嗽就诊。常规培养阴性，通过宏基因组测序（mNGS）检测到罕见病原体X。患者接受针对性治疗后痊愈。
-
-结论：mNGS技术在罕见病原体检测中具有重要价值，可作为常规检测方法的补充。
-
-教学要点：临床医生应认识到罕见病原体感染的可能性，在常规检测阴性时考虑使用mNGS等新技术。`
                 }
             ],
             journals: [
@@ -522,6 +690,73 @@ createApp({
         };
     },
     computed: {
+        abstractSectionIndex() {
+            return this.careSections.findIndex(section => section.checkKey === 'abstract');
+        },
+        currentSection() {
+            if (this.activeSection === null) return null;
+            return this.careSections[this.activeSection] || null;
+        },
+        currentSectionEvaluation() {
+            if (this.activeSection === null) return null;
+            return this.evaluateSectionContent(this.careSections[this.activeSection], this.activeSection);
+        },
+        currentSectionWordCount() {
+            return this.currentSection ? this.getWordCount(this.currentSection.content) : 0;
+        },
+        currentSectionWordLimitLabel() {
+            const section = this.currentSection;
+            if (!section || !section.wordLimit) return '';
+            const { min, max, type } = section.wordLimit;
+            const unit = type === 'characters' ? '字' : '词';
+            if (min && max) {
+                return `建议 ${min}-${max}${unit}`;
+            }
+            if (min) {
+                return `建议不少于 ${min}${unit}`;
+            }
+            if (max) {
+                return `建议不超过 ${max}${unit}`;
+            }
+            return '';
+        },
+        currentChecklistProgress() {
+            if (this.activeSection === null) return null;
+            return this.getChecklistProgress(this.activeSection);
+        },
+        currentSectionKeywords() {
+            if (!this.currentSection || this.currentSection.checkKey !== 'keywords') return [];
+            return this.extractKeywords(this.currentSection.content);
+        },
+        currentKeywordIncludesCaseReport() {
+            return this.currentSectionKeywords.some(keyword => /case report|病例报告/i.test(keyword));
+        },
+        complianceOverview() {
+            return this.careSections.map((section, index) => {
+                const evaluation = this.evaluateSectionContent(section, index);
+                return {
+                    index,
+                    title: section.title,
+                    status: evaluation.status,
+                    optional: !!section.optional,
+                    issues: evaluation.issues,
+                    checklistProgress: this.getChecklistProgress(index)
+                };
+            });
+        },
+        careProgress() {
+            const mandatory = this.complianceOverview.filter(item => !item.optional);
+            const completed = mandatory.filter(item => item.status === 'pass').length;
+            const total = mandatory.length;
+            const percent = total ? Math.round((completed / total) * 100) : 0;
+            return { completed, total, percent };
+        },
+        selfCheckProgress() {
+            const total = this.careSelfCheckItems.length;
+            const completed = this.careSelfCheckItems.filter(item => item.checked).length;
+            const percent = total ? Math.round((completed / total) * 100) : 0;
+            return { total, completed, percent };
+        },
         journalTopics() {
             return [...new Set(this.journals.map(j => j.topic))];
         },
@@ -614,12 +849,36 @@ createApp({
             if (newValue) {
                 this.expandAllTemplateCategories();
             }
+        },
+        abstractForm: {
+            handler() {
+                if (this.suspendAbstractWatcher) return;
+                this.updateAbstractFromForm();
+            },
+            deep: true
+        },
+        activeSection(newIndex) {
+            const section = this.careSections[newIndex];
+            if (section && section.checkKey === 'abstract') {
+                this.syncAbstractFormFromContent(section.content);
+            }
         }
     },
+    created() {
+        this.resetChecklistState();
+    },
     mounted() {
-        // 默认新建空病例（不自动加载旧数据）
-        this.newCase();
-        // 加载模板库数据
+        const loaded = this.loadFromLocalSilent();
+        if (!loaded) {
+            this.newCase();
+        } else {
+            this.ensureChecklistStateIntegrity();
+            if (this.activeSection === null || this.activeSection >= this.careSections.length) {
+                this.activeSection = 0;
+            }
+        }
+        const abstractSection = this.careSections[this.abstractSectionIndex];
+        this.syncAbstractFormFromContent(abstractSection ? abstractSection.content : '');
         this.loadTemplates();
     },
     methods: {
@@ -666,10 +925,438 @@ createApp({
             const current = this.isTemplateCategoryExpanded(category);
             this.templateCategoryStates[category] = !current;
         },
+        getDefaultAbstractForm() {
+            return {
+                introduction: '',
+                casePresentation: '',
+                management: '',
+                conclusion: '',
+                learningPoints: ''
+            };
+        },
+        syncAbstractFormFromContent(content) {
+            const defaults = this.getDefaultAbstractForm();
+            if (this.abstractSectionIndex === -1) {
+                this.suspendAbstractWatcher = true;
+                this.abstractForm = { ...defaults };
+                this.$nextTick(() => {
+                    this.suspendAbstractWatcher = false;
+                });
+                return;
+            }
+
+            const normalized = (content || '').trim();
+            const sections = { ...defaults };
+
+            if (normalized) {
+                const markerDefinitions = [
+                    { key: 'introduction', labels: ['Introduction', '背景'] },
+                    { key: 'casePresentation', labels: ['Case Presentation', '病例介绍', 'Case description'] },
+                    { key: 'management', labels: ['Management and Outcomes', 'Management', '诊疗与结局', '诊疗', 'Outcomes'] },
+                    { key: 'conclusion', labels: ['Conclusion', '结论'] },
+                    { key: 'learningPoints', labels: ['Learning Points', '教学要点', 'Learning point', 'Lessons'] }
+                ];
+
+                const markers = [];
+
+                markerDefinitions.forEach(def => {
+                    for (const label of def.labels) {
+                        const regex = new RegExp(`${label}(?:（[^）]*）)?\s*[：:]`, 'i');
+                        const match = regex.exec(normalized);
+                        if (match) {
+                            markers.push({
+                                key: def.key,
+                                index: match.index,
+                                length: match[0].length
+                            });
+                            break;
+                        }
+                    }
+                });
+
+                markers.sort((a, b) => a.index - b.index);
+
+                markers.forEach((marker, idx) => {
+                    const start = marker.index + marker.length;
+                    const end = idx < markers.length - 1 ? markers[idx + 1].index : normalized.length;
+                    const raw = normalized.slice(start, end).trim();
+                    if (!raw) return;
+                    if (marker.key === 'learningPoints') {
+                        const cleaned = raw
+                            .split(/\n+/)
+                            .map(line => line.replace(/^[-•\u2022\u25cf\u25aa\s]+/, '').trim())
+                            .filter(Boolean)
+                            .join('\n');
+                        sections[marker.key] = cleaned;
+                    } else {
+                        sections[marker.key] = raw.replace(/\r?\n/g, '\n').trim();
+                    }
+                });
+            }
+
+            this.suspendAbstractWatcher = true;
+            this.abstractForm = { ...sections };
+            this.$nextTick(() => {
+                this.suspendAbstractWatcher = false;
+            });
+        },
+        updateAbstractFromForm() {
+            const idx = this.abstractSectionIndex;
+            if (idx === -1) return;
+
+            const labels = {
+                introduction: 'Introduction（背景）',
+                casePresentation: 'Case Presentation（病例介绍）',
+                management: 'Management and Outcomes（诊疗与结局）',
+                conclusion: 'Conclusion（结论）',
+                learningPoints: 'Learning Points（教学要点）'
+            };
+
+            const segments = [];
+            const pushSegment = (key, formatter) => {
+                const value = (this.abstractForm[key] || '').trim();
+                if (!value) return;
+                const segmentText = formatter ? formatter(value) : value;
+                segments.push(`${labels[key]}：${segmentText}`);
+            };
+
+            pushSegment('introduction');
+            pushSegment('casePresentation');
+            pushSegment('management');
+            pushSegment('conclusion');
+            pushSegment('learningPoints', value => {
+                const lines = value
+                    .split(/\n+/)
+                    .map(line => line.trim())
+                    .filter(Boolean)
+                    .map(line => (line.startsWith('-') ? line : `- ${line}`));
+                return lines.length ? `\n${lines.join('\n')}` : '';
+            });
+
+            const combined = segments.join('\n\n').trim();
+            const current = (this.careSections[idx].content || '').trim();
+            if (combined === current) return;
+            this.careSections[idx].content = combined;
+            this.autoSave();
+        },
+        handleSectionInput(sectionIndex) {
+            this.autoSave();
+            const section = this.careSections[sectionIndex];
+            if (section && section.checkKey === 'abstract') {
+                this.syncAbstractFormFromContent(section.content);
+            }
+        },
+        resetChecklistState() {
+            const state = {};
+            this.careSections.forEach((section, index) => {
+                if (Array.isArray(section.checklist) && section.checklist.length) {
+                    state[index] = section.checklist.map(() => false);
+                }
+            });
+            this.checklistState = state;
+        },
+        ensureChecklistStateIntegrity() {
+            const state = { ...this.checklistState };
+            this.careSections.forEach((section, index) => {
+                if (Array.isArray(section.checklist) && section.checklist.length) {
+                    const existing = Array.isArray(state[index]) ? state[index] : [];
+                    state[index] = section.checklist.map((_, i) => Boolean(existing[i]));
+                }
+            });
+            this.checklistState = state;
+        },
+        getChecklistProgress(sectionIndex) {
+            const section = this.careSections[sectionIndex];
+            if (!section || !Array.isArray(section.checklist) || !section.checklist.length) {
+                return { total: 0, completed: 0, percent: 0 };
+            }
+            const state = this.checklistState[sectionIndex] || [];
+            const completed = state.filter(Boolean).length;
+            const total = section.checklist.length;
+            return {
+                total,
+                completed,
+                percent: total ? Math.round((completed / total) * 100) : 0
+            };
+        },
+        isChecklistItemChecked(sectionIndex, itemIndex) {
+            const state = this.checklistState[sectionIndex];
+            return Array.isArray(state) ? Boolean(state[itemIndex]) : false;
+        },
+        toggleChecklistItem(sectionIndex, itemIndex) {
+            const section = this.careSections[sectionIndex];
+            if (!section || !Array.isArray(section.checklist)) return;
+            const current = Array.isArray(this.checklistState[sectionIndex])
+                ? [...this.checklistState[sectionIndex]]
+                : section.checklist.map(() => false);
+            current[itemIndex] = !current[itemIndex];
+            this.checklistState = { ...this.checklistState, [sectionIndex]: current };
+            this.autoSave();
+        },
+        toggleSelfCheck(id) {
+            this.careSelfCheckItems = this.careSelfCheckItems.map(item =>
+                item.id === id ? { ...item, checked: !item.checked } : item
+            );
+            this.autoSave();
+        },
+        restoreSelfCheckItems(savedItems) {
+            const savedMap = new Map((savedItems || []).map(item => [item.id, !!item.checked]));
+            this.careSelfCheckItems = createSelfCheckItems().map(item => ({
+                ...item,
+                checked: savedMap.has(item.id) ? savedMap.get(item.id) : false
+            }));
+        },
+        getStatusIcon(status, optional = false) {
+            switch (status) {
+                case 'pass':
+                    return '✅';
+                case 'warn':
+                    return '⚠️';
+                case 'fail':
+                    return '❗️';
+                case 'optional':
+                    return '◇';
+                case 'pending':
+                    return optional ? '◇' : '…';
+                default:
+                    return '…';
+            }
+        },
+        getStatusLabel(status, optional = false) {
+            switch (status) {
+                case 'pass':
+                    return '已达标';
+                case 'warn':
+                    return '需优化';
+                case 'fail':
+                    return '不符合';
+                case 'optional':
+                    return '可选';
+                case 'pending':
+                    return optional ? '可选未填' : '待完成';
+                default:
+                    return '待检查';
+            }
+        },
+        getWordCount(text) {
+            if (!text) return 0;
+            const englishWords = text.trim().split(/\s+/).filter(Boolean).length;
+            const chineseChars = (text.match(/[\u4e00-\u9fa5]/g) || []).length;
+            return englishWords + Math.round(chineseChars / 2);
+        },
+        extractKeywords(raw) {
+            if (!raw) return [];
+            return raw
+                .split(/[;,；，、\n]+/)
+                .map(keyword => keyword.trim())
+                .filter(Boolean);
+        },
+        evaluateSectionContent(section, index) {
+            if (!section) {
+                return { status: 'pending', issues: [], wordCount: 0, optional: false };
+            }
+            const content = (section.content || '').trim();
+            const optional = !!section.optional;
+            const issues = [];
+            const wordCount = this.getWordCount(content);
+
+            const pushIssue = (level, text) => {
+                issues.push({ level, text });
+            };
+
+            if (!content) {
+                if (optional) {
+                    return { status: 'optional', issues: [], wordCount, optional };
+                }
+                pushIssue('error', '该章节尚未填写。');
+                return { status: 'pending', issues, wordCount, optional };
+            }
+
+            if (section.wordLimit) {
+                const { min, max } = section.wordLimit;
+                if (min && wordCount < min) {
+                    pushIssue('warn', `当前约 ${wordCount} 词，低于建议的 ${min} 词。`);
+                }
+                if (max && wordCount > max) {
+                    pushIssue('warn', `当前约 ${wordCount} 词，高于建议的 ${max} 词。`);
+                }
+            }
+
+            switch (section.checkKey) {
+                case 'title': {
+                    if (!/case report|病例报告/i.test(content)) {
+                        pushIssue('error', '标题需包含 "case report/病例报告" 字样。');
+                    }
+                    if (wordCount > 16) {
+                        pushIssue('warn', '标题偏长，建议控制在 15 词以内。');
+                    }
+                    break;
+                }
+                case 'keywords': {
+                    const keywords = this.extractKeywords(content);
+                    if (keywords.length < 3) {
+                        pushIssue('error', '关键词至少需 3 个，可使用分号或逗号分隔。');
+                    }
+                    if (keywords.length > 6) {
+                        pushIssue('warn', '关键词建议保留 3-6 个核心词。');
+                    }
+                    const includesCaseReport = keywords.some(keyword => /case report|病例报告/i.test(keyword));
+                    if (!includesCaseReport) {
+                        pushIssue('error', '请将 "case report/病例报告" 作为关键词之一。');
+                    }
+                    break;
+                }
+                case 'abstract': {
+                    if (!/Introduction|背景/.test(content)) {
+                        pushIssue('warn', '摘要建议包含背景（Introduction）。');
+                    }
+                    if (!/Case Presentation|病例|Case description/i.test(content)) {
+                        pushIssue('warn', '摘要应清晰描述病例经过。');
+                    }
+                    if (!/Conclusion|结论/.test(content)) {
+                        pushIssue('warn', '摘要建议包含结论段。');
+                    }
+                    if (!/Learning|教学要点|take-away/i.test(content)) {
+                        pushIssue('warn', '摘要需强调教学要点或 take-away lesson。');
+                    }
+                    break;
+                }
+                case 'introduction': {
+                    if (!/CARE/i.test(content)) {
+                        pushIssue('error', '引言需声明本报告遵循 CARE 指南。');
+                    }
+                    if (!/文献|literature|reported/i.test(content)) {
+                        pushIssue('warn', '引言可补充关键文献或病例背景。');
+                    }
+                    break;
+                }
+                case 'patient-info': {
+                    if (!/(\d{1,3}\s?(岁|year|years|y\/o|yo))/i.test(content)) {
+                        pushIssue('warn', '建议标注患者年龄信息（已匿名）。');
+                    }
+                    if (!/(男|女|male|female)/i.test(content)) {
+                        pushIssue('warn', '建议说明患者性别或性别认同。');
+                    }
+                    if (!/(主诉|chief complaint)/i.test(content)) {
+                        pushIssue('warn', '请记录患者主诉或就诊原因。');
+                    }
+                    if (!/(既往|past medical|comorbidity|合并)/i.test(content)) {
+                        pushIssue('warn', '建议补充既往史、共病或相关背景。');
+                    }
+                    break;
+                }
+                case 'clinical-findings': {
+                    if (!/(体格|physical examination)/i.test(content)) {
+                        pushIssue('warn', '临床发现应描述体格检查要点。');
+                    }
+                    if (!/(生命体征|vital)/i.test(content)) {
+                        pushIssue('warn', '建议补充生命体征信息。');
+                    }
+                    break;
+                }
+                case 'timeline': {
+                    if (this.timelineEvents.length && !content.includes('|')) {
+                        pushIssue('warn', '时间线可使用同步按钮生成表格以保证结构化。');
+                    }
+                    if (!/(\d{4}|\d{2}-\d{2}|日期|day)/.test(content)) {
+                        pushIssue('warn', '请确保时间线包含清晰的日期或时间节点。');
+                    }
+                    break;
+                }
+                case 'diagnostic': {
+                    if (!/(鉴别|differential)/i.test(content)) {
+                        pushIssue('warn', '建议描述鉴别诊断与排除依据。');
+                    }
+                    if (!/(参考|reference range|范围)/i.test(content)) {
+                        pushIssue('warn', '关键检查应注明参考范围或阈值。');
+                    }
+                    if (!/(挑战|困难|delay|误诊)/i.test(content)) {
+                        pushIssue('warn', '可补充诊断挑战或误诊因素。');
+                    }
+                    break;
+                }
+                case 'therapeutic': {
+                    if (!/(剂量|dose|mg|给药)/i.test(content)) {
+                        pushIssue('warn', '建议注明治疗剂量、频次或给药方式。');
+                    }
+                    if (!/(不良|adverse)/i.test(content)) {
+                        pushIssue('warn', '请记录不良事件（若无亦应说明）。');
+                    }
+                    if (!/(依从|adherence|compliance)/i.test(content)) {
+                        pushIssue('warn', '可说明患者依从性或治疗执行情况。');
+                    }
+                    break;
+                }
+                case 'follow-up': {
+                    if (!/(随访|follow)/i.test(content)) {
+                        pushIssue('warn', '请记录随访时间点与结果。');
+                    }
+                    if (!/(结局|outcome|恢复)/i.test(content)) {
+                        pushIssue('warn', '建议描述临床结局或患者感知结果。');
+                    }
+                    if (!/(不良|复发|adverse)/i.test(content)) {
+                        pushIssue('warn', '需说明是否出现不良事件或复发。');
+                    }
+                    break;
+                }
+                case 'discussion': {
+                    if (!/(文献|literature|reported)/i.test(content)) {
+                        pushIssue('warn', '讨论应与相关文献或病例对照。');
+                    }
+                    if (!/(局限|limitation)/i.test(content)) {
+                        pushIssue('warn', '请明确病例的局限性。');
+                    }
+                    if (!/(教训|take-away|lesson|启示)/i.test(content)) {
+                        pushIssue('warn', '建议强调核心教学启示或实践建议。');
+                    }
+                    break;
+                }
+                case 'patient-perspective': {
+                    if (wordCount < 30) {
+                        pushIssue('warn', '患者观点篇幅较短，可补充更多真实体验。');
+                    }
+                    break;
+                }
+                case 'consent': {
+                    if (!/(知情|consent)/i.test(content)) {
+                        pushIssue('error', '需明确写出已获得患者/监护人的知情同意。');
+                    }
+                    if (!/(伦理|ethic)/i.test(content)) {
+                        pushIssue('warn', '建议说明伦理审批或豁免情况。');
+                    }
+                    break;
+                }
+                case 'references': {
+                    if (!/\[[0-9]+\]/.test(content)) {
+                        pushIssue('warn', '参考文献建议使用编号格式并与正文对应。');
+                    }
+                    if (!/(doi|https?:\/\/)/i.test(content)) {
+                        pushIssue('warn', '可补充 DOI 或链接以提升可追溯性。');
+                    }
+                    break;
+                }
+                default:
+                    break;
+            }
+
+            let status = 'pass';
+            if (issues.some(issue => issue.level === 'error')) {
+                status = 'fail';
+            } else if (issues.some(issue => issue.level === 'warn')) {
+                status = 'warn';
+            }
+
+            return { status, issues, wordCount, optional };
+        },
         autoSave() {
-            // 自动保存到本地存储
             const data = {
-                careSections: this.careSections,
+                sectionsContent: this.careSections.map(section => section.content),
+                careSections: this.careSections.map(section => ({ content: section.content })),
+                timelineEvents: this.timelineEvents,
+                checklistState: this.checklistState,
+                careSelfCheckItems: this.careSelfCheckItems,
+                abstractForm: { ...this.abstractForm },
+                activeSection: this.activeSection,
                 lastSaved: new Date().toISOString()
             };
             localStorage.setItem('casewriter_data', JSON.stringify(data));
@@ -680,42 +1367,55 @@ createApp({
         },
         loadFromLocalSilent() {
             const saved = localStorage.getItem('casewriter_data');
-            if (saved) {
-                try {
-                    const data = JSON.parse(saved);
-                    if (data.careSections) {
-                        // 合并保存的数据
-                        data.careSections.forEach((savedSection, index) => {
-                            if (this.careSections[index]) {
-                                this.careSections[index].content = savedSection.content || '';
-                            }
-                        });
-                    }
-                } catch (e) {
-                    console.error('加载数据失败:', e);
+            if (!saved) {
+                return false;
+            }
+            try {
+                const data = JSON.parse(saved);
+                if (Array.isArray(data.sectionsContent)) {
+                    data.sectionsContent.forEach((content, index) => {
+                        if (this.careSections[index]) {
+                            this.careSections[index].content = content || '';
+                        }
+                    });
+                } else if (Array.isArray(data.careSections)) {
+                    data.careSections.forEach((savedSection, index) => {
+                        if (this.careSections[index]) {
+                            this.careSections[index].content = savedSection.content || '';
+                        }
+                    });
                 }
+                if (Array.isArray(data.timelineEvents)) {
+                    this.timelineEvents = data.timelineEvents;
+                }
+                if (data.checklistState) {
+                    this.checklistState = data.checklistState;
+                    this.ensureChecklistStateIntegrity();
+                }
+                if (Array.isArray(data.careSelfCheckItems)) {
+                    this.restoreSelfCheckItems(data.careSelfCheckItems);
+                }
+                if (data.abstractForm) {
+                    this.suspendAbstractWatcher = true;
+                    this.abstractForm = { ...this.getDefaultAbstractForm(), ...data.abstractForm };
+                    this.$nextTick(() => {
+                        this.suspendAbstractWatcher = false;
+                    });
+                }
+                if (typeof data.activeSection === 'number') {
+                    this.activeSection = data.activeSection;
+                }
+                return true;
+            } catch (e) {
+                console.error('加载数据失败:', e);
+                return false;
             }
         },
         loadFromLocal() {
-            const saved = localStorage.getItem('casewriter_data');
-            if (saved) {
-                try {
-                    const data = JSON.parse(saved);
-                    if (data.careSections) {
-                        // 合并保存的数据
-                        data.careSections.forEach((savedSection, index) => {
-                            if (this.careSections[index]) {
-                                this.careSections[index].content = savedSection.content || '';
-                            }
-                        });
-                    }
-                    alert('数据已从本地存储加载！');
-                } catch (e) {
-                    console.error('加载数据失败:', e);
-                    alert('加载数据失败，请检查数据格式。');
-                }
+            if (this.loadFromLocalSilent()) {
+                alert('数据已从本地存储加载！');
             } else {
-                alert('未找到保存的数据。');
+                alert('未找到保存的数据或数据格式不正确。');
             }
         },
         exportToWord() {
@@ -885,10 +1585,20 @@ createApp({
         },
         // 新建病例：清空所有章节内容与时间线
         newCase() {
-            this.careSections = this.careSections.map(sec => ({ ...sec, content: '' }));
+            this.careSections.forEach(section => {
+                section.content = '';
+            });
+            this.resetChecklistState();
+            this.careSelfCheckItems = createSelfCheckItems();
             this.timelineEvents = [];
             this.timelineForm = { date: '', event: '', note: '' };
+            this.suspendAbstractWatcher = true;
+            this.abstractForm = this.getDefaultAbstractForm();
+            this.$nextTick(() => {
+                this.suspendAbstractWatcher = false;
+            });
             this.activeSection = 0;
+            this.autoSave();
         },
         addTimelineEvent() {
             if (!this.timelineForm.date || !this.timelineForm.event) return;
