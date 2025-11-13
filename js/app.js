@@ -769,13 +769,38 @@ createApp({
             if (!filePath) return '#';
             
             // 从文件路径提取文件名
-            const fileName = filePath.split('/').pop();
+            let fileName = filePath.split('/').pop();
+            
+            // GitHub上传时会转换文件名：空格和特殊字符变成点，中文可能被转换
+            // 尝试匹配实际的文件名
+            if (this.templatesData && this.templatesData.fileMapping) {
+                const mapped = this.templatesData.fileMapping[fileName];
+                if (mapped) fileName = mapped;
+            } else {
+                // 如果没有映射表，尝试转换文件名（空格变点，保留扩展名）
+                const ext = fileName.substring(fileName.lastIndexOf('.'));
+                const nameWithoutExt = fileName.substring(0, fileName.lastIndexOf('.'));
+                fileName = nameWithoutExt.replace(/[\s\u4e00-\u9fa5\u3000-\u303f\uff00-\uffef]/g, '.').replace(/\.+/g, '.') + ext;
+            }
+            
             // 构建GitHub Releases下载URL
             return `${this.releaseInfo.downloadBaseUrl}/${encodeURIComponent(fileName)}`;
         },
         getFileDownloadUrl(filePath) {
             // 多文件下载
-            const fileName = filePath.split('/').pop();
+            let fileName = filePath.split('/').pop();
+            
+            // 尝试匹配实际的文件名
+            if (this.templatesData && this.templatesData.fileMapping) {
+                const mapped = this.templatesData.fileMapping[fileName];
+                if (mapped) fileName = mapped;
+            } else {
+                // 转换文件名
+                const ext = fileName.substring(fileName.lastIndexOf('.'));
+                const nameWithoutExt = fileName.substring(0, fileName.lastIndexOf('.'));
+                fileName = nameWithoutExt.replace(/[\s\u4e00-\u9fa5\u3000-\u303f\uff00-\uffef]/g, '.').replace(/\.+/g, '.') + ext;
+            }
+            
             return `${this.releaseInfo.downloadBaseUrl}/${encodeURIComponent(fileName)}`;
         },
         getFileName(filePath) {

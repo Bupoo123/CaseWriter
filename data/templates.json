@@ -354,6 +354,25 @@
     "releaseUrl": "https://github.com/Bupoo123/CaseWriter/releases",
     "downloadBaseUrl": "https://github.com/Bupoo123/CaseWriter/releases/download/v1.0",
     "lastUpdated": "2025-11-13"
+  },
+  "fileMapping": {
+    "2013 CARE Checklist-英文.docx": "2013.CARE.Checklist-.docx",
+    "2013 CARE核对清单-中文.docx": "2013.CARE.-.docx",
+    "CARE Checklist-2016 示例.pdf": "CARE.Checklist-2016.pdf",
+    "CAREchecklist-Chinese-2013-中文示例.pdf": "CAREchecklist-Chinese-2013-.pdf",
+    "case_report_check_list-中文.pdf": "case_report_check_list-.pdf",
+    "病例报告撰写规范：CARE指南-2024.pdf": "CARE.-2024.pdf",
+    "Hu 等 - 2024 - The first diagnosis of Severe Fever with Thrombocy.pdf": "Hu.-.2024.-.The.first.diagnosis.of.Severe.Fever.with.Thrombocy.pdf",
+    "Liu 等 - 2021 - Diffuse Large B-Cell Lymphoma of the Mandible Diag.pdf": "Liu.-.2021.-.Diffuse.Large.B-Cell.Lymphoma.of.the.Mandible.Diag.pdf",
+    "Mo 等 - 2023 - T‑lymphoblastic lymphoma in a child diagnosed by m.pdf": "Mo.-.2023.-.T.lymphoblastic.lymphoma.in.a.child.diagnosed.by.m.pdf",
+    "Qin 等 - 2024 - Utility of metagenomic Next-Generation Sequencing .pdf": "Qin.-.2024.-.Utility.of.metagenomic.Next-Generation.Sequencing.pdf",
+    "Shi 等 - 2022 - Detection of Bartonella vinsonii subsp. berkhoffii.pdf": "Shi.-.2022.-.Detection.of.Bartonella.vinsonii.subsp.berkhoffii.pdf",
+    "Shi 等 - 2022 - The diagnosis of leptospirosis complicated by pulm.pdf": "Shi.-.2022.-.The.diagnosis.of.leptospirosis.complicated.by.pulm.pdf",
+    "Wei 等 - 2022 - Diagnosis of lung squamous cell carcinoma based on.pdf": "Wei.-.2022.-.Diagnosis.of.lung.squamous.cell.carcinoma.based.on.pdf",
+    "Zhang 等 - 2022 - Severe skin and subcutaneous pythiosis in China M.pdf": "Zhang.-.2022.-.Severe.skin.and.subcutaneous.pythiosis.in.China.M.pdf",
+    "Zhu 等 - 2021 - Pulmonary coinfection of Mycobacterium tuberculosi.pdf": "Zhu.-.2021.-.Pulmonary.coinfection.of.Mycobacterium.tuberculosi.pdf",
+    "Chapare Hemorrhagic Fever and Virus Detection in Rodents in Bolivia in 2019.pdf": "Chapare.Hemorrhagic.Fever.and.Virus.Detection.in.Rodents.in.Bolivia.in.2019.pdf",
+    "Case 21-2022- A 17-Year-Old Girl with Fever and Cough.pdf": "Case.21-2022-.A.17-Year-Old.Girl.with.Fever.and.Cough.pdf"
   }
 }
 
