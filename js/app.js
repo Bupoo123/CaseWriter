@@ -577,7 +577,7 @@ createApp({
                 );
             }
 
-            const categoryOrder = ['清单', '指南', '已发表案例', '经典高分案例'];
+            const categoryOrder = ['指南和清单', '杰毅生物合作发表案例', '经典高分案例'];
             const groupedMap = new Map();
 
             filteredItems.forEach(item => {
@@ -625,12 +625,22 @@ createApp({
     methods: {
         getAllTemplateItems() {
             if (!this.templatesData) return [];
-            return [
+            // 合并清单和指南为"指南和清单"
+            const allItems = [
                 ...(this.templatesData.checklists || []),
                 ...(this.templatesData.guidelines || []),
                 ...(this.templatesData.publishedCases || []),
                 ...(this.templatesData.classicCases || [])
             ];
+            // 统一分类名称
+            return allItems.map(item => {
+                if (item.category === '清单' || item.category === '指南') {
+                    return { ...item, category: '指南和清单' };
+                } else if (item.category === '已发表案例') {
+                    return { ...item, category: '杰毅生物合作发表案例' };
+                }
+                return item;
+            });
         },
         initializeTemplateCategoryStates() {
             const categories = new Set();
