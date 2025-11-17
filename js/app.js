@@ -3,86 +3,86 @@ const { createApp } = Vue;
 const createCareSections = () => [
     {
         title: '1. 标题', enTitle: 'Title',
-        description: '标题应明确病例类型并突出核心现象，便于索引与检索。',
+        description: '标题应明确病例类型并突出核心现象，便于索引与检索。标题中必须出现 "case report" 或 "case study"，并写出最关注的症状、诊断、检查或干预。',
         content: '',
-        placeholder: '示例：Case report: Metagenomic sequencing identifies ...',
+        placeholder: '示例：Case report: Metagenomic sequencing resolves recurrent fever caused by ...',
         tips: [
-            '使用主动、具体的措辞，例如 "Case report: ... identified by metagenomic sequencing"。',
-            '避免含糊缩写或空泛形容词，突出病种、病原或关键干预。',
-            '如患者属于特殊人群（儿童、孕妇、免疫抑制者），可在标题中适度点出。'
+            '优先写明病例类型（case report/case study）与患者特征或疾病场景。',
+            '突出最具教学价值的症状、诊断或干预亮点。',
+            '控制在 15-20 词之间，避免含糊缩写或空泛形容词。'
         ],
         guidelineFocus: [
-            '标题必须包含 "case report" 或 "病例报告" 字样，方便数据库检索。',
-            '突出病例最具教学价值的现象（症状、诊断方式、干预或结果）。',
-            '控制在 15 词左右，减少不必要的修饰与罕见缩写。'
+            '标题中明确病例类型，突出核心现象以便检索。',
+            '凸显症状、诊断、检查或干预中的关键创新或差异点。',
+            '如患者属于特殊人群（儿童、孕妇、免疫抑制者等），可适度点出。'
         ],
         checklist: [
-            '明确病例类型或主要现象（罕见/复杂/新发等）。',
-            '包含目标疾病、病原或关键干预信息。',
-            '写明 "case report/病例报告" 并保持精炼。'
+            '标题包含 "case report"/"case study" 字样。',
+            '突出至少一个核心现象（症状、诊断、检查或干预）。',
+            '语言精炼并可被数据库准确检索。'
         ],
         checkKey: 'title',
         wordLimit: { max: 16, type: 'words' }
     },
     {
         title: '2. 关键词', enTitle: 'Keywords',
-        description: '选择 3-6 个关键词（含 "case report"）支持索引与检索。',
+        description: '选择 2-5 个关键词（含 "case report/case study"）支持索引与检索。',
         content: '',
         placeholder: '例如：case report; metagenomic sequencing; rare infection; pediatrics',
         tips: [
             '使用标准化 MeSH 术语提升可检索性。',
             '关键词之间使用分号、逗号或换行分隔。',
-            '关键词数量建议 3-6 个，覆盖疾病、病原、技术、人群等要素。'
+            '关键词数量建议 2-5 个，覆盖疾病、病原、技术、人群等要素。'
         ],
         guidelineFocus: [
-            '至少包含 3 个关键词，并包含 "case report/病例报告"。',
+            '至少包含 2 个关键词，并包含 "case report/病例报告"。',
             '优先选用权威词表（如 MeSH）的术语。',
             '突出疾病、病原、关键技术或患者人群等检索点。'
         ],
         checklist: [
             '包含 "case report/病例报告" 作为关键词之一。',
-            '选择 3-6 个核心关键词并合理分隔。',
+            '选择 2-5 个核心关键词并合理分隔。',
             '覆盖疾病、病原、干预或人群等关键维度。'
         ],
         checkKey: 'keywords'
     },
     {
         title: '3. 摘要', enTitle: 'Abstract',
-        description: '编写 100-250 词的结构式摘要，突出主要收获。',
+        description: '编写 100-250 词的结构式摘要，突出主要收获。建议按照 CARE 推荐的 5 个模块（Introduction、Case Presentation、Management and Outcomes、Conclusion、Learning Points）撰写。',
         content: '',
         placeholder: 'Introduction（背景）：\nCase Presentation（病例介绍）：\nManagement and Outcomes（诊疗与结局）：\nConclusion（结论）：\nLearning Points（教学要点）：',
         tips: [
-            '突出病例的罕见性、诊断思路与主要干预。',
-            '用简洁句子呈现诊断过程、治疗策略与结局。',
-            '以 1 条核心 take-away 信息收束摘要。'
+            'Introduction：说明该病例对现有知识的补充。',
+            'Case Presentation：突出主要症状、诊断依据和干预措施。',
+            'Conclusion/Learning Points：用 1-2 句话总结 take-away lesson。'
         ],
         guidelineFocus: [
-            '摘要保持 100-250 词，适当采用结构式小节。',
-            '强调单一核心讯息与教学价值。',
+            '摘要保持 100-250 词，采用结构式小节。',
+            'Introduction 说明新增价值，Case Presentation 概述患者与诊疗，Management and Outcomes 写干预与结局，Conclusion 与 Learning Points 强调要点。',
             '无需引用文献，避免冗长背景。'
         ],
         checklist: [
-            '说明诊断挑战或知识空白的背景。',
-            '概述患者信息、关键检查、诊疗过程与结局。',
-            '写出 1-3 条教学要点或主要收获。'
+            'Introduction：说明诊断挑战或知识空白。',
+            'Case Presentation：概述人口学信息、主要症状与关键诊疗。',
+            'Management/Conclusion/Learning Points：突出干预、结局与要点。'
         ],
         checkKey: 'abstract',
         wordLimit: { min: 100, max: 250, type: 'words' }
     },
     {
         title: '4. 引言', enTitle: 'Introduction',
-        description: '提供病例背景、重要文献并声明遵循 CARE 指南。',
+        description: '简要介绍病例背景，体现病例的独特性和重要性，并在段末声明遵循 CARE 指南。',
         content: '',
         placeholder: '背景：\n- 疾病/病原的现状与挑战\n- 关键文献与知识缺口\n- 本报告的价值与 CARE 指南声明\n',
         tips: [
-            '引用关键文献定位病例的罕见性或临床难点。',
-            '用 1-3 句话说明报告遵循 CARE 指南及其目的。',
-            '在段末点出核心教学讯息。'
+            '引用关键文献说明疾病现状、知识缺口与研究空白。',
+            '突出病例与既往报道的差异、新发现或临床意义。',
+            '在段末说明“本病例报告遵循 CARE 指南”。'
         ],
         guidelineFocus: [
             '聚焦与病例直接相关的临床背景，不写全面综述。',
-            '明确声明报告遵循 CARE Guidelines。',
-            '阐明病例的重要性、知识缺口与核心信息。'
+            '阐明病例的重要性、知识缺口与核心信息。',
+            '明确声明遵循 CARE 指南。'
         ],
         checklist: [
             '介绍疾病/病原的诊疗现状与挑战。',
@@ -94,7 +94,7 @@ const createCareSections = () => [
     },
     {
         title: '5. 患者信息', enTitle: 'Patient information',
-        description: '描述患者人口学特征、主诉、病史与相关背景信息。',
+        description: '病例描述模块的第一部分，需交代患者人口学特征、主诉、病史与相关背景信息。',
         content: '',
         placeholder: '人口学信息（年龄/性别/种族等）：\n主诉（患者原话）：\n现病史与症状时间线：\n既往史/共病/过敏史：\n家族史与社会史：\n心理及生活方式因素：',
         tips: [
@@ -116,7 +116,7 @@ const createCareSections = () => [
     },
     {
         title: '6. 临床发现', enTitle: 'Clinical findings',
-        description: '按系统总结体格检查、生命体征与关键临床发现。',
+        description: '病例描述模块的第二部分，按系统总结体格检查、生命体征与关键临床发现。',
         content: '',
         placeholder: '首诊体格检查：\n生命体征：\n重要阳性/阴性发现：\n影像或其他临床观察：',
         tips: [
@@ -138,12 +138,12 @@ const createCareSections = () => [
     },
     {
         title: '7. 时间线', enTitle: 'Timeline',
-        description: '以表格或图示形式呈现诊疗关键事件的时间顺序。',
+        description: '病例描述模块的第三部分，以表格或图示形式呈现诊疗关键事件的时间顺序。',
         content: '',
         placeholder: '| 日期 | 事件 | 备注 |\n|---|---|---|\n| 2024-01-01 | 急诊就诊，出现高热 | -- |\n| 2024-01-03 | mNGS 送检，48 小时出报告 | -- |\n| 2024-01-05 | 启动靶向抗感染治疗 | 记录剂量 |\n',
         tips: [
             '时间线应覆盖病史、检查、诊断、治疗与随访。',
-            '使用表格或图示帮助读者快速浏览关键节点。',
+            '使用右侧滚动面板查看与调整事件，必要时配合表格或图示。',
             '保持单位一致（日期/周/月），必要时注明时长。'
         ],
         guidelineFocus: [
@@ -368,7 +368,22 @@ createApp({
             suspendAbstractWatcher: false,
             writingGuides: [
                 {
-                    title: 'CARE 指南核心原则',
+                    title: '1）什么是病例报告',
+                    type: 'text',
+                    content: [
+                        '病例报告（Case report）是描述一个或多个患者所经历的医学问题，详细记录病因、诊断、治疗、预后及随访，以服务医学、科研或教学目的。'
+                    ]
+                },
+                {
+                    title: '2）什么是 CARE 指南',
+                    type: 'text',
+                    content: [
+                        'CARE 指南由国际专家小组制定，旨在提升病例报告的准确性、透明度和实用性。该指南 2013 年发布，2017 年在《Journal of Clinical Epidemiology》发表实例阐释，现已被多家期刊采纳并翻译成多种语言。',
+                        'CARE 指南包括 CARE 检查表（13 个条目）与 CARE 流程图：检查表提供写作框架，流程图指导作者按时间顺序收集临床信息。'
+                    ]
+                },
+                {
+                    title: '3）CARE 指南核心原则',
                     type: 'text',
                     content: [
                         'CARE（CAse REport）指南强调透明度、完整性与患者参与，确保病例信息可重复和可验证。',
@@ -377,62 +392,91 @@ createApp({
                     ]
                 },
                 {
-                    title: '标题与关键词快速校验',
+                    title: '4）写作顺序',
                     type: 'tips',
                     content: [
-                        '标题写明病例类型（case report）并突出最关键的症状、诊断或干预。',
-                        '关键词选择 3-6 个标准术语（优选 MeSH），并包含 "case report/病例报告"。',
-                        '覆盖疾病、病原、诊断技术、人群特征等检索点，方便数据库索引。'
+                        '拟定题目、收集时间线、描述诊疗事件，并按需要制作图表。',
+                        '撰写引言、讨论和总结：引言与讨论需引用文献，讨论中交代管理策略的优势与局限，结论用一段概括最重要发现。',
+                        '最后完成摘要、关键词、致谢、知情同意与参考文献排版。'
                     ]
                 },
                 {
-                    title: '结构式摘要模板',
-                    type: 'example',
-                    content: `Introduction（背景）：简述疾病背景、诊断挑战并指出本稿遵循 CARE 指南。\n\nCase Presentation（病例介绍）：说明患者人口学信息、主诉、关键检查与诊疗经过。\n\nManagement and Outcomes（诊疗与结局）：突出决策过程、干预细节、随访及不良事件。\n\nConclusion（结论）：用 1-2 句话强调核心教学要点和实践启示。\n\nLearning Points（教学要点）：列出 2-3 条最重要的临床经验。`
-                },
-                {
-                    title: '患者信息采集要点',
-                    type: 'tips',
+                    title: '5）写作原则',
+                    type: 'accordion',
                     content: [
-                        '记录年龄、性别/性别认同、族群等人口学信息并进行去标识化处理。',
-                        '逐条写清主诉、现病史、既往史、合并症、家族史与社会心理因素。',
-                        '适度引用患者原话表现主诉或就诊动机，体现 CARE 强调的患者声音。'
+                        {
+                            title: '标题与关键词快速校验',
+                            bodyType: 'tips',
+                            body: [
+                                '标题写明病例类型（case report/case study）并突出最关键的症状、诊断或干预。',
+                                '关键词选择 2-5 个标准术语（优选 MeSH），并包含 "case report/病例报告"。',
+                                '覆盖疾病、病原、诊断技术、人群特征等检索点，方便数据库索引。'
+                            ]
+                        },
+                        {
+                            title: '结构式摘要模板',
+                            bodyType: 'example',
+                            body: `Introduction（背景）：简述疾病背景、诊断挑战并指出本稿遵循 CARE 指南。\n\nCase Presentation（病例介绍）：说明患者人口学信息、主诉、关键检查与诊疗经过。\n\nManagement and Outcomes（诊疗与结局）：突出决策过程、干预细节、随访及不良事件。\n\nConclusion（结论）：用 1-2 句话强调核心教学要点和实践启示。\n\nLearning Points（教学要点）：列出 2-3 条最重要的临床经验。`
+                        },
+                        {
+                            title: '患者信息采集要点',
+                            bodyType: 'tips',
+                            body: [
+                                '记录年龄、性别/性别认同、族群等人口学信息并进行去标识化处理。',
+                                '逐条写清主诉、现病史、既往史、合并症、家族史与社会心理因素。',
+                                '适度引用患者原话表现主诉或就诊动机，体现 CARE 强调的患者声音。'
+                            ]
+                        },
+                        {
+                            title: '诊疗与随访记录技巧',
+                            bodyType: 'tips',
+                            body: [
+                                '时间线同步正文，覆盖就诊、检查、诊断、治疗、随访与结局。',
+                                '诊断部分列出关键检查的时间、结果、参考范围与鉴别诊断思路。',
+                                '治疗干预参照 TIDieR 框架说明剂量、频次、执行者、不良事件和依从性。'
+                            ]
+                        },
+                        {
+                            title: '讨论写作框架',
+                            bodyType: 'tips',
+                            body: [
+                                '第一段回顾病例亮点与核心教学信息。',
+                                '中段与文献对照，阐释可能机制、诊疗策略与创新点。',
+                                '结尾强调局限性（单例、资料缺口等）与对临床实践/研究的启示。'
+                            ]
+                        },
+                        {
+                            title: '伦理与隐私',
+                            bodyType: 'tips',
+                            body: [
+                                '任何可识别信息（姓名、住址、影像标签）均需去标识化或取得额外授权。',
+                                '在文稿中明确知情同意、伦理审批或豁免情况以及存档方式。',
+                                '敏感影像需单独说明授权来源，必要时使用遮挡或模糊处理。'
+                            ]
+                        }
                     ]
                 },
                 {
-                    title: '诊疗与随访记录技巧',
-                    type: 'tips',
-                    content: [
-                        '时间线同步正文，覆盖就诊、检查、诊断、治疗、随访与结局。',
-                        '诊断部分列出关键检查的时间、结果、参考范围与鉴别诊断思路。',
-                        '治疗干预参照 TIDieR 框架说明剂量、频次、执行者、不良事件和依从性。'
-                    ]
-                },
-                {
-                    title: '讨论写作骨架',
-                    type: 'tips',
-                    content: [
-                        '第一段回顾病例亮点与核心教学信息。',
-                        '中段与文献对照，阐释可能机制、诊疗策略与创新点。',
-                        '结尾强调局限性（单例、资料缺口等）与对临床实践/研究的启示。'
-                    ]
-                },
-                {
-                    title: '伦理与隐私提醒',
-                    type: 'tips',
-                    content: [
-                        '任何可识别信息（姓名、住址、影像标签）均需去标识化或取得额外授权。',
-                        '在文稿中明确知情同意、伦理审批或豁免情况以及存档方式。',
-                        '敏感影像需单独说明授权来源，必要时使用遮挡或模糊处理。'
-                    ]
-                },
-                {
-                    title: '常见写作错误',
+                    title: '6）常见写作错误',
                     type: 'tips',
                     content: [
                         '标题未写明 case report 或缺少核心现象。',
                         '摘要未体现结构化要素或未突出 take-away lesson。',
                         '正文缺少患者人口学信息、时间线、诊疗细节或知情同意描述。'
+                    ]
+                },
+                {
+                    title: '7）图表绘制',
+                    type: 'text',
+                    content: [
+                        '在 Case report 中恰当地使用图表能增强说服力、清晰度与可读性，可将复杂病程、诊断依据和治疗效果直观呈现给读者与审稿人。',
+                        '核心图表及绘制指导：',
+                        '1. 影像学证据图：X-ray 显示骨折、肺部感染等；CT 展示肿瘤、血管病变或三维重建，应标注扫描期相；MRI 适用于软组织与神经系统，须注明序列；超声和 PET-CT 可展示结节、积液或代谢活性。标注关键区域，可提供治疗前后对比，并在图注中说明成像技术、部位与箭头含义。',
+                        '2. 病理学与细胞学图：展示组织病理（H&E）、免疫组化/免疫荧光或细胞学涂片。必须在图注中标注放大倍数与染色方法。',
+                        '3. 微生物学与分子生物学结果：mNGS 报告可展示物种谱系图、覆盖度/深度图并圈出疑似病原；培养、药敏或电镜图片需说明实验方法与关键发现。',
+                        '4. 其他实验室与检查结果：皮肤病变照片需保护隐私；心电图、电生理等应突出异常波形或指标；必要时说明取材时间。',
+                        '5. 病程时间线图：使用统一时间轴，将症状体征、检查、治疗、结局放在不同水平线，使用统一符号（如△▲）指示事件，帮助读者快速理解病程。',
+                        '6. 三线表：用单个或多个患者临床信息汇总表总结人口学、症状、实验室指标，并可用于与既往文献对照。'
                     ]
                 }
             ],

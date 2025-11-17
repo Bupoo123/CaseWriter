@@ -197,7 +197,7 @@
                                     <input type="text" v-model="timelineForm.note" placeholder="备注（可选）" class="filter-input" />
                                     <button class="btn btn-primary" @click="addTimelineEvent">添加</button>
                                 </div>
-                                <div class="journals-table" v-if="timelineEvents.length">
+                                <div class="timeline-scroll" v-if="timelineEvents.length">
                                     <table>
                                         <thead>
                                             <tr>
@@ -282,6 +282,27 @@
                                         <li v-for="(tip, tipIndex) in guide.content" :key="tipIndex">{{ tip }}</li>
                                     </ul>
                                 </div>
+                                <div v-else-if="guide.type === 'accordion'" class="guide-accordion">
+                                    <details v-for="(item, itemIndex) in guide.content" :key="itemIndex" :open="itemIndex === 0">
+                                        <summary>
+                                            <span>{{ item.title }}</span>
+                                            <span class="accordion-icon" aria-hidden="true"></span>
+                                        </summary>
+                                        <div class="accordion-body">
+                                            <template v-if="item.bodyType === 'tips'">
+                                                <ul>
+                                                    <li v-for="(tip, tipIndex) in item.body" :key="tipIndex">{{ tip }}</li>
+                                                </ul>
+                                            </template>
+                                            <template v-else-if="item.bodyType === 'example'">
+                                                <pre><code>{{ item.body }}</code></pre>
+                                            </template>
+                                            <template v-else>
+                                                <p v-for="(para, paraIndex) in item.body" :key="paraIndex">{{ para }}</p>
+                                            </template>
+                                        </div>
+                                    </details>
+                                </div>
                                 <div v-else-if="guide.type === 'example'">
                                     <pre><code>{{ guide.content }}</code></pre>
                                 </div>
@@ -298,8 +319,11 @@
                     <h2>Case Report 发表价值评估</h2>
                     <p class="intro-text">本模块帮助您评估病例报告的发表价值，判断该案例是否值得发表。</p>
                     <div class="title-pattern">
-                        <strong>什么样的案例可以投 Case？</strong><br>
-                        病例具有“独特性”：与既往病例或常规诊疗不同，如新的解决方案、新的病原体、新的合并症等。
+                        <strong>什么样的临床病例适合投 Case？</strong>
+                        <ul>
+                            <li>病例报告涵盖的临床问题主要包括：先前未报告的药物或其他治疗的不良反应、在观察或治疗患者过程中发生的意外事件、关于疾病发病机制的观察、新发和突发疾病的临床表现和/或管理、新的治疗方法、患者管理中的伦理挑战以及预防或克服医疗错误的策略。</li>
+                            <li>通过分析已报道的 mNGS 病例报告，发现这些病例通常具有“独特性”：例如与既往病例或常规诊疗不同，如新的解决方案、新的病原体、新的合并症等。</li>
+                        </ul>
                     </div>
 
                     <!-- 发表的典型特征 -->
