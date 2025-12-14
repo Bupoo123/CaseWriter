@@ -181,7 +181,142 @@ const createCareSections = () => [
         checkKey: 'diagnostic'
     },
     {
-        title: '9. 测序数据上传', enTitle: 'Sequencing Data Upload',
+        title: '9. 治疗干预', enTitle: 'Therapeutic interventions',
+        description: '按时间说明干预措施、剂量、执行过程及调整。',
+        content: '',
+        placeholder: '主要治疗（药物/手术/支持治疗）：\n剂量、频次、给药途径、执行者：\n遵循的指南或决策理由：\n治疗调整、不良事件与管理：',
+        tips: [
+            '采用 TIDieR 框架描述干预（What, Who, How, Where, When, How much）。',
+            '记录治疗过程中任何调整及其原因。',
+            '注明药物生产商或器械型号（如与结果相关）。'
+        ],
+        guidelineFocus: [
+            '详细记录干预方案、剂量、频次与持续时间。',
+            '说明干预的依据、执行者与场景。',
+            '报告治疗依从性、不良事件及处理方式。'
+        ],
+        checklist: [
+            '描述干预的全部组成要素与实施细节。',
+            '交代治疗依据及调整原因。',
+            '记录依从性、不良反应及应对措施。'
+        ],
+        checkKey: 'therapeutic'
+    },
+    {
+        title: '10. 随访和结果', enTitle: 'Follow-up and outcomes',
+        description: '记录随访时间点、临床与患者感知的结局及不良事件。',
+        content: '',
+        placeholder: '随访时间点：\n临床结局（指标/影像/实验室）：\n患者报告的结局或生活质量变化：\n依从性与其他干预：\n不良事件（若无亦需说明）：',
+        tips: [
+            '区分临床医生评估与患者自我感受。',
+            '记录每个随访节点的客观指标与症状变化。',
+            '说明未发生不良事件或依从性情况。'
+        ],
+        guidelineFocus: [
+            '追踪治疗期间及之后的纵向结果。',
+            '报告患者依从性、额外护理与不良事件。',
+            '如无不良事件或复发，应明确写明。'
+        ],
+        checklist: [
+            '列出每个随访时间点与评估结果。',
+            '描述临床与患者报告结局及生活质量。',
+            '记录不良事件、依从性或额外干预。'
+        ],
+        checkKey: 'follow-up'
+    },
+    {
+        title: '11. 讨论', enTitle: 'Discussion',
+        description: '分析病例启示、文献比较、机制推测与局限性。',
+        content: '',
+        placeholder: '核心发现与意义：\n与既往文献的异同：\n可能机制或解释：\n局限性（单病例、偏倚、资料缺口）：\n临床实践或研究建议：',
+        tips: [
+            '将病例发现置于文献背景中比较分析。',
+            '讨论潜在机制、经验与局限性。',
+            '聚焦 1-2 条关键教学信息，避免夸大推广。'
+        ],
+        guidelineFocus: [
+            '强调病例的独特贡献与关键教训。',
+            '与最新文献进行对比并引用来源。',
+            '坦诚说明局限性和不可推广性。'
+        ],
+        checklist: [
+            '总结病例带来的主要临床经验。',
+            '引用并比较相关文献或病例系列。',
+            '陈述局限性与未来研究或实践建议。'
+        ],
+        checkKey: 'discussion',
+        wordLimit: { min: 200, type: 'words' }
+    },
+    {
+        title: '12. 患者观点', enTitle: 'Patient perspective',
+        description: '（可选）记录患者或家属对诊疗经历的真实感受。',
+        content: '',
+        placeholder: '患者/家属对疾病的看法：\n治疗过程中的体验与情绪：\n对医疗团队的反馈与建议：',
+        tips: [
+            '确保患者或代理人同意分享内容。',
+            '突出对新技术或干预的真实反馈。',
+            '可引用第一人称叙述增强感染力。'
+        ],
+        guidelineFocus: [
+            '让患者声音补充临床视角，尤其在新疗法中。',
+            '说明关键影响（生活质量、心理变化等）。',
+            '如无法获取，应记录尝试情况。'
+        ],
+        checklist: [
+            '确认已获得患者授权引用其观点。',
+            '记录对诊疗过程或结果的主观感受。',
+            '适度反映对未来护理的期待或建议。'
+        ],
+        checkKey: 'patient-perspective',
+        optional: true
+    },
+    {
+        title: '13. 知情同意', enTitle: 'Informed consent',
+        description: '说明知情同意与伦理审批情况，确保合规。',
+        content: '',
+        placeholder: '已获得患者/监护人的书面知情同意。涉及影像或可识别信息的部分均获额外授权。如患者无决策能力，记录代理同意及沟通过程。',
+        tips: [
+            '说明知情同意形式（书面/口头）及日期。',
+            '涉及照片或罕见疾病时，说明额外授权。',
+            '若无法获取同意，应说明尝试过程和伦理意见。'
+        ],
+        guidelineFocus: [
+            '明确写出已获得签署的知情同意。',
+            '说明伦理审批或机构批准情况（如适用）。',
+            '提及保护隐私与去标识化措施。'
+        ],
+        checklist: [
+            '写明已取得患者或监护人书面知情同意。',
+            '说明伦理委员会审批或豁免情况（若适用）。',
+            '强调隐私保护与去标识化处理。'
+        ],
+        checkKey: 'consent'
+    },
+    {
+        title: '14. 参考文献（可选）', enTitle: 'References (optional)',
+        description: '列出引用文献，遵循目标期刊格式并保持对应关系。',
+        content: '',
+        placeholder: '[1] 作者. 标题. 期刊. 年份;卷(期):页码. DOI\n[2] ...',
+        tips: [
+            '使用参考文献管理工具保持格式一致。',
+            '确保文内引号与参考列表一一对应。',
+            '优先引用最新、最相关的研究或指南。'
+        ],
+        guidelineFocus: [
+            '参考文献数量通常 ≥15 条，并与正文引用匹配。',
+            '格式需符合目标期刊要求（Vancouver/AMA/APA 等）。',
+            '可在提交前使用文献管理工具核对。'
+        ],
+        checklist: [
+            '确保文内引用与参考列表完全对应。',
+            '统一参考文献格式与标点。',
+            '优先引用近五年的高质量文献。'
+        ],
+        checkKey: 'references',
+        optional: true
+    },
+    {
+        title: '15. 测序数据上传（可选）', enTitle: 'Sequencing Data Upload (optional)',
         description: '将测序原始数据上传至 NCBI 数据库，包括 BioSample、BioProject 和 SRA 的注册与提交。',
         content: '',
         placeholder: '数据上传状态：\n- BioSample ID：\n- BioProject ID：\n- SRA Accession：\n- 上传日期：\n- 备注：',
@@ -205,141 +340,7 @@ const createCareSections = () => [
             '已记录所有 Accession 号码用于论文引用。'
         ],
         checkKey: 'sequencing-upload',
-        isSpecialSection: true
-    },
-    {
-        title: '10. 治疗干预', enTitle: 'Therapeutic interventions',
-        description: '按时间说明干预措施、剂量、执行过程及调整。',
-        content: '',
-        placeholder: '主要治疗（药物/手术/支持治疗）：\n剂量、频次、给药途径、执行者：\n遵循的指南或决策理由：\n治疗调整、不良事件与管理：',
-        tips: [
-            '采用 TIDieR 框架描述干预（What, Who, How, Where, When, How much）。',
-            '记录治疗过程中任何调整及其原因。',
-            '注明药物生产商或器械型号（如与结果相关）。'
-        ],
-        guidelineFocus: [
-            '详细记录干预方案、剂量、频次与持续时间。',
-            '说明干预的依据、执行者与场景。',
-            '报告治疗依从性、不良事件及处理方式。'
-        ],
-        checklist: [
-            '描述干预的全部组成要素与实施细节。',
-            '交代治疗依据及调整原因。',
-            '记录依从性、不良反应及应对措施。'
-        ],
-        checkKey: 'therapeutic'
-    },
-    {
-        title: '11. 随访和结果', enTitle: 'Follow-up and outcomes',
-        description: '记录随访时间点、临床与患者感知的结局及不良事件。',
-        content: '',
-        placeholder: '随访时间点：\n临床结局（指标/影像/实验室）：\n患者报告的结局或生活质量变化：\n依从性与其他干预：\n不良事件（若无亦需说明）：',
-        tips: [
-            '区分临床医生评估与患者自我感受。',
-            '记录每个随访节点的客观指标与症状变化。',
-            '说明未发生不良事件或依从性情况。'
-        ],
-        guidelineFocus: [
-            '追踪治疗期间及之后的纵向结果。',
-            '报告患者依从性、额外护理与不良事件。',
-            '如无不良事件或复发，应明确写明。'
-        ],
-        checklist: [
-            '列出每个随访时间点与评估结果。',
-            '描述临床与患者报告结局及生活质量。',
-            '记录不良事件、依从性或额外干预。'
-        ],
-        checkKey: 'follow-up'
-    },
-    {
-        title: '12. 讨论', enTitle: 'Discussion',
-        description: '分析病例启示、文献比较、机制推测与局限性。',
-        content: '',
-        placeholder: '核心发现与意义：\n与既往文献的异同：\n可能机制或解释：\n局限性（单病例、偏倚、资料缺口）：\n临床实践或研究建议：',
-        tips: [
-            '将病例发现置于文献背景中比较分析。',
-            '讨论潜在机制、经验与局限性。',
-            '聚焦 1-2 条关键教学信息，避免夸大推广。'
-        ],
-        guidelineFocus: [
-            '强调病例的独特贡献与关键教训。',
-            '与最新文献进行对比并引用来源。',
-            '坦诚说明局限性和不可推广性。'
-        ],
-        checklist: [
-            '总结病例带来的主要临床经验。',
-            '引用并比较相关文献或病例系列。',
-            '陈述局限性与未来研究或实践建议。'
-        ],
-        checkKey: 'discussion',
-        wordLimit: { min: 200, type: 'words' }
-    },
-    {
-        title: '13. 患者观点', enTitle: 'Patient perspective',
-        description: '（可选）记录患者或家属对诊疗经历的真实感受。',
-        content: '',
-        placeholder: '患者/家属对疾病的看法：\n治疗过程中的体验与情绪：\n对医疗团队的反馈与建议：',
-        tips: [
-            '确保患者或代理人同意分享内容。',
-            '突出对新技术或干预的真实反馈。',
-            '可引用第一人称叙述增强感染力。'
-        ],
-        guidelineFocus: [
-            '让患者声音补充临床视角，尤其在新疗法中。',
-            '说明关键影响（生活质量、心理变化等）。',
-            '如无法获取，应记录尝试情况。'
-        ],
-        checklist: [
-            '确认已获得患者授权引用其观点。',
-            '记录对诊疗过程或结果的主观感受。',
-            '适度反映对未来护理的期待或建议。'
-        ],
-        checkKey: 'patient-perspective',
-        optional: true
-    },
-    {
-        title: '14. 知情同意', enTitle: 'Informed consent',
-        description: '说明知情同意与伦理审批情况，确保合规。',
-        content: '',
-        placeholder: '已获得患者/监护人的书面知情同意。涉及影像或可识别信息的部分均获额外授权。如患者无决策能力，记录代理同意及沟通过程。',
-        tips: [
-            '说明知情同意形式（书面/口头）及日期。',
-            '涉及照片或罕见疾病时，说明额外授权。',
-            '若无法获取同意，应说明尝试过程和伦理意见。'
-        ],
-        guidelineFocus: [
-            '明确写出已获得签署的知情同意。',
-            '说明伦理审批或机构批准情况（如适用）。',
-            '提及保护隐私与去标识化措施。'
-        ],
-        checklist: [
-            '写明已取得患者或监护人书面知情同意。',
-            '说明伦理委员会审批或豁免情况（若适用）。',
-            '强调隐私保护与去标识化处理。'
-        ],
-        checkKey: 'consent'
-    },
-    {
-        title: '15. 参考文献（可选）', enTitle: 'References (optional)',
-        description: '列出引用文献，遵循目标期刊格式并保持对应关系。',
-        content: '',
-        placeholder: '[1] 作者. 标题. 期刊. 年份;卷(期):页码. DOI\n[2] ...',
-        tips: [
-            '使用参考文献管理工具保持格式一致。',
-            '确保文内引号与参考列表一一对应。',
-            '优先引用最新、最相关的研究或指南。'
-        ],
-        guidelineFocus: [
-            '参考文献数量通常 ≥15 条，并与正文引用匹配。',
-            '格式需符合目标期刊要求（Vancouver/AMA/APA 等）。',
-            '可在提交前使用文献管理工具核对。'
-        ],
-        checklist: [
-            '确保文内引用与参考列表完全对应。',
-            '统一参考文献格式与标点。',
-            '优先引用近五年的高质量文献。'
-        ],
-        checkKey: 'references',
+        isSpecialSection: true,
         optional: true
     }
 ];
@@ -1733,7 +1734,7 @@ createApp({
             this.autoSave();
         },
         syncUploadToContent() {
-            const idx = this.careSections.findIndex(s => s.title.startsWith('9.') && s.isSpecialSection);
+            const idx = this.careSections.findIndex(s => s.title.startsWith('15.') && s.isSpecialSection);
             if (idx >= 0) {
                 let content = '数据上传状态：\n';
                 content += `- BioSample ID：${this.uploadData.bioSampleId || '未填写'}\n`;

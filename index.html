@@ -219,8 +219,8 @@
                                 </div>
                                 <button v-if="timelineEvents.length" class="btn btn-success" @click="syncTimelineToContent">同步为表格到编辑器</button>
                             </div>
-                            <!-- 测序数据上传专用界面（仅在第9章显示） -->
-                            <div v-if="currentSection.title.startsWith('9.') && currentSection.isSpecialSection" class="sequencing-upload-tool">
+                            <!-- 测序数据上传专用界面（仅在第15章显示） -->
+                            <div v-if="currentSection.title.startsWith('15.') && currentSection.isSpecialSection" class="sequencing-upload-tool">
                                 <h3>NCBI 数据上传流程</h3>
                                 <div class="upload-steps">
                                     <div class="upload-step" :class="{ completed: uploadStatus.step1 }">
