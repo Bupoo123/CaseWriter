@@ -181,7 +181,34 @@ const createCareSections = () => [
         checkKey: 'diagnostic'
     },
     {
-        title: '9. 治疗干预', enTitle: 'Therapeutic interventions',
+        title: '9. 测序数据上传', enTitle: 'Sequencing Data Upload',
+        description: '将测序原始数据上传至 NCBI 数据库，包括 BioSample、BioProject 和 SRA 的注册与提交。',
+        content: '',
+        placeholder: '数据上传状态：\n- BioSample ID：\n- BioProject ID：\n- SRA Accession：\n- 上传日期：\n- 备注：',
+        tips: [
+            '确保原始数据文件（fastq.gz）已准备就绪，文件命名规范。',
+            '按照 NCBI 要求填写样本和项目元数据信息。',
+            '上传前检查数据质量和完整性，确保符合 SRA 提交标准。',
+            '保存所有提交后的 Accession 号码，用于论文引用。'
+        ],
+        guidelineFocus: [
+            '完成 NCBI 账户注册并登录系统。',
+            '创建 BioSample 记录，填写样本详细信息。',
+            '创建 BioProject 记录，关联相关样本。',
+            '通过 SRA 提交序列数据，获取 Accession 号码。'
+        ],
+        checklist: [
+            '已完成 NCBI 账户注册和登录。',
+            '已创建 BioSample 并获取 Sample ID。',
+            '已创建 BioProject 并获取 Project ID。',
+            '已通过 SRA 提交序列数据并获取 Accession。',
+            '已记录所有 Accession 号码用于论文引用。'
+        ],
+        checkKey: 'sequencing-upload',
+        isSpecialSection: true
+    },
+    {
+        title: '10. 治疗干预', enTitle: 'Therapeutic interventions',
         description: '按时间说明干预措施、剂量、执行过程及调整。',
         content: '',
         placeholder: '主要治疗（药物/手术/支持治疗）：\n剂量、频次、给药途径、执行者：\n遵循的指南或决策理由：\n治疗调整、不良事件与管理：',
@@ -203,7 +230,7 @@ const createCareSections = () => [
         checkKey: 'therapeutic'
     },
     {
-        title: '10. 随访和结果', enTitle: 'Follow-up and outcomes',
+        title: '11. 随访和结果', enTitle: 'Follow-up and outcomes',
         description: '记录随访时间点、临床与患者感知的结局及不良事件。',
         content: '',
         placeholder: '随访时间点：\n临床结局（指标/影像/实验室）：\n患者报告的结局或生活质量变化：\n依从性与其他干预：\n不良事件（若无亦需说明）：',
@@ -225,7 +252,7 @@ const createCareSections = () => [
         checkKey: 'follow-up'
     },
     {
-        title: '11. 讨论', enTitle: 'Discussion',
+        title: '12. 讨论', enTitle: 'Discussion',
         description: '分析病例启示、文献比较、机制推测与局限性。',
         content: '',
         placeholder: '核心发现与意义：\n与既往文献的异同：\n可能机制或解释：\n局限性（单病例、偏倚、资料缺口）：\n临床实践或研究建议：',
@@ -248,7 +275,7 @@ const createCareSections = () => [
         wordLimit: { min: 200, type: 'words' }
     },
     {
-        title: '12. 患者观点', enTitle: 'Patient perspective',
+        title: '13. 患者观点', enTitle: 'Patient perspective',
         description: '（可选）记录患者或家属对诊疗经历的真实感受。',
         content: '',
         placeholder: '患者/家属对疾病的看法：\n治疗过程中的体验与情绪：\n对医疗团队的反馈与建议：',
@@ -271,7 +298,7 @@ const createCareSections = () => [
         optional: true
     },
     {
-        title: '13. 知情同意', enTitle: 'Informed consent',
+        title: '14. 知情同意', enTitle: 'Informed consent',
         description: '说明知情同意与伦理审批情况，确保合规。',
         content: '',
         placeholder: '已获得患者/监护人的书面知情同意。涉及影像或可识别信息的部分均获额外授权。如患者无决策能力，记录代理同意及沟通过程。',
@@ -293,7 +320,7 @@ const createCareSections = () => [
         checkKey: 'consent'
     },
     {
-        title: '14. 参考文献（可选）', enTitle: 'References (optional)',
+        title: '15. 参考文献（可选）', enTitle: 'References (optional)',
         description: '列出引用文献，遵循目标期刊格式并保持对应关系。',
         content: '',
         placeholder: '[1] 作者. 标题. 期刊. 年份;卷(期):页码. DOI\n[2] ...',
@@ -358,6 +385,19 @@ createApp({
             // 时间线编辑器数据
             timelineEvents: [],
             timelineForm: { date: '', event: '', note: '' },
+            uploadStatus: {
+                step1: false,
+                step2: false,
+                step3: false,
+                step4: false
+            },
+            uploadData: {
+                bioSampleId: '',
+                bioProjectId: '',
+                sraAccession: '',
+                uploadDate: ''
+            },
+            showImageModal: null,
             abstractForm: {
                 introduction: '',
                 casePresentation: '',
@@ -1357,6 +1397,8 @@ createApp({
                 checklistState: this.checklistState,
                 careSelfCheckItems: this.careSelfCheckItems,
                 abstractForm: { ...this.abstractForm },
+                uploadStatus: { ...this.uploadStatus },
+                uploadData: { ...this.uploadData },
                 activeSection: this.activeSection,
                 lastSaved: new Date().toISOString()
             };
@@ -1392,6 +1434,12 @@ createApp({
                 if (data.checklistState) {
                     this.checklistState = data.checklistState;
                     this.ensureChecklistStateIntegrity();
+                }
+                if (data.uploadStatus) {
+                    this.uploadStatus = { ...this.uploadStatus, ...data.uploadStatus };
+                }
+                if (data.uploadData) {
+                    this.uploadData = { ...this.uploadData, ...data.uploadData };
                 }
                 if (Array.isArray(data.careSelfCheckItems)) {
                     this.restoreSelfCheckItems(data.careSelfCheckItems);
@@ -1593,6 +1641,8 @@ createApp({
             this.careSelfCheckItems = createSelfCheckItems();
             this.timelineEvents = [];
             this.timelineForm = { date: '', event: '', note: '' };
+            this.uploadStatus = { step1: false, step2: false, step3: false, step4: false };
+            this.uploadData = { bioSampleId: '', bioProjectId: '', sraAccession: '', uploadDate: '' };
             this.suspendAbstractWatcher = true;
             this.abstractForm = this.getDefaultAbstractForm();
             this.$nextTick(() => {
@@ -1628,6 +1678,72 @@ createApp({
             }
             this.autoSave();
             alert('已同步时间线表格到编辑器');
+        },
+        getStepImages(stepFolder) {
+            // 返回步骤对应的截图路径
+            const basePath = '资料/case数据上传过程-20251127-CXF/3-数据上传步骤/';
+            const imageMap = {
+                '01 注册 登入': [
+                    basePath + '01 注册 登入/截屏2025-11-26 16.00.25.jpg',
+                    basePath + '01 注册 登入/截屏2025-11-26 16.04.10.jpg',
+                    basePath + '01 注册 登入/截屏2025-11-26 16.07.13.jpg',
+                    basePath + '01 注册 登入/截屏2025-11-26 16.15.47.jpg'
+                ],
+                '02 BioSample': [
+                    basePath + '02 BioSample/截屏2025-11-26 16.19.18.jpg',
+                    basePath + '02 BioSample/截屏2025-11-26 16.23.13.jpg',
+                    basePath + '02 BioSample/截屏2025-11-26 16.25.53.jpg',
+                    basePath + '02 BioSample/截屏2025-11-26 16.35.48.jpg',
+                    basePath + '02 BioSample/截屏2025-11-26 17.20.56.jpg',
+                    basePath + '02 BioSample/截屏2025-11-26 17.21.46.jpg',
+                    basePath + '02 BioSample/截屏2025-11-26 17.21.56.jpg',
+                    basePath + '02 BioSample/截屏2025-11-26 17.21.59.jpg',
+                    basePath + '02 BioSample/截屏2025-11-26 17.22.01.jpg',
+                    basePath + '02 BioSample/截屏2025-11-26 17.22.02.jpg',
+                    basePath + '02 BioSample/截屏2025-11-26 17.22.03.jpg'
+                ],
+                '03 BioProject': [
+                    basePath + '03 BioProject/截屏2025-11-26 14.49.56.jpg',
+                    basePath + '03 BioProject/截屏2025-11-26 14.51.37.jpg',
+                    basePath + '03 BioProject/截屏2025-11-26 14.54.40.jpg',
+                    basePath + '03 BioProject/截屏2025-11-26 17.39.17.jpg',
+                    basePath + '03 BioProject/截屏2025-11-27 09.12.26.jpg',
+                    basePath + '03 BioProject/截屏2025-11-27 09.12.44.jpg',
+                    basePath + '03 BioProject/截屏2025-11-27 09.30.57.jpg'
+                ],
+                '04 SRA': [
+                    basePath + '04 SRA/截屏2025-11-26 14.49.56.jpg',
+                    basePath + '04 SRA/截屏2025-11-27 09.37.10.jpg',
+                    basePath + '04 SRA/截屏2025-11-27 09.38.02.jpg',
+                    basePath + '04 SRA/截屏2025-11-27 09.39.48.jpg',
+                    basePath + '04 SRA/截屏2025-11-27 09.44.34.jpg',
+                    basePath + '04 SRA/截屏2025-11-27 09.45.39.jpg',
+                    basePath + '04 SRA/截屏2025-11-27 10.07.32.jpg',
+                    basePath + '04 SRA/截屏2025-11-27 10.11.38.jpg',
+                    basePath + '04 SRA/截屏2025-11-27 10.12.48.jpg',
+                    basePath + '04 SRA/截屏2025-11-27 10.14.11.jpg'
+                ]
+            };
+            return imageMap[stepFolder] || [];
+        },
+        saveUploadStatus() {
+            this.autoSave();
+        },
+        saveUploadData() {
+            this.autoSave();
+        },
+        syncUploadToContent() {
+            const idx = this.careSections.findIndex(s => s.title.startsWith('9.') && s.isSpecialSection);
+            if (idx >= 0) {
+                let content = '数据上传状态：\n';
+                content += `- BioSample ID：${this.uploadData.bioSampleId || '未填写'}\n`;
+                content += `- BioProject ID：${this.uploadData.bioProjectId || '未填写'}\n`;
+                content += `- SRA Accession：${this.uploadData.sraAccession || '未填写'}\n`;
+                content += `- 上传日期：${this.uploadData.uploadDate || '未填写'}\n`;
+                content += `- 备注：\n`;
+                this.careSections[idx].content = content;
+                this.autoSave();
+            }
         }
     }
 }).mount('#app');

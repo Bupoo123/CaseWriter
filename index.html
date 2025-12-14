@@ -219,6 +219,155 @@
                                 </div>
                                 <button v-if="timelineEvents.length" class="btn btn-success" @click="syncTimelineToContent">同步为表格到编辑器</button>
                             </div>
+                            <!-- 测序数据上传专用界面（仅在第9章显示） -->
+                            <div v-if="currentSection.title.startsWith('9.') && currentSection.isSpecialSection" class="sequencing-upload-tool">
+                                <h3>NCBI 数据上传流程</h3>
+                                <div class="upload-steps">
+                                    <div class="upload-step" :class="{ completed: uploadStatus.step1 }">
+                                        <div class="step-header">
+                                            <span class="step-number">1</span>
+                                            <h4>注册登录 NCBI</h4>
+                                            <label class="step-checkbox">
+                                                <input type="checkbox" v-model="uploadStatus.step1" @change="saveUploadStatus">
+                                                <span>已完成</span>
+                                            </label>
+                                        </div>
+                                        <div class="step-content">
+                                            <p>访问 <a href="https://www.ncbi.nlm.nih.gov/" target="_blank">NCBI 官网</a> 注册账户并登录。</p>
+                                            <div class="step-images">
+                                                <div class="image-gallery">
+                                                    <div v-for="(img, idx) in getStepImages('01 注册 登入')" :key="idx" class="image-item" @click="showImageModal(img)">
+                                                        <img :src="img" :alt="'注册登录步骤 ' + (idx + 1)" />
+                                                        <span class="image-label">步骤 {{ idx + 1 }}</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="upload-step" :class="{ completed: uploadStatus.step2 }">
+                                        <div class="step-header">
+                                            <span class="step-number">2</span>
+                                            <h4>创建 BioSample</h4>
+                                            <label class="step-checkbox">
+                                                <input type="checkbox" v-model="uploadStatus.step2" @change="saveUploadStatus">
+                                                <span>已完成</span>
+                                            </label>
+                                        </div>
+                                        <div class="step-content">
+                                            <p>在 <a href="https://www.ncbi.nlm.nih.gov/biosample" target="_blank">BioSample</a> 中创建样本记录，填写样本详细信息。</p>
+                                            <div class="step-info">
+                                                <p><strong>需要准备的信息：</strong></p>
+                                                <ul>
+                                                    <li>样本类型和来源</li>
+                                                    <li>样本收集日期和地点</li>
+                                                    <li>样本处理方式</li>
+                                                    <li>相关元数据</li>
+                                                </ul>
+                                            </div>
+                                            <div class="step-images">
+                                                <div class="image-gallery">
+                                                    <div v-for="(img, idx) in getStepImages('02 BioSample')" :key="idx" class="image-item" @click="showImageModal(img)">
+                                                        <img :src="img" :alt="'BioSample步骤 ' + (idx + 1)" />
+                                                        <span class="image-label">步骤 {{ idx + 1 }}</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="step-input">
+                                                <label>BioSample ID：</label>
+                                                <input type="text" v-model="uploadData.bioSampleId" placeholder="例如：SAMN12345678" @input="saveUploadData" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="upload-step" :class="{ completed: uploadStatus.step3 }">
+                                        <div class="step-header">
+                                            <span class="step-number">3</span>
+                                            <h4>创建 BioProject</h4>
+                                            <label class="step-checkbox">
+                                                <input type="checkbox" v-model="uploadStatus.step3" @change="saveUploadStatus">
+                                                <span>已完成</span>
+                                            </label>
+                                        </div>
+                                        <div class="step-content">
+                                            <p>在 <a href="https://www.ncbi.nlm.nih.gov/bioproject" target="_blank">BioProject</a> 中创建项目记录，关联相关样本。</p>
+                                            <div class="step-images">
+                                                <div class="image-gallery">
+                                                    <div v-for="(img, idx) in getStepImages('03 BioProject')" :key="idx" class="image-item" @click="showImageModal(img)">
+                                                        <img :src="img" :alt="'BioProject步骤 ' + (idx + 1)" />
+                                                        <span class="image-label">步骤 {{ idx + 1 }}</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="step-input">
+                                                <label>BioProject ID：</label>
+                                                <input type="text" v-model="uploadData.bioProjectId" placeholder="例如：PRJNA123456" @input="saveUploadData" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="upload-step" :class="{ completed: uploadStatus.step4 }">
+                                        <div class="step-header">
+                                            <span class="step-number">4</span>
+                                            <h4>提交 SRA 数据</h4>
+                                            <label class="step-checkbox">
+                                                <input type="checkbox" v-model="uploadStatus.step4" @change="saveUploadStatus">
+                                                <span>已完成</span>
+                                            </label>
+                                        </div>
+                                        <div class="step-content">
+                                            <p>通过 <a href="https://www.ncbi.nlm.nih.gov/sra" target="_blank">SRA</a> 提交序列数据，获取 Accession 号码。</p>
+                                            <div class="step-info">
+                                                <p><strong>需要准备的文件：</strong></p>
+                                                <ul>
+                                                    <li>原始测序数据文件（fastq.gz）</li>
+                                                    <li>元数据表格（Excel格式）</li>
+                                                    <li>数据质量检查报告</li>
+                                                </ul>
+                                            </div>
+                                            <div class="step-images">
+                                                <div class="image-gallery">
+                                                    <div v-for="(img, idx) in getStepImages('04 SRA')" :key="idx" class="image-item" @click="showImageModal(img)">
+                                                        <img :src="img" :alt="'SRA步骤 ' + (idx + 1)" />
+                                                        <span class="image-label">步骤 {{ idx + 1 }}</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="step-input">
+                                                <label>SRA Accession：</label>
+                                                <input type="text" v-model="uploadData.sraAccession" placeholder="例如：SRR12345678" @input="saveUploadData" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="upload-summary">
+                                    <h4>上传信息汇总</h4>
+                                    <div class="summary-grid">
+                                        <div class="summary-item">
+                                            <label>BioSample ID：</label>
+                                            <span>{{ uploadData.bioSampleId || '未填写' }}</span>
+                                        </div>
+                                        <div class="summary-item">
+                                            <label>BioProject ID：</label>
+                                            <span>{{ uploadData.bioProjectId || '未填写' }}</span>
+                                        </div>
+                                        <div class="summary-item">
+                                            <label>SRA Accession：</label>
+                                            <span>{{ uploadData.sraAccession || '未填写' }}</span>
+                                        </div>
+                                        <div class="summary-item">
+                                            <label>上传日期：</label>
+                                            <input type="date" v-model="uploadData.uploadDate" @input="saveUploadData" />
+                                        </div>
+                                    </div>
+                                    <button class="btn btn-primary" @click="syncUploadToContent">同步信息到编辑器</button>
+                                </div>
+                                <div class="reference-materials">
+                                    <h4>参考材料</h4>
+                                    <ul>
+                                        <li><a href="资料/case数据上传过程-20251127-CXF/3-数据上传步骤/总体流程.png" target="_blank">总体流程示意图</a></li>
+                                        <li><a href="资料/case数据上传过程-20251127-CXF/2-表单信息准备/Metagenome.environmental.1.0.xlsx" target="_blank">元数据模板（Excel）</a></li>
+                                        <li><a href="资料/case数据上传过程-20251127-CXF/3-数据上传步骤/NCBI原始数据上传流程.docx" target="_blank">详细流程文档（Word）</a></li>
+                                    </ul>
+                                </div>
+                            </div>
                             <div class="guideline-focus" v-if="currentSection.guidelineFocus && currentSection.guidelineFocus.length">
                                 <h3>指南要点</h3>
                                 <ul>
@@ -786,6 +935,14 @@
                 </p>
             </div>
         </footer>
+
+        <!-- 图片查看模态框 -->
+        <div v-if="showImageModal" class="modal-overlay" @click="showImageModal = null">
+            <div class="modal-content image-modal" @click.stop>
+                <button class="modal-close" @click="showImageModal = null">×</button>
+                <img :src="showImageModal" alt="参考图片" />
+            </div>
+        </div>
 
         <!-- 版本信息模态框 -->
         <div v-if="showVersionInfo" class="modal-overlay" @click="showVersionInfo = false">
