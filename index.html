@@ -236,7 +236,7 @@
                                             <p>访问 <a href="https://www.ncbi.nlm.nih.gov/" target="_blank">NCBI 官网</a> 注册账户并登录。</p>
                                             <div class="step-images">
                                                 <div class="image-gallery">
-                                                    <div v-for="(img, idx) in getStepImages('01 注册 登入')" :key="idx" class="image-item" @click="showImageModal(img)">
+                                                    <div v-for="(img, idx) in getStepImages('01 注册 登入')" :key="idx" class="image-item" @click="showImageModal = img">
                                                         <img :src="img" :alt="'注册登录步骤 ' + (idx + 1)" />
                                                         <span class="image-label">步骤 {{ idx + 1 }}</span>
                                                     </div>
@@ -266,7 +266,7 @@
                                             </div>
                                             <div class="step-images">
                                                 <div class="image-gallery">
-                                                    <div v-for="(img, idx) in getStepImages('02 BioSample')" :key="idx" class="image-item" @click="showImageModal(img)">
+                                                    <div v-for="(img, idx) in getStepImages('02 BioSample')" :key="idx" class="image-item" @click="showImageModal = img">
                                                         <img :src="img" :alt="'BioSample步骤 ' + (idx + 1)" />
                                                         <span class="image-label">步骤 {{ idx + 1 }}</span>
                                                     </div>
@@ -291,7 +291,7 @@
                                             <p>在 <a href="https://www.ncbi.nlm.nih.gov/bioproject" target="_blank">BioProject</a> 中创建项目记录，关联相关样本。</p>
                                             <div class="step-images">
                                                 <div class="image-gallery">
-                                                    <div v-for="(img, idx) in getStepImages('03 BioProject')" :key="idx" class="image-item" @click="showImageModal(img)">
+                                                    <div v-for="(img, idx) in getStepImages('03 BioProject')" :key="idx" class="image-item" @click="showImageModal = img">
                                                         <img :src="img" :alt="'BioProject步骤 ' + (idx + 1)" />
                                                         <span class="image-label">步骤 {{ idx + 1 }}</span>
                                                     </div>
@@ -324,7 +324,7 @@
                                             </div>
                                             <div class="step-images">
                                                 <div class="image-gallery">
-                                                    <div v-for="(img, idx) in getStepImages('04 SRA')" :key="idx" class="image-item" @click="showImageModal(img)">
+                                                    <div v-for="(img, idx) in getStepImages('04 SRA')" :key="idx" class="image-item" @click="showImageModal = img">
                                                         <img :src="img" :alt="'SRA步骤 ' + (idx + 1)" />
                                                         <span class="image-label">步骤 {{ idx + 1 }}</span>
                                                     </div>
